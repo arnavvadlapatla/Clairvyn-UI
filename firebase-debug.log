@@ -1,0 +1,78 @@
+[debug] [2025-10-18T16:16:08.252Z] ----------------------------------------------------------------------
+[debug] [2025-10-18T16:16:08.253Z] Command:       /Users/arnavv/.nvm/versions/node/v18.20.8/bin/node /Users/arnavv/.nvm/versions/node/v18.20.8/bin/firebase deploy --only hosting --project clairvyn-home-page
+[debug] [2025-10-18T16:16:08.254Z] CLI Version:   13.35.1
+[debug] [2025-10-18T16:16:08.254Z] Platform:      darwin
+[debug] [2025-10-18T16:16:08.254Z] Node Version:  v18.20.8
+[debug] [2025-10-18T16:16:08.254Z] Time:          Sat Oct 18 2025 21:46:08 GMT+0530 (India Standard Time)
+[debug] [2025-10-18T16:16:08.254Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2025-10-18T16:16:08.367Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-10-18T16:16:08.367Z] > authorizing via signed-in user (clairvynai@gmail.com)
+[debug] [2025-10-18T16:16:08.367Z] [iam] checking project clairvyn-home-page for permissions ["firebase.projects.get","firebasehosting.sites.update"]
+[debug] [2025-10-18T16:16:08.368Z] Checked if tokens are valid: true, expires at: 1760807747113
+[debug] [2025-10-18T16:16:08.368Z] Checked if tokens are valid: true, expires at: 1760807747113
+[debug] [2025-10-18T16:16:08.368Z] >>> [apiv2][query] POST https://cloudresourcemanager.googleapis.com/v1/projects/clairvyn-home-page:testIamPermissions [none]
+[debug] [2025-10-18T16:16:08.368Z] >>> [apiv2][(partial)header] POST https://cloudresourcemanager.googleapis.com/v1/projects/clairvyn-home-page:testIamPermissions x-goog-quota-user=projects/clairvyn-home-page
+[debug] [2025-10-18T16:16:08.368Z] >>> [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/clairvyn-home-page:testIamPermissions {"permissions":["firebase.projects.get","firebasehosting.sites.update"]}
+[debug] [2025-10-18T16:16:10.052Z] <<< [apiv2][status] POST https://cloudresourcemanager.googleapis.com/v1/projects/clairvyn-home-page:testIamPermissions 200
+[debug] [2025-10-18T16:16:10.052Z] <<< [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/clairvyn-home-page:testIamPermissions {"permissions":["firebase.projects.get","firebasehosting.sites.update"]}
+[debug] [2025-10-18T16:16:10.052Z] Checked if tokens are valid: true, expires at: 1760807747113
+[debug] [2025-10-18T16:16:10.052Z] Checked if tokens are valid: true, expires at: 1760807747113
+[debug] [2025-10-18T16:16:10.053Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/clairvyn-home-page [none]
+[debug] [2025-10-18T16:16:11.168Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/clairvyn-home-page 200
+[debug] [2025-10-18T16:16:11.168Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/clairvyn-home-page {"projectId":"clairvyn-home-page","projectNumber":"789411345379","displayName":"Clairvyn Home Page","name":"projects/clairvyn-home-page","resources":{"hostingSite":"clairvyn-home-page"},"state":"ACTIVE","etag":"1_abfaab46-738e-4dd9-8c06-4976bb08a76a"}
+[debug] [2025-10-18T16:16:17.911Z] Checked if tokens are valid: true, expires at: 1760807747113
+[debug] [2025-10-18T16:16:17.911Z] Checked if tokens are valid: true, expires at: 1760807747113
+[debug] [2025-10-18T16:16:17.912Z] >>> [apiv2][query] GET https://firebasehosting.googleapis.com/v1beta1/projects/clairvyn-home-page/sites pageToken=&pageSize=10
+[debug] [2025-10-18T16:16:19.339Z] <<< [apiv2][status] GET https://firebasehosting.googleapis.com/v1beta1/projects/clairvyn-home-page/sites 200
+[debug] [2025-10-18T16:16:19.339Z] <<< [apiv2][body] GET https://firebasehosting.googleapis.com/v1beta1/projects/clairvyn-home-page/sites {"sites":[{"name":"projects/clairvyn-home-page/sites/clairvyn-home-page","defaultUrl":"https://clairvyn-home-page.web.app","appId":"1:789411345379:web:1c8c72aa73398bb14ce6d6","type":"DEFAULT_SITE"}]}
+[debug] [2025-10-18T16:16:19.339Z] Checked if tokens are valid: true, expires at: 1760807747113
+[debug] [2025-10-18T16:16:19.339Z] Checked if tokens are valid: true, expires at: 1760807747113
+[debug] [2025-10-18T16:16:19.339Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/-/webApps/1:789411345379:web:1c8c72aa73398bb14ce6d6/config [none]
+[debug] [2025-10-18T16:16:20.552Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/-/webApps/1:789411345379:web:1c8c72aa73398bb14ce6d6/config 200
+[debug] [2025-10-18T16:16:20.553Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/-/webApps/1:789411345379:web:1c8c72aa73398bb14ce6d6/config {"projectId":"clairvyn-home-page","appId":"1:789411345379:web:1c8c72aa73398bb14ce6d6","storageBucket":"clairvyn-home-page.firebasestorage.app","apiKey":"AIzaSyC-Rb134W2hJOKCu0UB_hPUUf6iOIQU_BY","authDomain":"clairvyn-home-page.firebaseapp.com","messagingSenderId":"789411345379","measurementId":"G-D05GTLG0JM","projectNumber":"789411345379","version":"2"}
+[info] 
+   Thank you for trying our early preview of Next.js support on Firebase Hosting.
+   During the preview, support is best-effort and breaking changes can be expected. Proceed with caution.
+
+   Documentation: https://firebase.google.com/docs/hosting/frameworks/nextjs
+   File a bug: https://github.com/firebase/firebase-tools/issues/new?template=bug_report.md
+   Submit a feature request: https://github.com/firebase/firebase-tools/issues/new?template=feature_request.md
+
+   We'd love to learn from you. Express your interest in helping us shape the future of Firebase Hosting: https://goo.gle/41enW5X
+
+[debug] [2025-10-18T16:16:36.312Z] Checked if tokens are valid: true, expires at: 1760807747113
+[debug] [2025-10-18T16:16:36.312Z] Checked if tokens are valid: true, expires at: 1760807747113
+[debug] [2025-10-18T16:16:36.312Z] >>> [apiv2][query] GET https://firebasehosting.googleapis.com/v1beta1/projects/clairvyn-home-page/sites/clairvyn-home-page [none]
+[debug] [2025-10-18T16:16:37.705Z] <<< [apiv2][status] GET https://firebasehosting.googleapis.com/v1beta1/projects/clairvyn-home-page/sites/clairvyn-home-page 200
+[debug] [2025-10-18T16:16:37.705Z] <<< [apiv2][body] GET https://firebasehosting.googleapis.com/v1beta1/projects/clairvyn-home-page/sites/clairvyn-home-page {"name":"projects/clairvyn-home-page/sites/clairvyn-home-page","defaultUrl":"https://clairvyn-home-page.web.app","appId":"1:789411345379:web:1c8c72aa73398bb14ce6d6","type":"DEFAULT_SITE"}
+[info]   ▲ Next.js 14.2.16
+
+[info]   - Environments: .env.local
+
+
+[info]    Creating an optimized production build ...
+
+[info]  ✓ Compiled successfully
+
+[info]    Skipping validation of types
+
+[info]    Skipping linting
+
+[info]    Collecting page data ...
+
+[info] unhandledRejection Error [PageNotFoundError]: Cannot find module for page: /_document
+    at getPagePath (/Users/arnavv/Downloads/Clairvyn UI/node_modules/.pnpm/next@14.2.16_@babel+core@7.28.4_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/server/require.js:94:15)
+    at requirePage (/Users/arnavv/Downloads/Clairvyn UI/node_modules/.pnpm/next@14.2.16_@babel+core@7.28.4_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/server/require.js:99:22)
+    at /Users/arnavv/Downloads/Clairvyn UI/node_modules/.pnpm/next@14.2.16_@babel+core@7.28.4_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/server/load-components.js:72:65
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async Promise.all (index 0)
+    at async loadComponentsImpl (/Users/arnavv/Downloads/Clairvyn UI/node_modules/.pnpm/next@14.2.16_@babel+core@7.28.4_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/server/load-components.js:71:33)
+    at async Object.getDefinedNamedExports (/Users/arnavv/Downloads/Clairvyn UI/node_modules/.pnpm/next@14.2.16_@babel+core@7.28.4_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/build/utils.js:1289:24) {
+  type: 'PageNotFoundError',
+  code: 'ENOENT'
+}
+
+[debug] [2025-10-18T16:17:00.991Z] Error: ENOENT: no such file or directory, open '/Users/arnavv/Downloads/Clairvyn UI/.next/export-marker.json'
+[error] 
+[error] Error: An unexpected error has occurred.

@@ -1,0 +1,466 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 84% 4.9%;
+    --primary: 222.2 47.4% 11.2%;
+    --primary-foreground: 210 40% 98%;
+    --secondary: 210 40% 96%;
+    --secondary-foreground: 222.2 47.4% 11.2%;
+    --muted: 210 40% 96%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+    --accent: 210 40% 96%;
+    --accent-foreground: 222.2 47.4% 11.2%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 222.2 84% 4.9%;
+    --radius: 0.75rem;
+  }
+
+  .dark {
+    --background: 222.2 84% 4.9%;
+    --foreground: 210 40% 98%;
+    --card: 222.2 84% 4.9%;
+    --card-foreground: 210 40% 98%;
+    --popover: 222.2 84% 4.9%;
+    --popover-foreground: 210 40% 98%;
+    --primary: 210 40% 98%;
+    --primary-foreground: 222.2 47.4% 11.2%;
+    --secondary: 217.2 32.6% 17.5%;
+    --secondary-foreground: 210 40% 98%;
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+    --accent: 217.2 32.6% 17.5%;
+    --accent-foreground: 210 40% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 212.7 26.8% 83.9%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  
+  /* Hide horizontal scrollbar and force full height */
+html, body {
+  overflow-x: hidden;
+  height: 100%;
+  background-color: #000000;
+}
+
+/* Mobile-specific improvements */
+@media (max-width: 640px) {
+  /* Prevent text selection on buttons */
+  button {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+  }
+  
+  /* Improve touch targets */
+  button, [role="button"] {
+    min-height: 44px;
+    min-width: 44px;
+  }
+  
+  /* Prevent zoom on input focus (iOS) */
+  input, textarea, select {
+    font-size: 16px;
+  }
+  
+  /* Smooth scrolling on mobile */
+  * {
+    -webkit-overflow-scrolling: touch;
+  }
+}
+  
+  body {
+    @apply bg-background text-foreground;
+    font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+}
+
+@layer components {
+  .text-charcoal {
+    @apply text-charcoal-950;
+  }
+
+  .bg-charcoal {
+    @apply bg-charcoal-950;
+  }
+
+  .border-charcoal {
+    @apply border-charcoal-950;
+  }
+
+  .blueprint-bg {
+    background-image: linear-gradient(rgba(0, 128, 128, 0.08) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0, 128, 128, 0.08) 1px, transparent 1px);
+    background-size: 40px 40px;
+  }
+
+  .geometric-overlay {
+    background-image: radial-gradient(circle at 25% 25%, rgba(0, 128, 128, 0.04) 2px, transparent 2px),
+      radial-gradient(circle at 75% 75%, rgba(0, 128, 128, 0.04) 2px, transparent 2px);
+    background-size: 80px 80px;
+  }
+
+  .architectural-grid {
+    background-image: linear-gradient(rgba(0, 128, 128, 0.06) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0, 128, 128, 0.06) 1px, transparent 1px),
+      radial-gradient(circle at 20% 20%, rgba(0, 128, 128, 0.03) 1px, transparent 1px),
+      radial-gradient(circle at 80% 80%, rgba(0, 128, 128, 0.03) 1px, transparent 1px);
+    background-size: 60px 60px, 60px 60px, 120px 120px, 120px 120px;
+  }
+
+  .chat-background {
+    background-color: #ffffff;
+    background-image: 
+      linear-gradient(135deg, rgba(0, 136, 255, 0.02) 0%, rgba(0, 220, 255, 0.02) 100%),
+      linear-gradient(to right, rgba(0, 136, 255, 0.12) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(0, 220, 255, 0.12) 1px, transparent 1px);
+    background-size: 100% 100%, 40px 40px, 40px 40px;
+  }
+
+  .dark .chat-background {
+    background-color: #000000;
+    background-image: 
+      linear-gradient(135deg, rgba(0, 136, 255, 0.03) 0%, rgba(0, 220, 255, 0.03) 100%),
+      linear-gradient(to right, rgba(255, 255, 255, 0.07) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(255, 255, 255, 0.07) 1px, transparent 1px);
+    background-size: 100% 100%, 40px 40px, 40px 40px;
+  }
+
+  .brand-title {
+    font-size: 8rem;
+    font-weight: 900;
+    line-height: 1.2;
+    padding-bottom: 20px;
+    overflow: visible;
+    letter-spacing: -1px;
+    margin-bottom: 1rem;
+
+    /* Gradient text */
+    background: linear-gradient(90deg, #003366, #00cfff);
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+
+    /* Animate gradient left → right */
+    animation: gradient-slide 12s linear infinite;
+  }
+
+  @keyframes gradient-slide {
+    0% { background-position: 0% center; }
+    100% { background-position: 200% center; }
+  }
+
+  /* Target logo specifically */
+  header img,
+  .navbar img,
+  .logo img {
+    height: 45px !important;
+    width: auto !important;
+  }
+
+  .floating-logo {
+    position: absolute !important;
+    top: 16px !important;
+    left: 16px !important;
+    z-index: 10 !important;
+    pointer-events: auto;
+    transition: none !important;
+    animation: none !important;
+    transform: none !important;
+    will-change: auto !important;
+  }
+
+  @media (min-width: 640px) {
+    .floating-logo {
+      top: 20px !important;
+      left: 40px !important;
+    }
+  }
+
+  .floating-logo img {
+    height: 65px;
+    width: auto;
+    cursor: pointer;
+    transition: none !important;
+    animation: none !important;
+    transform: none !important;
+    will-change: auto !important;
+  }
+
+  /* Landing page background with dark mode */
+  body {
+    @apply bg-white text-gray-900;
+    background-image: 
+      linear-gradient(135deg, rgba(0, 136, 255, 0.02) 0%, rgba(0, 220, 255, 0.02) 100%),
+      linear-gradient(to right, rgba(0, 136, 255, 0.12) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(0, 220, 255, 0.12) 1px, transparent 1px);
+    background-size: 100% 100%, 40px 40px, 40px 40px;
+  }
+
+  .dark body {
+    background-color: #000000 !important;
+    color: #f5f5f5;
+    background-image: none !important;
+  }
+
+  body {
+    transition: background-color 0.6s ease, color 0.6s ease;
+  }
+
+  /* Force dark mode on html and body */
+  html.dark, body.dark {
+    background-color: #000000 !important;
+    background-image: none !important;
+  }
+
+  /* Feature Cards - Landing Page */
+  .dark .text-center.p-8.rounded-3xl.bg-white {
+    background-color: #111111 !important;
+    color: #f0f0f0 !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  }
+
+  /* Chat Page Dark Mode */
+  .dark .chat-background {
+    background-color: #000000 !important;
+  }
+
+  .dark .chat-bubble-assistant {
+    background-color: #111111 !important;
+    color: #e5e5e5 !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  }
+
+  .dark input[type="text"] {
+    background-color: #111111 !important;
+    color: #ffffff !important;
+    border: 1px solid rgba(255, 255, 255, 0.2) !important;
+  }
+
+  /* Footer Dark Mode */
+  .dark footer {
+    background-color: #000000 !important;
+    border-top: 1px solid rgba(255, 255, 255, 0.1) !important;
+  }
+
+  /* Button Dark Mode */
+  .dark .btn-gradient {
+    background: linear-gradient(135deg, #0056ff, #00cfff) !important;
+  }
+
+  /* Sidebar Dark Mode */
+.dark .bg-white\/80 {
+  background-color: rgba(0, 0, 0, 0.8) !important;
+}
+
+/* Chat Input Container - Smooth Animation */
+.chat-input-container {
+  position: fixed;
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(900px, 95vw);
+  z-index: 50;
+
+  /* smooth movement + resize */
+  transition:
+    bottom 420ms cubic-bezier(.22,.61,.36,1),
+    width 200ms ease;
+  will-change: bottom;
+}
+
+/* Start near the middle of the screen */
+.chat-input-container.start {
+  bottom: 40vh; /* visually centered above mid */
+}
+
+/* After first prompt, dock to bottom */
+.chat-input-container.dock {
+  bottom: 16px;
+}
+
+/* Mobile adjustments */
+@media (max-width: 640px) {
+  .chat-input-container {
+    width: 98vw;
+  }
+  
+  .chat-input-container.start {
+    bottom: 35vh;
+  }
+  
+  .chat-input-container.dock {
+    bottom: 12px;
+  }
+}
+
+/* The actual input shell */
+.chat-input {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+  border-radius: 14px;
+  padding: 8px 10px 8px 14px;
+}
+
+/* Mobile adjustments for chat input */
+@media (max-width: 640px) {
+  .chat-input {
+    gap: 6px;
+    padding: 6px 8px 6px 12px;
+    border-radius: 12px;
+  }
+}
+
+/* Dark mode support for chat input */
+.dark .chat-input {
+  background: #1f2937;
+  border: 1px solid #374151;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+}
+
+/* Input takes remaining space */
+.chat-input-field {
+  flex: 1 1 auto;
+  border: none;
+  outline: none;
+  font-size: 16px;
+  background: transparent;
+  color: #1f2937;
+}
+
+.dark .chat-input-field {
+  color: #f9fafb;
+}
+
+.chat-input-field::placeholder {
+  color: #9ca3af;
+}
+
+.dark .chat-input-field::placeholder {
+  color: #6b7280;
+}
+
+/* Mobile adjustments for input field */
+@media (max-width: 640px) {
+  .chat-input-field {
+    font-size: 16px; /* Prevent zoom on iOS */
+  }
+}
+
+/* Button kept inside the same block so centering is perfect */
+.send-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 36px;
+  min-width: 40px;
+  padding: 0 12px;
+  border: none;
+  cursor: pointer;
+  border-radius: 10px;
+  color: #fff;
+  background: linear-gradient(90deg, #0ea5e9, #10b981);
+  transition: transform .12s ease, box-shadow .12s ease;
+}
+
+/* Mobile adjustments for send button */
+@media (max-width: 640px) {
+  .send-btn {
+    height: 32px;
+    min-width: 36px;
+    padding: 0 10px;
+    border-radius: 8px;
+  }
+}
+
+.send-btn:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 14px rgba(16, 185, 129, .25);
+}
+
+.send-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Smooth Chat Bubble Transitions */
+.chat-bubble-user {
+  transition: max-width 0.3s ease, width 0.3s ease, padding 0.2s ease;
+}
+
+.chat-bubble-assistant {
+  transition: max-width 0.3s ease, width 0.3s ease, padding 0.2s ease;
+}
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-gray-100;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-teal-600 rounded-full;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-teal-700;
+}
+
+/* Smooth transitions for all interactive elements */
+button,
+a,
+.card {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Enhanced focus states */
+button:focus-visible,
+a:focus-visible {
+  @apply outline-none ring-2 ring-teal-500 ring-offset-2;
+}
+
+/* Button hover effects */
+.btn-gradient {
+  @apply bg-gradient-to-r from-teal-600 to-green-500;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.btn-gradient:hover {
+  @apply from-teal-700 to-green-600 shadow-lg;
+  transform: translateY(-2px) scale(1.02);
+}
+
+.btn-outline-gradient:hover {
+  @apply bg-gradient-to-r from-teal-600 to-green-500 text-white border-transparent;
+  transform: translateY(-2px) scale(1.02);
+}
