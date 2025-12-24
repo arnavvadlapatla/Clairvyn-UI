@@ -21,9 +21,7 @@ export default function HomePage() {
     if (user) {
       router.push("/chatbot")
     } else {
-      // Enter guest mode and redirect to chat
-      enterGuestMode()
-      router.push("/chatbot")
+      router.push("/signin")
     }
   }
 
@@ -80,14 +78,14 @@ export default function HomePage() {
 
             {/* Call-to-Action Button */}
             <div>
-                      <Button
-                        size="lg"
-                        className="btn-gradient text-white font-bold py-6 px-12 rounded-2xl shadow-xl text-xl border-0 cursor-not-allowed pointer-events-none"
-                      >
-                Coming Soon...
-                      </Button>
+              <button
+                onClick={handleTryIt}
+                className="btn-gradient text-white font-bold py-6 px-12 rounded-2xl shadow-xl text-xl hover:shadow-2xl transition-all duration-200 inline-block border-0 cursor-pointer"
+              >
+                Try Beta Now
+              </button>
             </div>
-                </div>
+          </div>
 
           {/* Features Section */}
           <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto mb-16">
@@ -161,7 +159,7 @@ export default function HomePage() {
                     muted
                     playsInline
                     preload="auto"
-                    onCanPlay={(e) => { try { e.currentTarget.play(); } catch {} }}
+                    onCanPlay={(e) => { try { e.currentTarget.play(); } catch { } }}
                   >
                     <source src="/clairvyn-demo.mp4" type="video/mp4" />
                   </video>
@@ -215,28 +213,28 @@ export default function HomePage() {
                 <h3 className="text-lg font-semibold text-charcoal dark:text-white mb-4">Connect</h3>
                 <div className="flex justify-center space-x-8">
                   {/* Instagram */}
-                  <a 
-                    href="https://www.instagram.com/clairvyn.ai?igsh=ZnR4M3dhd255aGhq" 
-                    target="_blank" 
-                    rel="noopener noreferrer" 
+                  <a
+                    href="https://www.instagram.com/clairvyn.ai?igsh=ZnR4M3dhd255aGhq"
+                    target="_blank"
+                    rel="noopener noreferrer"
                     className="w-12 h-12 bg-gray-100 dark:bg-gray-700 rounded-full flex items-center justify-center hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors group"
                   >
                     <Instagram size={24} className="text-gray-600 dark:text-gray-300 group-hover:text-blue-500 transition-colors" />
                   </a>
 
                   {/* LinkedIn */}
-                  <a 
-                    href="https://www.linkedin.com/company/clairvyn/" 
-                    target="_blank" 
-                    rel="noopener noreferrer" 
+                  <a
+                    href="https://www.linkedin.com/company/clairvyn/"
+                    target="_blank"
+                    rel="noopener noreferrer"
                     className="w-12 h-12 bg-gray-100 dark:bg-gray-700 rounded-full flex items-center justify-center hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors group"
                   >
                     <Linkedin size={24} className="text-gray-600 dark:text-gray-300 group-hover:text-blue-700 transition-colors" />
                   </a>
 
                   {/* Email */}
-                  <a 
-                    href="mailto:hello@clairvyn.com" 
+                  <a
+                    href="mailto:hello@clairvyn.com"
                     className="w-12 h-12 bg-gray-100 dark:bg-gray-700 rounded-full flex items-center justify-center hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors group"
                   >
                     <Mail size={24} className="text-gray-600 dark:text-gray-300 group-hover:text-green-500 transition-colors" />
@@ -265,8 +263,8 @@ export default function HomePage() {
                 ✕
               </button>
             </div>
-                <div className="p-4 pt-3 overflow-y-auto max-h-[70vh]">
-                  <div className="text-sm leading-relaxed space-y-4 text-gray-700 dark:text-gray-300">
+            <div className="p-4 pt-3 overflow-y-auto max-h-[70vh]">
+              <div className="text-sm leading-relaxed space-y-4 text-gray-700 dark:text-gray-300">
                 <p>
                   At <strong>Clairvyn</strong>, we're building AI-powered tools for architects and
                   civil engineers to take a project from idea to execution using simple prompts. Our

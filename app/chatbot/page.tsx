@@ -4,32 +4,42 @@ import { useState, useEffect } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog"
+import { Textarea } from "@/components/ui/textarea"
 import { handleScriptedInput } from "@/lib/demoScript"
 import TypingIndicator from "@/components/TypingIndicator"
-import { 
-  Menu, 
-  X, 
-  Pencil, 
-  User, 
-  Settings, 
-  LogOut, 
-  LogIn, 
+import {
+  Menu,
+  X,
+  Pencil,
+  User,
+  Settings,
+  LogOut,
+  LogIn,
   UserPlus,
   Search,
   History,
   Save,
   Plus,
-  Loader2
+  Loader2,
+  Star
 } from "lucide-react"
 import ReactMarkdown from "react-markdown"
 import Link from "next/link"
 import { useAuth } from "@/contexts/AuthContext"
 import { useTheme } from "@/contexts/ThemeContext"
 import { useRouter } from "next/navigation"
-import { 
-  createChatSession, 
-  addMessageToChat, 
-  simulateAIResponse, 
+import {
+  createChatSession,
+  addMessageToChat,
+  simulateAIResponse,
   Message as ChatMessage,
   getGuestChats,
   saveGuestChats,
@@ -39,12 +49,36 @@ export default function ChatbotPage() {
   const { user, logout, loading: authLoading, isGuest } = useAuth()
   const { isDarkMode, toggleDarkMode } = useTheme()
   const router = useRouter()
-  
+
   const [isSidebarOpen, setIsSidebarOpen] = useState(false)
+
+  // Redirect if not authenticated
+  useEffect(() => {
+    if (!authLoading && !user) {
+      router.push("/signin")
+    }
+  }, [user, authLoading, router])
+
   const [messages, setMessages] = useState<ChatMessage[]>([])
   const [typing, setTyping] = useState(false)
   const [inputValue, setInputValue] = useState("")
-  
+  const [placeholderText, setPlaceholderText] = useState("Design a Floor-plan for a 3BHK House")
+  const [isFirstSubmit, setIsFirstSubmit] = useState<boolean>(true)
+
+  // Feedback State
+  const [messageCount, setMessageCount] = useState(0)
+  const [showFeedback, setShowFeedback] = useState(false)
+  const [feedbackSubmitted, setFeedbackSubmitted] = useState(false)
+  const [rating, setRating] = useState(0)
+  const [feedbackText, setFeedbackText] = useState("")
+
+  // Trigger feedback after 2 user messages
+  useEffect(() => {
+    if (messageCount === 2 && !feedbackSubmitted) {
+      setShowFeedback(true)
+    }
+  }, [messageCount, feedbackSubmitted])
+
   // Helper function for demo script
   const addMessage = (msg: any) => setMessages(prev => [...prev, msg])
   const [isPencilHovered, setIsPencilHovered] = useState(false)
@@ -104,6 +138,9 @@ export default function ChatbotPage() {
     const userText = inputValue.trim()
     const normalized = userText.toLowerCase().trim()
 
+    // Increment message count for feedback trigger
+    setMessageCount(prev => prev + 1)
+
     const userMessage: Omit<ChatMessage, 'timestamp'> = {
       role: 'user',
       content: userText
@@ -111,7 +148,15 @@ export default function ChatbotPage() {
 
     // Add user message to UI immediately
     setMessages(prev => [...prev, { ...userMessage, timestamp: new Date().toISOString() }])
+
+    // Clear input and update placeholder for next turn
     setInputValue("")
+    if (isFirstSubmit) {
+      setPlaceholderText("Make the Living Room Bigger")
+      setIsFirstSubmit(false)
+    } else {
+      setPlaceholderText("What are you thinking?..")
+    }
 
     // Try the scripted demo first — if handled, skip backend call
     const handled = handleScriptedInput(normalized, { addMessage, setTyping })
@@ -142,7 +187,7 @@ export default function ChatbotPage() {
 
       const data = await response.json()
       const aiResponse = data.reply
-      
+
       const assistantMessage: Omit<ChatMessage, 'timestamp'> = {
         role: 'assistant',
         content: aiResponse
@@ -214,11 +259,73 @@ export default function ChatbotPage() {
   return (
     <div className="min-h-screen chat-background relative overflow-hidden overflow-x-hidden">
 
+      {/* Feedback Dialog */}
+      <Dialog open={showFeedback} onOpenChange={setShowFeedback}>
+        <DialogContent className="sm:max-w-[425px] bg-white dark:bg-gray-900 border-gray-200 dark:border-gray-700">
+          <DialogHeader>
+            <DialogTitle>We value your feedback!</DialogTitle>
+            <DialogDescription>
+              Help us improve your design experience.
+            </DialogDescription>
+          </DialogHeader>
+          <div className="grid gap-4 py-4">
+            <div className="space-y-2">
+              <h4 className="font-medium leading-none">Rate Accuracy</h4>
+              <div className="flex gap-1">
+                {[1, 2, 3, 4, 5].map((star) => (
+                  <Star
+                    key={star}
+                    className={`w-6 h-6 cursor-pointer transition-colors ${star <= rating
+                      ? "fill-yellow-400 text-yellow-400"
+                      : "text-gray-300 dark:text-gray-600 hover:text-yellow-400"
+                      }`}
+                    onClick={() => setRating(star)}
+                  />
+                ))}
+              </div>
+            </div>
+            <div className="space-y-2">
+              <h4 className="font-medium leading-none">Your Experience</h4>
+              <Textarea
+                placeholder="Tell us what you liked or what needs improvement..."
+                value={feedbackText}
+                onChange={(e) => setFeedbackText(e.target.value)}
+                className="resize-none"
+              />
+            </div>
+          </div>
+          <DialogFooter>
+            <Button
+              variant="outline"
+              onClick={() => {
+                setShowFeedback(false)
+                setFeedbackSubmitted(true)
+              }}
+            >
+              Skip
+            </Button>
+            <Button
+              onClick={() => {
+                // TODO: Submit feedback to backend
+                console.log({ rating, feedbackText })
+                setShowFeedback(false)
+                setFeedbackSubmitted(true)
+                alert("Thank you for your feedback!")
+              }}
+              disabled={rating === 0}
+              className="bg-teal-600 hover:bg-teal-700 text-white"
+            >
+              Submit Feedback
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
 
 
       {/* Guest Banner - Temporarily disabled for demo */}
       {false && isGuest && showGuestBanner && (
-          <motion.div
+        <motion.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           className="relative z-20 bg-gradient-to-r from-yellow-400 to-orange-400 text-white px-4 py-3"
@@ -337,7 +444,7 @@ export default function ChatbotPage() {
                   >
                     <X className="w-5 h-5 text-gray-600 dark:text-gray-300" />
                   </motion.button>
-              </div>
+                </div>
 
                 {/* Navigation Items */}
                 <nav className="space-y-2 mb-6 sm:mb-8">
@@ -397,7 +504,7 @@ export default function ChatbotPage() {
                         <span className="font-medium text-sm sm:text-base">Sign In</span>
                       </button>
                     )}
-                    
+
                     {/* Dark Mode Toggle */}
                     <button
                       onClick={toggleDarkMode}
@@ -405,41 +512,39 @@ export default function ChatbotPage() {
                     >
                       <Settings className="w-4 h-4 sm:w-5 sm:h-5" />
                       <span className="font-medium text-sm sm:text-base">Dark Mode</span>
-                      <div className={`ml-auto w-6 h-3 rounded-full transition-colors ${
-                        isDarkMode ? 'bg-teal-600' : 'bg-gray-300'
-                      }`}>
-                        <div className={`w-3 h-3 rounded-full bg-white transition-transform ${
-                          isDarkMode ? 'translate-x-3' : 'translate-x-0'
-                        }`} />
+                      <div className={`ml-auto w-6 h-3 rounded-full transition-colors ${isDarkMode ? 'bg-teal-600' : 'bg-gray-300'
+                        }`}>
+                        <div className={`w-3 h-3 rounded-full bg-white transition-transform ${isDarkMode ? 'translate-x-3' : 'translate-x-0'
+                          }`} />
                       </div>
                     </button>
 
+                  </div>
                 </div>
               </div>
-            </div>
-          </motion.div>
+            </motion.div>
           </>
         )}
       </AnimatePresence>
 
       {/* Main Content */}
-        <main className="relative z-10 flex flex-col h-[calc(100vh-64px)] sm:h-[calc(100vh-80px)]">
-          {/* Quote Section */}
-          <AnimatePresence>
-            {messages.length === 0 && !hasStarted && (
-              <motion.div
-                className="text-center py-8 sm:py-12 px-4 flex-1 flex items-center justify-center"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -20 }}
-                transition={{ duration: 0.6 }}
-              >
-                <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-charcoal dark:text-white mb-2 px-4">
-                  Let's Build Something Together!
-                </h2>
-              </motion.div>
-            )}
-          </AnimatePresence>
+      <main className="relative z-10 flex flex-col h-[calc(100vh-64px)] sm:h-[calc(100vh-80px)]">
+        {/* Quote Section */}
+        <AnimatePresence>
+          {messages.length === 0 && !hasStarted && (
+            <motion.div
+              className="text-center py-8 sm:py-12 px-4 flex-1 flex items-center justify-center"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              transition={{ duration: 0.6 }}
+            >
+              <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-charcoal dark:text-white mb-2 px-4">
+                Let's Build Something Together!
+              </h2>
+            </motion.div>
+          )}
+        </AnimatePresence>
 
         {/* Chat Messages */}
         <div className="flex-1 overflow-y-auto px-2 sm:px-4 pt-16 pb-32">
@@ -453,11 +558,10 @@ export default function ChatbotPage() {
                 className={`flex ${message.role === 'user' ? 'justify-end' : 'justify-start'}`}
               >
                 <div
-                  className={`max-w-[85%] sm:max-w-[70%] p-3 sm:p-5 rounded-2xl shadow-lg ${
-                    message.role === 'user'
-                      ? 'bg-gradient-to-r from-teal-600 to-green-500 text-white w-fit chat-bubble-user'
-                      : 'bg-white dark:bg-gray-800 border-2 border-gray-200 dark:border-gray-600 text-gray-800 dark:text-gray-200 min-w-[200px] sm:min-w-[280px] chat-bubble-assistant'
-                  }`}
+                  className={`max-w-[85%] sm:max-w-[70%] p-3 sm:p-5 rounded-2xl shadow-lg ${message.role === 'user'
+                    ? 'bg-gradient-to-r from-teal-600 to-green-500 text-white w-fit chat-bubble-user'
+                    : 'bg-white dark:bg-gray-800 border-2 border-gray-200 dark:border-gray-600 text-gray-800 dark:text-gray-200 min-w-[200px] sm:min-w-[280px] chat-bubble-assistant'
+                    }`}
                 >
                   <p className="text-sm sm:text-base leading-relaxed">{message.content}</p>
                   {/* Support for image and description from demo script */}
@@ -471,10 +575,9 @@ export default function ChatbotPage() {
                       )}
                     </div>
                   )}
-                  <p className={`text-xs mt-2 sm:mt-3 ${
-                    message.role === 'user' ? 'text-teal-100' : 'text-gray-500 dark:text-gray-400'
-                  }`}>
-                    {message.timestamp 
+                  <p className={`text-xs mt-2 sm:mt-3 ${message.role === 'user' ? 'text-teal-100' : 'text-gray-500 dark:text-gray-400'
+                    }`}>
+                    {message.timestamp
                       ? new Date(message.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
                       : new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
                     }
@@ -483,28 +586,28 @@ export default function ChatbotPage() {
               </motion.div>
             ))}
 
-          {/* Typing indicator (animated in/out) */}
-          <AnimatePresence>
-            {typing && (
-              <motion.div
-                key="typing-indicator"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: 10 }}
-                transition={{ duration: 0.2 }}
-                className="flex justify-start"
-              >
-                <div className="bg-white dark:bg-gray-800 border-2 border-gray-200 dark:border-gray-600 text-gray-800 dark:text-gray-200 p-3 sm:p-4 rounded-2xl shadow-lg">
-                  <p className="text-sm sm:text-base leading-relaxed">Designing...</p>
-                  <TypingIndicator />
-                </div>
-              </motion.div>
-            )}
-          </AnimatePresence>
+            {/* Typing indicator (animated in/out) */}
+            <AnimatePresence>
+              {typing && (
+                <motion.div
+                  key="typing-indicator"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: 10 }}
+                  transition={{ duration: 0.2 }}
+                  className="flex justify-start"
+                >
+                  <div className="bg-white dark:bg-gray-800 border-2 border-gray-200 dark:border-gray-600 text-gray-800 dark:text-gray-200 p-3 sm:p-4 rounded-2xl shadow-lg">
+                    <p className="text-sm sm:text-base leading-relaxed">Designing...</p>
+                    <TypingIndicator />
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
 
-          {/* Loading indicator */}
-          {isLoading && (
-            <motion.div
+            {/* Loading indicator */}
+            {isLoading && (
+              <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 className="flex justify-start"
@@ -514,9 +617,9 @@ export default function ChatbotPage() {
                     <Loader2 className="w-3 h-3 sm:w-4 sm:h-4 animate-spin text-teal-600" />
                     <span className="text-xs sm:text-sm">Clairvyn is thinking...</span>
                   </div>
-              </div>
-            </motion.div>
-          )}
+                </div>
+              </motion.div>
+            )}
           </div>
         </div>
 
@@ -525,15 +628,15 @@ export default function ChatbotPage() {
           <div className="chat-input">
             <input
               type="text"
-                  value={inputValue}
-                  onChange={(e) => setInputValue(e.target.value)}
+              value={inputValue}
+              onChange={(e) => setInputValue(e.target.value)}
               onKeyDown={(e) => {
                 if (e.key === "Enter" && !e.shiftKey) {
                   e.preventDefault()
                   handleSubmit(e)
                 }
               }}
-                  placeholder="What are you thinking?.."
+              placeholder={placeholderText}
               className="chat-input-field"
               disabled={isLoading}
             />
@@ -564,5 +667,3 @@ export default function ChatbotPage() {
     </div>
   )
 }
-
-
