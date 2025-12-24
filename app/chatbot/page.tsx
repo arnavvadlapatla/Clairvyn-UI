@@ -29,7 +29,8 @@ import {
   Save,
   Plus,
   Loader2,
-  Star
+  ThumbsUp,
+  ThumbsDown
 } from "lucide-react"
 import ReactMarkdown from "react-markdown"
 import Link from "next/link"
@@ -69,7 +70,12 @@ export default function ChatbotPage() {
   const [messageCount, setMessageCount] = useState(0)
   const [showFeedback, setShowFeedback] = useState(false)
   const [feedbackSubmitted, setFeedbackSubmitted] = useState(false)
-  const [rating, setRating] = useState(0)
+  const [feedbackSuccess, setFeedbackSuccess] = useState(false)
+  const [feedbackAnswers, setFeedbackAnswers] = useState<{
+    q1: 'up' | 'down' | null,
+    q2: 'up' | 'down' | null,
+    q3: 'up' | 'down' | null
+  }>({ q1: null, q2: null, q3: null })
   const [feedbackText, setFeedbackText] = useState("")
 
   // Trigger feedback after 2 user messages
@@ -273,64 +279,141 @@ export default function ChatbotPage() {
     <div className="min-h-screen chat-background relative overflow-hidden overflow-x-hidden">
 
       {/* Feedback Dialog */}
-      <Dialog open={showFeedback} onOpenChange={setShowFeedback}>
-        <DialogContent className="sm:max-w-[425px] bg-white dark:bg-gray-900 border-gray-200 dark:border-gray-700">
-          <DialogHeader>
-            <DialogTitle>We value your feedback!</DialogTitle>
-            <DialogDescription>
-              Help us improve your design experience.
-            </DialogDescription>
-          </DialogHeader>
-          <div className="grid gap-4 py-4">
-            <div className="space-y-2">
-              <h4 className="font-medium leading-none">Rate Accuracy</h4>
-              <div className="flex gap-1">
-                {[1, 2, 3, 4, 5].map((star) => (
-                  <Star
-                    key={star}
-                    className={`w-6 h-6 cursor-pointer transition-colors ${star <= rating
-                      ? "fill-yellow-400 text-yellow-400"
-                      : "text-gray-300 dark:text-gray-600 hover:text-yellow-400"
-                      }`}
-                    onClick={() => setRating(star)}
-                  />
-                ))}
+      <Dialog open={showFeedback} onOpenChange={(open) => {
+        if (!feedbackSuccess) setShowFeedback(open)
+      }}>
+        <DialogContent className="sm:max-w-[500px] bg-white dark:bg-gray-900 border-gray-200 dark:border-gray-700">
+          {!feedbackSuccess ? (
+            <>
+              <DialogHeader>
+                <DialogTitle>We value your feedback!</DialogTitle>
+                <DialogDescription>
+                  Help us improve your design experience.
+                </DialogDescription>
+              </DialogHeader>
+
+              <div className="grid gap-6 py-4">
+                {/* Question 1 */}
+                <div className="space-y-3">
+                  <h4 className="font-medium">1. Was Clairvyn easy to use for you?</h4>
+                  <div className="flex gap-4">
+                    <button
+                      onClick={() => setFeedbackAnswers(prev => ({ ...prev, q1: 'up' }))}
+                      className={`p-2 rounded-full transition-colors ${feedbackAnswers.q1 === 'up' ? 'bg-green-100 text-green-600' : 'hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-400'}`}
+                    >
+                      <ThumbsUp className="w-6 h-6" />
+                    </button>
+                    <button
+                      onClick={() => setFeedbackAnswers(prev => ({ ...prev, q1: 'down' }))}
+                      className={`p-2 rounded-full transition-colors ${feedbackAnswers.q1 === 'down' ? 'bg-red-100 text-red-600' : 'hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-400'}`}
+                    >
+                      <ThumbsDown className="w-6 h-6" />
+                    </button>
+                  </div>
+                </div>
+
+                {/* Question 2 */}
+                <div className="space-y-3">
+                  <h4 className="font-medium">2. Did Clairvyn save you time on your tasks?</h4>
+                  <div className="flex gap-4">
+                    <button
+                      onClick={() => setFeedbackAnswers(prev => ({ ...prev, q2: 'up' }))}
+                      className={`p-2 rounded-full transition-colors ${feedbackAnswers.q2 === 'up' ? 'bg-green-100 text-green-600' : 'hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-400'}`}
+                    >
+                      <ThumbsUp className="w-6 h-6" />
+                    </button>
+                    <button
+                      onClick={() => setFeedbackAnswers(prev => ({ ...prev, q2: 'down' }))}
+                      className={`p-2 rounded-full transition-colors ${feedbackAnswers.q2 === 'down' ? 'bg-red-100 text-red-600' : 'hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-400'}`}
+                    >
+                      <ThumbsDown className="w-6 h-6" />
+                    </button>
+                  </div>
+                </div>
+
+                {/* Question 3 */}
+                <div className="space-y-3">
+                  <h4 className="font-medium">3. Would you keep using Clairvyn in your daily workflow?</h4>
+                  <div className="flex gap-4">
+                    <button
+                      onClick={() => setFeedbackAnswers(prev => ({ ...prev, q3: 'up' }))}
+                      className={`p-2 rounded-full transition-colors ${feedbackAnswers.q3 === 'up' ? 'bg-green-100 text-green-600' : 'hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-400'}`}
+                    >
+                      <ThumbsUp className="w-6 h-6" />
+                    </button>
+                    <button
+                      onClick={() => setFeedbackAnswers(prev => ({ ...prev, q3: 'down' }))}
+                      className={`p-2 rounded-full transition-colors ${feedbackAnswers.q3 === 'down' ? 'bg-red-100 text-red-600' : 'hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-400'}`}
+                    >
+                      <ThumbsDown className="w-6 h-6" />
+                    </button>
+                  </div>
+                </div>
+
+                {/* Conditional Text Area */}
+                {(feedbackAnswers.q1 === 'down' || feedbackAnswers.q2 === 'down' || feedbackAnswers.q3 === 'down') && (
+                  <motion.div
+                    initial={{ opacity: 0, height: 0 }}
+                    animate={{ opacity: 1, height: 'auto' }}
+                    className="space-y-2"
+                  >
+                    <h4 className="font-medium text-sm text-gray-600 dark:text-gray-300">
+                      Please share details of why you chose that:
+                    </h4>
+                    <Textarea
+                      placeholder="Your feedback helps us improve..."
+                      value={feedbackText}
+                      onChange={(e) => setFeedbackText(e.target.value)}
+                      className="resize-none"
+                    />
+                  </motion.div>
+                )}
               </div>
-            </div>
-            <div className="space-y-2">
-              <h4 className="font-medium leading-none">Your Experience</h4>
-              <Textarea
-                placeholder="Tell us what you liked or what needs improvement..."
-                value={feedbackText}
-                onChange={(e) => setFeedbackText(e.target.value)}
-                className="resize-none"
-              />
-            </div>
-          </div>
-          <DialogFooter>
-            <Button
-              variant="outline"
-              onClick={() => {
-                setShowFeedback(false)
-                setFeedbackSubmitted(true)
-              }}
+
+              <DialogFooter>
+                <Button
+                  variant="outline"
+                  onClick={() => {
+                    setShowFeedback(false)
+                    setFeedbackSubmitted(true)
+                  }}
+                >
+                  Skip
+                </Button>
+                <Button
+                  onClick={() => {
+                    setFeedbackSuccess(true)
+                    setFeedbackSubmitted(true)
+                  }}
+                  disabled={!feedbackAnswers.q1 || !feedbackAnswers.q2 || !feedbackAnswers.q3}
+                  className="bg-teal-600 hover:bg-teal-700 text-white"
+                >
+                  Submit Feedback
+                </Button>
+              </DialogFooter>
+            </>
+          ) : (
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              className="py-10 text-center space-y-4"
             >
-              Skip
-            </Button>
-            <Button
-              onClick={() => {
-                // TODO: Submit feedback to backend
-                console.log({ rating, feedbackText })
-                setShowFeedback(false)
-                setFeedbackSubmitted(true)
-                alert("Thank you for your feedback!")
-              }}
-              disabled={rating === 0}
-              className="bg-teal-600 hover:bg-teal-700 text-white"
-            >
-              Submit Feedback
-            </Button>
-          </DialogFooter>
+              <div className="text-4xl">🙌</div>
+              <h3 className="text-xl font-bold text-gray-900 dark:text-white">
+                Thanks for beta testing with us!
+              </h3>
+              <p className="text-gray-600 dark:text-gray-300">
+                Clairvyn 1.0 launches Jan 2026, see you soon 🚀
+              </p>
+              <Button
+                onClick={() => setShowFeedback(false)}
+                className="mt-4"
+                variant="outline"
+              >
+                Close
+              </Button>
+            </motion.div>
+          )}
         </DialogContent>
       </Dialog>
 
