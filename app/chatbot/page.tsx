@@ -149,10 +149,23 @@ export default function ChatbotPage() {
     // Add user message to UI immediately
     setMessages(prev => [...prev, { ...userMessage, timestamp: new Date().toISOString() }])
 
+    // Helper to generate contextual suggestions based on user input
+    const getContextualSuggestion = (text: string) => {
+      if (text.includes("kitchen")) return "Add a kitchen island"
+      if (text.includes("bedroom")) return "Add a walk-in closet"
+      if (text.includes("living")) return "Make the TV unit bigger"
+      if (text.includes("bathroom") || text.includes("toilet")) return "Add a jacuzzi"
+      if (text.includes("office") || text.includes("study")) return "Add a bookshelf"
+      if (text.includes("garden") || text.includes("balcony")) return "Add some outdoor seating"
+      if (text.includes("dining")) return "Change to a 6-seater table"
+
+      return "Make the room bigger"
+    }
+
     // Clear input and update placeholder for next turn
     setInputValue("")
     if (isFirstSubmit) {
-      setPlaceholderText("Make the Living Room Bigger")
+      setPlaceholderText(getContextualSuggestion(normalized))
       setIsFirstSubmit(false)
     } else {
       setPlaceholderText("What are you thinking?..")
