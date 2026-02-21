@@ -13,6 +13,9 @@ const inter = Inter({
 
 export const metadata: Metadata = {
   title: "Clairvyn",
+  icons: {
+    icon: '/logo.png',
+  },
   description:
     "Design Architectural Floorplans using Simple Prompts.",
   keywords: "architecture, design, AI, challenges, education, floorplan, building design, Clairvyn",
