@@ -30,7 +30,8 @@ import {
   Plus,
   Loader2,
   ThumbsUp,
-  ThumbsDown
+  ThumbsDown,
+  ChevronLeft
 } from "lucide-react"
 import ReactMarkdown from "react-markdown"
 import Link from "next/link"
@@ -39,15 +40,21 @@ import { useTheme } from "@/contexts/ThemeContext"
 import { useRouter } from "next/navigation"
 import {
   createChatSession,
+  renameChatSession,
   addMessageToChat,
   simulateAIResponse,
+  setChatMessages,
   Message as ChatMessage,
+  ChatSession,
   getGuestChats,
   saveGuestChats,
-  clearGuestChats
+  clearGuestChats,
+  getUserChatSessions,
+  getChatMessages
 } from "@/lib/chat-service"
+import { apiFetch } from "@/lib/backendApi"
 export default function ChatbotPage() {
-  const { user, logout, loading: authLoading, isGuest } = useAuth()
+  const { user, logout, loading: authLoading, isGuest, getIdToken } = useAuth()
   const { isDarkMode, toggleDarkMode } = useTheme()
   const router = useRouter()
 
@@ -90,16 +97,53 @@ export default function ChatbotPage() {
   const [isPencilHovered, setIsPencilHovered] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
   const [currentChatId, setCurrentChatId] = useState<string | null>(null)
+  const [backendChatId, setBackendChatId] = useState<string | null>(null)
   const [showGuestBanner, setShowGuestBanner] = useState(true)
   const [hasStarted, setHasStarted] = useState(false)
 
-  // Load messages on mount
+  // Chat history state (integrated into sidebar)
+  const [sidebarView, setSidebarView] = useState<"menu" | "history">("menu")
+  const [chatSessions, setChatSessions] = useState<ChatSession[]>([])
+  const [historyLoading, setHistoryLoading] = useState(false)
+
+  // Load messages on mount - only create new local chat if user has no sessions (prevents duplicate from Strict Mode)
   useEffect(() => {
+    console.debug('init effect', { user, currentChatId, isGuest });
     if (user && !currentChatId) {
-      createNewChat()
+      const initChat = async () => {
+        const token = await getIdToken()
+        console.debug('initialising chat sessions', { token });
+        let sessions: ChatSession[] = []
+
+        if (token) {
+          try {
+            sessions = await getUserChatSessions(user.uid, token)
+          } catch (err) {
+            console.warn("failed to load sessions from backend, falling back to local", err)
+            sessions = await getUserChatSessions(user.uid)
+          }
+        } else {
+          sessions = await getUserChatSessions(user.uid)
+        }
+
+        console.debug('sessions loaded', sessions);
+        if (sessions.length === 0) {
+          await createNewChat()
+        } else {
+          const latest = sessions[0]
+          setCurrentChatId(latest.id)
+          setMessages(latest.messages.map((m) => ({
+            ...m,
+            timestamp: typeof m.timestamp === "string" ? m.timestamp : (m.timestamp as Date).toISOString()
+          })))
+          setHasStarted(latest.messages.length > 0)
+        }
+      }
+      initChat()
     } else if (isGuest) {
       // Load guest chats from localStorage
       const guestMessages = getGuestChats()
+      console.debug('loaded guest messages', guestMessages);
       setMessages(guestMessages)
     }
   }, [user, isGuest])
@@ -115,8 +159,30 @@ export default function ChatbotPage() {
     if (user) {
       setIsLoading(true)
       try {
-        const chatId = await createChatSession(user.uid)
+        // try to create on backend first so we can use the returned id
+        let localId: string | null = null
+        const token = await getIdToken()
+        if (token) {
+          try {
+            const data = await apiFetch<{ id: string; title: string | null; metadata: any }>(
+              "/api/chats",
+              { method: "POST", body: { title: null, metadata: {} }, token }
+            )
+            localId = data.id
+            setBackendChatId(data.id)
+          } catch (err) {
+            console.warn("failed to create backend chat for new session", err)
+          }
+        }
+
+        // create a local session using either the backend id or a uuid
+        const chatId = await createChatSession(user.uid, localId || undefined)
         setCurrentChatId(chatId)
+        if (!localId) {
+          // no backend id yet, clear any stale value
+          setBackendChatId(null)
+        }
+
         setMessages([])
         setHasStarted(false) // Reset to initial state
       } catch (error) {
@@ -129,6 +195,36 @@ export default function ChatbotPage() {
       clearGuestChats()
       setMessages([])
       setHasStarted(false) // Reset to initial state
+    }
+  }
+
+  const ensureBackendChat = async (): Promise<string | null> => {
+    if (backendChatId) return backendChatId
+    const token = await getIdToken()
+    if (!token) {
+      throw new Error("Missing auth token")
+    }
+
+    try {
+      const data = await apiFetch<{ id: string; title: string | null; metadata: any }>(
+        "/api/chats",
+        {
+          method: "POST",
+          body: { title: null, metadata: {} },
+          token,
+        }
+      )
+      // if we already have a local chat id that differs, migrate it
+      if (currentChatId && currentChatId !== data.id) {
+        await renameChatSession(currentChatId, data.id)
+        setCurrentChatId(data.id)
+      }
+      setBackendChatId(data.id)
+      return data.id
+    } catch (err) {
+      console.error("Failed to create backend chat session:", err)
+      // leave backendChatId null so we can retry later
+      return null
     }
   }
 
@@ -152,7 +248,7 @@ export default function ChatbotPage() {
       content: userText
     }
 
-    // Add user message to UI immediately
+    // Add user message to UI immediately (will be replaced by history from server)
     setMessages(prev => [...prev, { ...userMessage, timestamp: new Date().toISOString() }])
 
     // Helper to generate contextual suggestions based on user input
@@ -187,44 +283,101 @@ export default function ChatbotPage() {
 
     try {
       if (user && currentChatId) {
-        // Add user message to Firestore
         await addMessageToChat(currentChatId, userMessage)
       }
 
-      // Call the real API
-      const response = await fetch('/api/chat', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ message: inputValue }),
-      })
-
-      if (!response.ok) {
-        throw new Error('Failed to get response from AI')
+      if (!user) {
+        // For guests we currently don't hit the backend AI; just simulate.
+        const aiResponse = await simulateAIResponse(userText)
+        const assistantMessage: Omit<ChatMessage, 'timestamp'> = {
+          role: 'assistant',
+          content: aiResponse
+        }
+        setMessages(prev => [...prev, { ...assistantMessage, timestamp: new Date().toISOString() }])
+        return
       }
 
-      const data = await response.json()
-      const aiResponse = data.reply
-
-      const assistantMessage: Omit<ChatMessage, 'timestamp'> = {
-        role: 'assistant',
-        content: aiResponse
+      const token = await getIdToken()
+      if (!token) {
+        throw new Error("Missing auth token")
       }
 
-      if (user && currentChatId) {
-        // Add AI response to Firestore
-        await addMessageToChat(currentChatId, assistantMessage)
+      const chatId = await ensureBackendChat()
+      if (!chatId) {
+        throw new Error('Could not create or retrieve backend chat')
       }
 
-      // Add AI response to UI
-      setMessages(prev => [...prev, { ...assistantMessage, timestamp: new Date().toISOString() }])
-    } catch (error) {
+      type TurnResponse = {
+        user_message: { id: string; content: string; image_url: string | null; created_at: string }
+        assistant_message: {
+          id: string
+          content: string
+          image_url: string | null
+          extra_data?: {
+            document_id?: string
+            png_url?: string | null
+            dxf_url?: string | null
+          }
+          created_at: string
+        }
+      }
+
+      // diagnostic log before sending the request
+      console.debug("POST turn", { chatId, body: { content: userText, image_url: null } });
+      let data: any;
+      try {
+        data = await apiFetch<any>(
+          `/api/chats/${encodeURIComponent(chatId)}/turn`,
+          {
+            method: "POST",
+            body: { content: userText, image_url: null },
+            token,
+          }
+        )
+      } catch (err: any) {
+        console.error("turn request failed", { chatId, error: err });
+        throw err; // rethrow so outer catch handles messaging
+      }
+
+      // if backend returned chat_id we can cache it
+      if (data.chat_id) {
+        setBackendChatId(data.chat_id)
+      }
+
+      // replace messages with server history if present
+      const raw: any = data;
+      const array: any[] = Array.isArray(raw?.history)
+        ? raw.history
+        : Array.isArray(raw?.messages)
+        ? raw.messages
+        : [];
+      const updatedHistory: ChatMessage[] = array.map((m: any) => ({
+        ...m,
+        timestamp:
+          typeof m.timestamp === "string" ? m.timestamp : (m.timestamp as Date).toISOString(),
+      }));
+
+      if (currentChatId) {
+        await setChatMessages(currentChatId, updatedHistory)
+      }
+
+      setMessages(updatedHistory)
+    } catch (error: any) {
       console.error("Error sending message:", error)
-      // Add error message to UI
+      let content = "I'm sorry, I encountered an error. Please try again."
+
+      // peek at error to give a more helpful hint
+      if (
+        error?.message?.includes('socket hang up') ||
+        error?.code === 'ECONNRESET'
+      ) {
+        content =
+          "Unable to reach the AI backend – is the server running on port 5000?"
+      }
+
       const errorMessage: Omit<ChatMessage, 'timestamp'> = {
         role: 'assistant',
-        content: "I'm sorry, I encountered an error. Please try again."
+        content,
       }
       setMessages(prev => [...prev, { ...errorMessage, timestamp: new Date().toISOString() }])
     } finally {
@@ -234,6 +387,11 @@ export default function ChatbotPage() {
 
   const handleLogout = async () => {
     try {
+      const idToken = await getIdToken()
+      await fetch("/api/logout", {
+        method: "POST",
+        headers: { Authorization: `Bearer ${idToken}` }
+      });
       await logout()
       router.push("/")
     } catch (error) {
@@ -255,16 +413,82 @@ export default function ChatbotPage() {
     alert("Saved Designs feature coming soon!")
   }
 
-  const handleHistory = () => {
-    // TODO: Implement history functionality
-    alert("History feature coming soon!")
+  const handleHistory = async () => {
+    console.debug('handleHistory called');
+    setSidebarView("history")
+    if (isGuest || !user) {
+      setChatSessions([])
+      return
+    }
+    setHistoryLoading(true)
+    try {
+      const token = await getIdToken()
+      console.debug('fetching history with token', token);
+      let sessions: ChatSession[] = []
+      if (token) {
+        try {
+          sessions = await getUserChatSessions(user.uid, token)
+        } catch (err) {
+          console.warn("history load failed against backend, using local storage", err)
+          sessions = await getUserChatSessions(user.uid)
+        }
+      } else {
+        sessions = await getUserChatSessions(user.uid)
+      }
+      console.debug('history sessions', sessions);
+      setChatSessions(sessions)
+    } catch (error) {
+      console.error("Error loading chat history:", error)
+      setChatSessions([])
+    } finally {
+      setHistoryLoading(false)
+    }
+  }
+
+  const loadChatSession = async (chatId: string) => {
+    try {
+      const token = await getIdToken()
+      let sessionMessages = [] as ChatMessage[]
+      let loadedFromBackend = false
+      if (token) {
+        try {
+          sessionMessages = await getChatMessages(chatId, token)
+          loadedFromBackend = true
+        } catch (err) {
+          console.warn("failed to load messages from backend, falling back to local", err)
+          sessionMessages = await getChatMessages(chatId)
+        }
+      } else {
+        sessionMessages = await getChatMessages(chatId)
+      }
+
+      // persist what we retrieved in local storage so the offline cache stays in sync
+      if (loadedFromBackend) {
+        await setChatMessages(chatId, sessionMessages.map((m) => ({
+          ...m,
+          timestamp: typeof m.timestamp === "string" ? m.timestamp : (m.timestamp as Date).toISOString()
+        })))
+        setBackendChatId(chatId)
+      }
+
+      setCurrentChatId(chatId)
+      setMessages(sessionMessages.map((m) => ({
+        ...m,
+        timestamp: typeof m.timestamp === "string" ? m.timestamp : (m.timestamp as Date).toISOString()
+      })))
+      setHasStarted(sessionMessages.length > 0)
+      setSidebarView("menu")
+      setIsSidebarOpen(false)
+    } catch (error) {
+      console.error("Error loading chat session:", error)
+    }
   }
 
   const sidebarItems = [
-    { icon: Plus, label: "New Design", action: createNewChat },
-    { icon: Search, label: "Search Designs", action: handleSearchDesigns },
-    { icon: Save, label: "Saved Designs", action: handleSavedDesigns },
-    { icon: History, label: "History", action: handleHistory },
+    { icon: Plus, label: "New Design", action: createNewChat, keepOpen: false },
+    { icon: Search, label: "Search Designs", action: handleSearchDesigns, keepOpen: false },
+    { icon: Save, label: "Saved Designs", action: handleSavedDesigns, keepOpen: false },
+    { icon: History, label: "History", action: handleHistory, keepOpen: true },
   ]
 
   if (authLoading) {
@@ -417,8 +641,6 @@ export default function ChatbotPage() {
         </DialogContent>
       </Dialog>
 
-
-
       {/* Guest Banner - Temporarily disabled for demo */}
       {false && isGuest && showGuestBanner && (
         <motion.div
@@ -517,7 +739,10 @@ export default function ChatbotPage() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              onClick={() => setIsSidebarOpen(false)}
+              onClick={() => {
+                setIsSidebarOpen(false)
+                setSidebarView("menu")
+              }}
             />
 
             {/* Sidebar */}
@@ -531,42 +756,57 @@ export default function ChatbotPage() {
               <div className="p-4 sm:p-6">
                 {/* Header */}
                 <div className="flex items-center justify-between mb-6 sm:mb-8">
-                  <h2 className="text-lg sm:text-xl font-bold text-charcoal dark:text-white">Dashboard</h2>
+                  <h2 className="text-lg sm:text-xl font-bold text-charcoal dark:text-white">
+                    {sidebarView === "menu" ? "Dashboard" : "Chat History"}
+                  </h2>
                   <motion.button
-                    onClick={() => setIsSidebarOpen(false)}
+                    onClick={() => {
+                      if (sidebarView === "history") {
+                        setSidebarView("menu")
+                      } else {
+                        setIsSidebarOpen(false)
+                        setSidebarView("menu")
+                      }
+                    }}
                     className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
                   >
-                    <X className="w-5 h-5 text-gray-600 dark:text-gray-300" />
+                    {sidebarView === "history" ? (
+                      <ChevronLeft className="w-5 h-5 text-gray-600 dark:text-gray-300" />
+                    ) : (
+                      <X className="w-5 h-5 text-gray-600 dark:text-gray-300" />
+                    )}
                   </motion.button>
                 </div>
 
-                {/* Navigation Items */}
-                <nav className="space-y-2 mb-6 sm:mb-8">
-                  {sidebarItems.map((item, index) => (
-                    <motion.div
-                      key={item.label}
-                      initial={{ opacity: 0, x: -20 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      transition={{ delay: index * 0.1 }}
-                    >
-                      <button
-                        onClick={() => {
-                          item.action()
-                          setIsSidebarOpen(false)
-                        }}
-                        className="flex items-center gap-3 p-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors text-gray-700 dark:text-gray-200 hover:text-teal-600 dark:hover:text-white w-full text-left"
-                      >
-                        <item.icon className="w-4 h-4 sm:w-5 sm:h-5" />
-                        <span className="font-medium text-sm sm:text-base">{item.label}</span>
-                      </button>
-                    </motion.div>
-                  ))}
-                </nav>
+                {/* Sidebar content: Menu or History */}
+                {sidebarView === "menu" ? (
+                  <>
+                    <nav className="space-y-2 mb-6 sm:mb-8">
+                      {sidebarItems.map((item, index) => (
+                        <motion.div
+                          key={item.label}
+                          initial={{ opacity: 0, x: -20 }}
+                          animate={{ opacity: 1, x: 0 }}
+                          transition={{ delay: index * 0.1 }}
+                        >
+                          <button
+                            onClick={() => {
+                              item.action()
+                              if (!item.keepOpen) setIsSidebarOpen(false)
+                            }}
+                            className="flex items-center gap-3 p-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors text-gray-700 dark:text-gray-200 hover:text-teal-600 dark:hover:text-white w-full text-left"
+                          >
+                            <item.icon className="w-4 h-4 sm:w-5 sm:h-5" />
+                            <span className="font-medium text-sm sm:text-base">{item.label}</span>
+                          </button>
+                        </motion.div>
+                      ))}
+                    </nav>
 
-                {/* Profile Section */}
-                <div className="border-t border-gray-200 dark:border-gray-700 pt-4 sm:pt-6">
+                    {/* Profile Section */}
+                    <div className="border-t border-gray-200 dark:border-gray-700 pt-4 sm:pt-6">
                   <div className="flex items-center gap-3 p-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors cursor-pointer">
                     <div className="w-8 h-8 sm:w-10 sm:h-10 bg-gradient-to-br from-teal-600 to-green-500 rounded-full flex items-center justify-center">
                       <User className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
@@ -616,7 +856,59 @@ export default function ChatbotPage() {
                     </button>
 
                   </div>
-                </div>
+                    </div>
+                  </>
+                ) : (
+                  /* History view */
+                  <div className="flex flex-col flex-1 min-h-0">
+                    <div className="flex-1 overflow-y-auto -mr-2 pr-2 mt-2">
+                      {isGuest || !user ? (
+                        <p className="text-sm text-gray-500 dark:text-gray-400">
+                          Sign in to save and view your chat history across devices.
+                        </p>
+                      ) : historyLoading ? (
+                        <div className="flex items-center justify-center py-8">
+                          <Loader2 className="w-6 h-6 animate-spin text-teal-600" />
+                        </div>
+                      ) : chatSessions.length === 0 ? (
+                        <p className="text-sm text-gray-500 dark:text-gray-400">
+                          No chat history yet. Start a conversation to see it here!
+                        </p>
+                      ) : (
+                        <div className="space-y-2">
+                          {chatSessions.map((session) => {
+                            const firstUserMessage = session.messages.find((m) => m.role === "user")
+                            const preview = firstUserMessage?.content?.slice(0, 50) || "New chat"
+                            const displayPreview = preview.length >= 50 ? `${preview}...` : preview
+                            const isActive = session.id === currentChatId
+
+                            return (
+                              <button
+                                key={session.id}
+                                onClick={() => loadChatSession(session.id)}
+                                className={`w-full p-3 rounded-lg text-left transition-colors ${
+                                  isActive
+                                    ? "bg-teal-100 dark:bg-teal-900/30 text-teal-700 dark:text-teal-300 border border-teal-200 dark:border-teal-800"
+                                    : "hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-700 dark:text-gray-200"
+                                }`}
+                              >
+                                <p className="font-medium text-sm truncate">{displayPreview}</p>
+                                <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
+                                  {new Date(session.updatedAt).toLocaleDateString(undefined, {
+                                    month: "short",
+                                    day: "numeric",
+                                    hour: "2-digit",
+                                    minute: "2-digit"
+                                  })}
+                                </p>
+                              </button>
+                            )
+                          })}
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                )}
               </div>
             </motion.div>
           </>
@@ -660,17 +952,45 @@ export default function ChatbotPage() {
                     }`}
                 >
                   <p className="text-sm sm:text-base leading-relaxed">{message.content}</p>
-                  {/* Support for image and description from demo script */}
-                  {(message as any).image && (
+                  {/* Support for image/extra data and description (demo script + backend responses) */}
+                  {(message as any).image || (message as any).image_url || (message as any).extra_data?.png_url || (message as any).extra_data?.dxf_url ? (
                     <div className="mt-3 space-y-2">
-                      <img src={(message as any).image} alt="Generated" className="rounded-lg shadow-md border max-w-full h-auto" />
+                      {((message as any).image || (message as any).image_url) && (
+                        <img
+                          src={(message as any).image || (message as any).image_url}
+                          alt="Generated"
+                          className="rounded-lg shadow-md border max-w-full h-auto"
+                        />
+                      )}
+                      {((message as any).extra_data?.png_url || (message as any).extra_data?.dxf_url) && (
+                        <div className="flex flex-col gap-2">
+                          {((message as any).extra_data?.png_url) && (
+                            <img
+                              src={(message as any).extra_data.png_url}
+                              alt="Preview"
+                              className="rounded-lg shadow-md border max-w-full h-auto"
+                            />
+                          )}
+                          {((message as any).extra_data?.dxf_url) && (
+                            <a
+                              href={(message as any).extra_data.dxf_url}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="text-xs text-teal-600 underline"
+                            >
+                              Download DXF file
+                            </a>
+                          )}
+                        </div>
+                      )}
+
                       {(message as any).description && (
                         <div className="bg-white dark:bg-gray-900 p-4 rounded-lg text-sm prose dark:prose-invert max-w-none">
                           <ReactMarkdown>{(message as any).description}</ReactMarkdown>
                         </div>
                       )}
                     </div>
-                  )}
+                  ) : null}
                   <p className={`text-xs mt-2 sm:mt-3 ${message.role === 'user' ? 'text-teal-100' : 'text-gray-500 dark:text-gray-400'
                     }`}>
                     {message.timestamp

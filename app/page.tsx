@@ -16,15 +16,18 @@ export default function HomePage() {
   const router = useRouter()
   const [aboutOpen, setAboutOpen] = useState(false)
   const [termsOpen, setTermsOpen] = useState(false)
-
+  
   const handleTryIt = () => {
+    console.log('handleTryIt called')
     if (user) {
+      console.log('User is authenticated, redirecting to /chatbot')
       router.push("/chatbot")
     } else {
+      console.log('User is not authenticated, redirecting to /signin')
       router.push("/signin")
     }
   }
-
+  
   return (
     <div className="min-h-screen bg-white dark:bg-black relative overflow-hidden overflow-x-hidden">
       {/* Static Architectural Background - Light Mode Only */}

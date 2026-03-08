@@ -1,128 +1,120 @@
 "use client"
 
-import React, { createContext, useContext, useEffect, useState } from 'react';
-import { v4 as uuidv4 } from 'uuid';
-
-// Mock User interface to replace Firebase User
-export interface User {
-  uid: string;
-  email: string | null;
-  displayName: string | null;
-  photoURL: string | null;
-}
+import React, { createContext, useContext, useEffect, useState, useCallback } from "react"
+import {
+  onAuthStateChanged,
+  signInWithEmailAndPassword,
+  createUserWithEmailAndPassword,
+  signInWithPopup,
+  signOut,
+  GoogleAuthProvider,
+  GithubAuthProvider,
+  User as FirebaseUser,
+} from "firebase/auth"
+import { auth } from "@/lib/firebase"
 
 interface AuthContextType {
-  user: User | null;
-  loading: boolean;
-  isGuest: boolean;
-  signIn: (email: string, password: string) => Promise<void>;
-  signUp: (email: string, password: string) => Promise<void>;
-  signInWithGoogle: () => Promise<void>;
-  signInWithGithub: () => Promise<void>;
-  logout: () => Promise<void>;
-  enterGuestMode: () => void;
-  exitGuestMode: () => void;
-  migrateGuestChats: () => Promise<void>;
+  user: FirebaseUser | null
+  loading: boolean
+  isGuest: boolean
+  signIn: (email: string, password: string) => Promise<void>
+  signUp: (email: string, password: string) => Promise<void>
+  // Social providers can be wired later if needed; keep the surface for now.
+  signInWithGoogle: () => Promise<void>
+  signInWithGithub: () => Promise<void>
+  logout: () => Promise<void>
+  enterGuestMode: () => void
+  exitGuestMode: () => void
+  migrateGuestChats: () => Promise<void>
+  getIdToken: (forceRefresh?: boolean) => Promise<string | null>
 }
 
-const AuthContext = createContext<AuthContextType | undefined>(undefined);
+const AuthContext = createContext<AuthContextType | undefined>(undefined)
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
-  const [user, setUser] = useState<User | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [isGuest, setIsGuest] = useState(false);
+  const [user, setUser] = useState<FirebaseUser | null>(null)
+  const [loading, setLoading] = useState(true)
+  const [isGuest, setIsGuest] = useState(false)
 
   useEffect(() => {
-    // Check for stored user and guest mode on mount
-    const storedUser = localStorage.getItem('clairvyn_user');
-    const guestMode = localStorage.getItem("guest") === "true";
+    const guestMode = typeof window !== "undefined" && localStorage.getItem("guest") === "true"
+    setIsGuest(guestMode)
 
-    if (storedUser) {
-      try {
-        setUser(JSON.parse(storedUser));
-      } catch (e) {
-        console.error("Failed to parse stored user", e);
-        localStorage.removeItem('clairvyn_user');
-      }
-    }
+    const unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
+      setUser(firebaseUser)
+      setLoading(false)
+    })
 
-    setIsGuest(guestMode);
-    setLoading(false);
-  }, []);
+    return () => unsubscribe()
+  }, [])
 
   const enterGuestMode = () => {
-    localStorage.setItem("guest", "true");
-    setIsGuest(true);
-  };
+    if (typeof window !== "undefined") {
+      localStorage.setItem("guest", "true")
+    }
+    setIsGuest(true)
+  }
 
   const exitGuestMode = () => {
-    localStorage.removeItem("guest");
-    localStorage.removeItem("guestChats");
-    setIsGuest(false);
-  };
+    if (typeof window !== "undefined") {
+      localStorage.removeItem("guest")
+      localStorage.removeItem("guestChats")
+    }
+    setIsGuest(false)
+  }
 
   const migrateGuestChats = async () => {
-    // In this local-storage migration, we might just rename keys or merge arrays
-    // For now, since everything is local storage, "guest chats" are just chats without a User ID potentially?
-    // Or we keep them separate. Code below just acknowledges the function exists.
-    console.log("Migrating guest chats (mock implementation)");
-    localStorage.removeItem("guestChats"); // Clear legacy guest chats after "migration"
-    localStorage.removeItem("guest");
-    setIsGuest(false);
-  };
+    if (typeof window !== "undefined") {
+      localStorage.removeItem("guestChats")
+      localStorage.removeItem("guest")
+    }
+    setIsGuest(false)
+  }
 
   const signIn = async (email: string, password: string) => {
-    // Mock sigh in
-    await new Promise(resolve => setTimeout(resolve, 500)); // Simulate network delay
-    const mockUser: User = {
-      uid: uuidv4(),
-      email,
-      displayName: email.split('@')[0],
-      photoURL: null
-    };
-    setUser(mockUser);
-    localStorage.setItem('clairvyn_user', JSON.stringify(mockUser));
-    await migrateGuestChats();
-  };
+    await signInWithEmailAndPassword(auth, email, password)
+    await migrateGuestChats()
+  }
 
   const signUp = async (email: string, password: string) => {
-    // Mock sign up - same as sign in for this demo
-    await signIn(email, password);
-  };
+    await createUserWithEmailAndPassword(auth, email, password)
+    await migrateGuestChats()
+    console.log("Signed up with email:", email)
+  }
 
   const signInWithGoogle = async () => {
-    await new Promise(resolve => setTimeout(resolve, 500));
-    const mockUser: User = {
-      uid: uuidv4(),
-      email: 'user@gmail.com',
-      displayName: 'Google User',
-      photoURL: null
-    };
-    setUser(mockUser);
-    localStorage.setItem('clairvyn_user', JSON.stringify(mockUser));
-    await migrateGuestChats();
-  };
+    const provider = new GoogleAuthProvider()
+    await signInWithPopup(auth, provider)
+    await migrateGuestChats()
+    console.log("Signed in with Google")
+  }
 
   const signInWithGithub = async () => {
-    await new Promise(resolve => setTimeout(resolve, 500));
-    const mockUser: User = {
-      uid: uuidv4(),
-      email: 'user@github.com',
-      displayName: 'GitHub User',
-      photoURL: null
-    };
-    setUser(mockUser);
-    localStorage.setItem('clairvyn_user', JSON.stringify(mockUser));
-    await migrateGuestChats();
-  };
+    const provider = new GithubAuthProvider()
+    await signInWithPopup(auth, provider)
+    await migrateGuestChats()
+    console.log("Signed in with GitHub")
+  }
 
   const logout = async () => {
-    setUser(null);
-    localStorage.removeItem('clairvyn_user');
+    await signOut(auth)
     if (isGuest) {
-      exitGuestMode();
+      exitGuestMode()
     }
-  };
+  }
+
+  const getIdToken = useCallback(
+    async (forceRefresh = false): Promise<string | null> => {
+      if (!auth.currentUser) return null
+      try {
+        return await auth.currentUser.getIdToken(forceRefresh)
+      } catch (e) {
+        console.error("Failed to get ID token", e)
+        return null
+      }
+    },
+    []
+  )
 
   const value = {
     user,
@@ -136,20 +128,20 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     enterGuestMode,
     exitGuestMode,
     migrateGuestChats,
-  };
+    getIdToken,
+  }
 
   return (
     <AuthContext.Provider value={value}>
       {children}
     </AuthContext.Provider>
-  );
+  )
 }
 
 export function useAuth() {
-  const context = useContext(AuthContext);
+  const context = useContext(AuthContext)
   if (context === undefined) {
-    throw new Error('useAuth must be used within an AuthProvider');
+    throw new Error("useAuth must be used within an AuthProvider")
   }
-  return context;
+  return context
 }
-
