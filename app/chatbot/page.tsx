@@ -31,7 +31,8 @@ import {
   Loader2,
   ThumbsUp,
   ThumbsDown,
-  ChevronLeft
+  ChevronLeft,
+  Trash2,
 } from "lucide-react"
 import ReactMarkdown from "react-markdown"
 import Link from "next/link"
@@ -50,7 +51,8 @@ import {
   saveGuestChats,
   clearGuestChats,
   getUserChatSessions,
-  getChatMessages
+  getChatMessages,
+  deleteChatSession,
 } from "@/lib/chat-service"
 import { apiFetch, getBackendUrl } from "@/lib/backendApi"
 
@@ -500,23 +502,56 @@ export default function ChatbotPage() {
     }
   }
 
+  const downloadPng = async (documentId: string) => {
+    const chatId = backendChatId ?? currentChatId
+    if (!chatId) {
+      console.warn("[Clairvyn] downloadPng: no chatId");
+      return
+    }
+    const token = await getIdToken()
+    if (!token) {
+      console.warn("[Clairvyn] downloadPng: no token");
+      return
+    }
+    try {
+      const url = getBackendUrl(`/api/chats/${encodeURIComponent(chatId)}/files/${documentId}.png`)
+      const res = await fetch(url, { headers: { Authorization: `Bearer ${token}` } })
+      if (!res.ok) throw new Error(res.statusText)
+      const blob = await res.blob()
+      const href = URL.createObjectURL(blob)
+      const a = document.createElement("a")
+      a.href = href
+      a.download = `${documentId}.png`
+      document.body.appendChild(a)
+      a.click()
+      a.remove()
+      URL.revokeObjectURL(href)
+    } catch (e) {
+      console.error("[Clairvyn] downloadPng failed", { documentId, error: e });
+    }
+  }
+
   const handleLogout = async () => {
     console.log("[Clairvyn] handleLogout");
+    // Notify backend for auditing (optional; don't block sign-out if it fails)
     try {
       const idToken = await getIdToken()
-      const res = await fetch(getBackendUrl("/api/logout"), {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${idToken}`,
-        },
-      })
-      console.log("[Clairvyn] handleLogout: backend response", { status: res.status });
-      await logout()
-      router.push("/")
-    } catch (error) {
-      console.error("[Clairvyn] handleLogout error", error)
+      if (idToken) {
+        const res = await fetch(getBackendUrl("/api/logout"), {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${idToken}`,
+          },
+        })
+        console.log("[Clairvyn] handleLogout: backend response", { status: res.status })
+      }
+    } catch (e) {
+      console.warn("[Clairvyn] handleLogout: backend logout failed (continuing)", e)
     }
+    // Always sign out from Firebase and send user to landing page
+    await logout()
+    router.replace("/")
   }
 
   const handleSignIn = () => {
@@ -561,6 +596,23 @@ export default function ChatbotPage() {
       setChatSessions([])
     } finally {
       setHistoryLoading(false)
+    }
+  }
+
+  const handleDeleteChat = async (e: React.MouseEvent, sessionId: string) => {
+    e.stopPropagation()
+    const token = await getIdToken()
+    const ok = await deleteChatSession(sessionId, token ?? null)
+    if (!ok) return
+    setChatSessions((prev) => prev.filter((s) => s.id !== sessionId))
+    if (currentChatId === sessionId) {
+      setMessages([])
+      setHasStarted(false)
+      setBackendChatId(null)
+      if (user) {
+        const newId = await createChatSession(user.uid)
+        setCurrentChatId(newId)
+      }
     }
   }
 
@@ -1003,25 +1055,40 @@ export default function ChatbotPage() {
                             const isActive = session.id === currentChatId
 
                             return (
-                              <button
+                              <div
                                 key={session.id}
-                                onClick={() => loadChatSession(session.id)}
-                                className={`w-full p-3 rounded-lg text-left transition-colors ${
+                                className={`flex items-center gap-2 rounded-lg transition-colors ${
                                   isActive
-                                    ? "bg-teal-100 dark:bg-teal-900/30 text-teal-700 dark:text-teal-300 border border-teal-200 dark:border-teal-800"
-                                    : "hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-700 dark:text-gray-200"
+                                    ? "bg-teal-100 dark:bg-teal-900/30 border border-teal-200 dark:border-teal-800"
+                                    : "hover:bg-gray-100 dark:hover:bg-gray-800"
                                 }`}
                               >
-                                <p className="font-medium text-sm truncate">{displayPreview}</p>
-                                <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
-                                  {new Date(session.updatedAt).toLocaleDateString(undefined, {
-                                    month: "short",
-                                    day: "numeric",
-                                    hour: "2-digit",
-                                    minute: "2-digit"
-                                  })}
-                                </p>
-                              </button>
+                                <button
+                                  type="button"
+                                  onClick={() => loadChatSession(session.id)}
+                                  className={`flex-1 min-w-0 p-3 text-left ${
+                                    isActive ? "text-teal-700 dark:text-teal-300" : "text-gray-700 dark:text-gray-200"
+                                  }`}
+                                >
+                                  <p className="font-medium text-sm truncate">{displayPreview}</p>
+                                  <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
+                                    {new Date(session.updatedAt).toLocaleDateString(undefined, {
+                                      month: "short",
+                                      day: "numeric",
+                                      hour: "2-digit",
+                                      minute: "2-digit"
+                                    })}
+                                  </p>
+                                </button>
+                                <button
+                                  type="button"
+                                  onClick={(e) => handleDeleteChat(e, session.id)}
+                                  className="p-2 rounded-md text-gray-400 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors shrink-0"
+                                  title="Delete chat"
+                                >
+                                  <Trash2 className="w-4 h-4" />
+                                </button>
+                              </div>
                             )
                           })}
                         </div>
@@ -1088,15 +1155,26 @@ export default function ChatbotPage() {
                         )
                       })()}
                       {((message as any).extra_data?.dxf_url || (message as any).extra_data?.document_id) && (
-                        <Button
-                          type="button"
-                          variant="outline"
-                          size="sm"
-                          className="w-fit text-teal-600 dark:text-teal-400 border-teal-300 dark:border-teal-700"
-                          onClick={() => downloadDxf((message as any).extra_data?.document_id || (message as any).extra_data?.dxf_url?.split("/").pop()?.replace(".dxf", "") || "floorplan")}
-                        >
-                          Download DXF file
-                        </Button>
+                        <div className="flex flex-wrap gap-2">
+                          <Button
+                            type="button"
+                            variant="outline"
+                            size="sm"
+                            className="w-fit text-teal-600 dark:text-teal-400 border-teal-300 dark:border-teal-700"
+                            onClick={() => downloadPng((message as any).extra_data?.document_id || "floorplan")}
+                          >
+                            Download image
+                          </Button>
+                          <Button
+                            type="button"
+                            variant="outline"
+                            size="sm"
+                            className="w-fit text-teal-600 dark:text-teal-400 border-teal-300 dark:border-teal-700"
+                            onClick={() => downloadDxf((message as any).extra_data?.document_id || (message as any).extra_data?.dxf_url?.split("/").pop()?.replace(".dxf", "") || "floorplan")}
+                          >
+                            Download DXF file
+                          </Button>
+                        </div>
                       )}
 
                       {(message as any).description && (

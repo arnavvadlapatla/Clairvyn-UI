@@ -8,15 +8,28 @@ import Link from "next/link"
 import Image from "next/image"
 import { useAuth } from "@/contexts/AuthContext"
 import { useRouter } from "next/navigation"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 
 
 export default function HomePage() {
-  const { user, enterGuestMode } = useAuth()
+  const { user, loading, enterGuestMode } = useAuth()
   const router = useRouter()
   const [aboutOpen, setAboutOpen] = useState(false)
   const [termsOpen, setTermsOpen] = useState(false)
-  
+
+  // Prefetch chatbot so redirect feels instant
+  useEffect(() => {
+    router.prefetch("/chatbot")
+  }, [router])
+
+  // If already logged in, redirect to chat screen immediately
+  useEffect(() => {
+    if (loading) return
+    if (user) {
+      router.replace("/chatbot")
+    }
+  }, [user, loading, router])
+
   const handleTryIt = () => {
     console.log('handleTryIt called')
     if (user) {
@@ -27,7 +40,16 @@ export default function HomePage() {
       router.push("/signin")
     }
   }
-  
+
+  // Don't show landing page while checking auth — logged-in users go straight to chat
+  if (loading || user) {
+    return (
+      <div className="min-h-screen bg-white dark:bg-black flex items-center justify-center">
+        <div className="animate-pulse text-gray-400 dark:text-gray-500 text-sm">Loading...</div>
+      </div>
+    )
+  }
+
   return (
     <div className="min-h-screen bg-white dark:bg-black relative overflow-hidden overflow-x-hidden">
       {/* Static Architectural Background - Light Mode Only */}

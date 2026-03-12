@@ -253,6 +253,32 @@ export const simulateAIResponse = async (userMessage: string): Promise<string> =
   }
 };
 
+// Delete a chat session (backend + local). Requires token for backend delete.
+export const deleteChatSession = async (
+  chatId: string,
+  token: string | null
+): Promise<boolean> => {
+  if (token) {
+    try {
+      await apiFetch(`/api/chats/${encodeURIComponent(chatId)}`, {
+        method: "DELETE",
+        token,
+      });
+    } catch (err) {
+      console.warn("[Clairvyn:chat] deleteChatSession backend failed", { chatId, err });
+      return false;
+    }
+  }
+  try {
+    const sessions = getSessionsFromStorage().filter((s) => s.id !== chatId);
+    saveSessionsToStorage(sessions);
+    return true;
+  } catch (error) {
+    console.error("[Clairvyn:chat] deleteChatSession local update error", { chatId, error });
+    return false;
+  }
+};
+
 // Replace messages for a chat session (used after syncing with backend)
 export const setChatMessages = async (
   chatId: string,
