@@ -8,8 +8,10 @@ import { useRouter } from "next/navigation"
 import { useAuth } from "@/contexts/AuthContext"
 
 import { Button } from "@/components/ui/button"
+import { Checkbox } from "@/components/ui/checkbox"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
+import { TermsOfServiceModal } from "@/components/TermsOfServiceModal"
 import { Eye, EyeOff, Home } from "lucide-react"
 
 function GoogleMark() {
@@ -43,6 +45,8 @@ export default function SignUpPage() {
   const [showPassword, setShowPassword] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState("")
+  const [acceptedTerms, setAcceptedTerms] = useState(false)
+  const [termsOpen, setTermsOpen] = useState(false)
 
   const { signUp, signInWithGoogle } = useAuth()
   const router = useRouter()
@@ -61,6 +65,10 @@ export default function SignUpPage() {
         setError("Please enter your university.")
         return
       }
+      if (!acceptedTerms) {
+        setError("Please accept the Terms and Conditions to continue.")
+        return
+      }
 
       await signUp(email, password)
       router.push("/chatbot")
@@ -76,6 +84,10 @@ export default function SignUpPage() {
     setError("")
 
     try {
+      if (!acceptedTerms) {
+        setError("Please accept the Terms and Conditions to continue.")
+        return
+      }
       await signInWithGoogle()
       router.push("/chatbot")
     } catch (error: any) {
@@ -201,6 +213,31 @@ export default function SignUpPage() {
                 </div>
               )}
 
+              <div className="flex items-start gap-3 rounded-xl border border-gray-100 bg-white/60 p-3">
+                <Checkbox
+                  id="accept-terms"
+                  checked={acceptedTerms}
+                  onCheckedChange={(checked) => {
+                    setAcceptedTerms(checked === true)
+                    if (checked) setError("")
+                  }}
+                  className="mt-0.5 h-5 w-5 shrink-0 rounded-md border-2 border-[#1E3A8A] data-[state=checked]:bg-[#1E3A8A] data-[state=checked]:border-[#1E3A8A] data-[state=checked]:text-white"
+                />
+                <p className="text-sm leading-snug text-gray-700">
+                  <label htmlFor="accept-terms" className="cursor-pointer">
+                    By registering, you agree to our{" "}
+                  </label>
+                  <button
+                    type="button"
+                    className="font-semibold text-[#1E3A8A] underline underline-offset-2 hover:text-[#1e40af] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#1E3A8A] rounded"
+                    onClick={() => setTermsOpen(true)}
+                  >
+                    Terms and Conditions
+                  </button>
+                  <span className="text-gray-700">.</span>
+                </p>
+              </div>
+
               <Button
                 type="submit"
                 disabled={isLoading}
@@ -214,10 +251,6 @@ export default function SignUpPage() {
                   "Sign up"
                 )}
               </Button>
-
-              <p className="text-[11px] text-gray-500 -mt-1 text-center">
-                By registering you with our <span className="font-semibold">Terms and Conditions</span>
-              </p>
             </form>
 
             <div className="mt-6">
@@ -247,6 +280,8 @@ export default function SignUpPage() {
           </div>
         </div>
       </div>
+
+      <TermsOfServiceModal open={termsOpen} onClose={() => setTermsOpen(false)} />
     </div>
   )
 }

@@ -27,8 +27,7 @@ export default function PricingPage() {
           <div className="mt-4 rounded-2xl border border-black/5 bg-white/70 backdrop-blur dark:border-white/10 dark:bg-black/40">
             <div className="flex items-center justify-between px-4 py-3 md:px-6">
               <Link href="/" className="flex items-center gap-2">
-                <Image src="/light.jpeg" alt="Clairvyn" width={120} height={40} className="dark:hidden" priority />
-                <Image src="/dark.jpeg" alt="Clairvyn" width={120} height={40} className="hidden dark:block" priority />
+                <Image src="/light.png" alt="Clairvyn" width={120} height={40} className="dark:hidden" priority />
               </Link>
 
               <nav className="hidden md:flex items-center gap-8 text-sm font-medium text-gray-700 dark:text-gray-200">
@@ -105,7 +104,7 @@ export default function PricingPage() {
               </ul>
 
               <button className="mt-8 w-full rounded-full bg-[#88a2ff]/85 py-3 text-base font-semibold text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.35)] hover:bg-[#96adff] transition-colors">
-                Choose plan
+                Coming Soon !!
               </button>
             </article>
           </div>
