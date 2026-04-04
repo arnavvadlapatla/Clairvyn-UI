@@ -35,7 +35,6 @@ import {
 import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { motion, AnimatePresence } from "framer-motion"
-import { EnarcLogoSmall } from "@/components/enarc-logo"
 
 interface ChallengeIssue {
   id: number
@@ -288,7 +287,6 @@ export default function FeedbackPage() {
               </Button>
             </Link>
             <div className="flex items-center gap-3">
-              <EnarcLogoSmall size={32} />
               <div>
                 <h1 className="text-3xl font-black text-charcoal">Challenge Complete!</h1>
                 <p className="text-gray-600 font-medium">{feedbackData.challengeTitle}</p>
