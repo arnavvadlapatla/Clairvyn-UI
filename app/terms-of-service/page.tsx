@@ -1,5 +1,7 @@
 import type { Metadata } from "next"
 
+import { LegalDocumentPage } from "@/components/legal/LegalDocumentPage"
+
 export const metadata: Metadata = {
   title: "Terms of Service | Clairvyn",
   description: "Terms of Service for Clairvyn Private Limited",
@@ -127,14 +129,10 @@ Website	www.clairvyn.com
 
 export default function TermsOfServicePage() {
   return (
-    <div className="min-h-screen bg-white text-gray-900">
-      <div className="mx-auto max-w-4xl px-4 py-4">
-        <h1 className="text-[12px] font-semibold leading-tight m-0 mb-0.5">Terms of Service</h1>
-        <p className="text-[12px] leading-tight m-0 mb-1">Effective Date: 14 March 2026</p>
-        <pre className="m-0 p-0 border-0 bg-transparent font-sans text-[11px] leading-[1.2] whitespace-pre-wrap text-gray-900 overflow-x-auto">
-          {termsBody}
-        </pre>
-      </div>
-    </div>
+    <LegalDocumentPage
+      title="Terms of Service"
+      effectiveDate="Effective Date: 14 March 2026"
+      body={termsBody}
+    />
   )
 }

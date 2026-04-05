@@ -19,6 +19,16 @@ const config: Config = {
       },
     },
     extend: {
+      screens: {
+        /**
+         * `touch:` → max-width 768px. Use with `desktop:` (min 769px).
+         * Global CSS helpers in app/globals.css @layer utilities: .touch-safe-x, .touch-scroll-y,
+         * .touch-hit-target, .touch-text-comfortable (same breakpoint).
+         */
+        touch: { max: "768px" },
+        /** Desktop layout from 769px */
+        desktop: "769px",
+      },
       colors: {
         // Custom color palette
         teal: {

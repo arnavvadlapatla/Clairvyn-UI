@@ -31,20 +31,20 @@ export default function AboutPage() {
 
       <LandingHeader />
 
-      <main className="container mx-auto px-4 pt-28 md:pt-36 pb-20 relative z-10">
-        <div className="max-w-3xl mx-auto">
+      <main className="relative z-10 mx-auto w-full max-w-full touch-safe-x touch:pb-16 touch:pt-24 desktop:container desktop:px-4 desktop:pb-20 desktop:pt-36">
+        <div className="mx-auto max-w-3xl">
           <motion.div
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.45, ease: "easeOut" }}
           >
-            <p className="text-xs font-semibold tracking-widest text-gray-600 mb-3">
+            <p className="mb-3 text-[11px] font-semibold uppercase tracking-[0.2em] text-gray-600 touch:tracking-[0.2em] desktop:text-xs desktop:tracking-widest">
               CLAIRVYN
             </p>
-            <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight text-[#0b1a3c]">
+            <h1 className="font-extrabold tracking-tight text-[#0b1a3c] touch:text-[1.65rem] touch:leading-snug desktop:text-5xl">
               About us
             </h1>
-            <p className="mt-4 text-lg text-gray-600 leading-relaxed">
+            <p className="mt-4 text-lg leading-relaxed text-gray-600">
             Clairvyn creates AI powered CAD software. Our mission is to democratise access to spatially aware artificial intelligence, empowering human creativity and innovation.
             </p>
           </motion.div>
@@ -53,7 +53,7 @@ export default function AboutPage() {
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, ease: "easeOut", delay: 0.06 }}
-            className="mt-10 space-y-5 text-base text-gray-600 leading-relaxed"
+            className="mt-8 space-y-5 text-base leading-relaxed text-gray-600 touch:space-y-6 touch:text-base desktop:mt-10"
           >
             <p>
               Clairvyn sits at the intersection of architecture education and AI: we care about precision, iteration,
@@ -70,15 +70,15 @@ export default function AboutPage() {
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, ease: "easeOut", delay: 0.12 }}
-            className="mt-12 grid grid-cols-1 gap-4 md:grid-cols-3 md:gap-5"
+            className="mt-10 grid grid-cols-1 touch:mt-10 touch:gap-5 gap-4 desktop:mt-12 desktop:grid-cols-3 desktop:gap-5"
           >
             {highlights.map((item) => (
               <li
                 key={item.title}
-                className="rounded-[22px] border border-black/8 bg-white/70 backdrop-blur-md px-5 py-6 shadow-[0_16px_48px_rgba(30,43,214,0.06)]"
+                className="rounded-2xl border border-black/8 bg-white/70 px-5 py-6 shadow-[0_16px_48px_rgba(30,43,214,0.06)] backdrop-blur-md desktop:rounded-[22px]"
               >
-                <h2 className="text-sm font-bold text-[#0b1a3c]">{item.title}</h2>
-                <p className="mt-2 text-sm text-gray-600 leading-relaxed">{item.text}</p>
+                <h2 className="text-base font-bold text-[#0b1a3c] desktop:text-sm">{item.title}</h2>
+                <p className="mt-2 text-base leading-relaxed text-gray-600 desktop:text-sm">{item.text}</p>
               </li>
             ))}
           </motion.ul>
@@ -87,23 +87,23 @@ export default function AboutPage() {
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, ease: "easeOut", delay: 0.18 }}
-            className="mt-14 flex flex-col sm:flex-row sm:flex-wrap items-start sm:items-center gap-4"
+            className="mt-12 flex flex-col items-stretch touch:mt-14 touch:gap-4 gap-3 desktop:mt-14 desktop:flex-row desktop:flex-wrap desktop:items-center desktop:gap-4"
           >
             <Link
               href="/signup"
-              className="inline-flex rounded-full bg-[#1e2bd6] px-7 py-3.5 text-sm font-semibold text-white shadow-md hover:shadow-lg transition-shadow"
+              className="flex h-12 w-full min-h-12 touch:w-full items-center justify-center rounded-full bg-[#1e2bd6] px-7 text-base font-semibold text-white shadow-md transition-shadow hover:shadow-lg desktop:inline-flex desktop:h-auto desktop:w-auto desktop:min-h-0 desktop:py-3.5 desktop:text-sm"
             >
               Get started
             </Link>
             <Link
               href="/pricing"
-              className="inline-flex text-sm font-semibold text-[#1e2bd6] hover:underline"
+              className="flex h-12 w-full items-center justify-center rounded-full border border-[#1e2bd6]/25 text-base font-semibold text-[#1e2bd6] transition-colors hover:bg-[#1e2bd6]/5 hover:underline desktop:inline-flex desktop:h-auto desktop:w-auto desktop:border-0 desktop:py-0 desktop:text-sm"
             >
               View pricing
             </Link>
             <a
               href="mailto:hello@clairvyn.com"
-              className="inline-flex text-sm font-semibold text-gray-600 hover:text-[#1e2bd6] transition-colors"
+              className="flex min-h-12 w-full items-center justify-center text-base font-semibold text-gray-600 transition-colors hover:text-[#1e2bd6] desktop:inline-flex desktop:w-auto desktop:min-h-0 desktop:justify-start desktop:text-sm"
             >
               hello@clairvyn.com
             </a>
@@ -115,7 +115,10 @@ export default function AboutPage() {
             transition={{ duration: 0.45, delay: 0.22 }}
             className="mt-12"
           >
-            <Link href="/" className="text-sm font-semibold text-[#1e2bd6] hover:underline">
+            <Link
+              href="/"
+              className="inline-flex min-h-12 items-center text-base font-semibold text-[#1e2bd6] hover:underline desktop:min-h-0 desktop:text-sm"
+            >
               ← Back to home
             </Link>
           </motion.p>

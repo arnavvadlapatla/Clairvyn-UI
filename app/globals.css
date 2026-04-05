@@ -156,6 +156,32 @@ html.dark body::-webkit-scrollbar-thumb:hover {
   }
 }
 
+/* ≤768px helpers — use with `desktop:` / `min-[769px]:` in components */
+@layer utilities {
+  @media (max-width: 768px) {
+    .touch-safe-x {
+      padding-left: max(1rem, env(safe-area-inset-left, 0px));
+      padding-right: max(1rem, env(safe-area-inset-right, 0px));
+    }
+
+    .touch-scroll-y {
+      -webkit-overflow-scrolling: touch;
+      overflow-y: auto;
+      overscroll-behavior-y: contain;
+    }
+
+    .touch-hit-target {
+      min-height: 48px;
+      min-width: 48px;
+    }
+
+    .touch-text-comfortable {
+      font-size: 1.0625rem;
+      line-height: 1.55;
+    }
+  }
+}
+
 @layer components {
   .text-charcoal {
     @apply text-charcoal-950;
@@ -224,8 +250,8 @@ html.dark body::-webkit-scrollbar-thumb:hover {
     100% { background-position: 200% center; }
   }
 
-  /* Target logo specifically */
-  header img,
+  /* Target logo specifically (exclude marketing landing header — it sizes the logo per breakpoint) */
+  header:not(.landing-header) img,
   .navbar img,
   .logo img {
     height: 45px !important;

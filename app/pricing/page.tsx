@@ -37,21 +37,21 @@ export default function PricingPage() {
 
       <LandingHeader />
 
-      <main className="container mx-auto px-4 pt-28 md:pt-36 pb-20 relative z-10">
-        <div className="max-w-5xl mx-auto">
+      <main className="relative z-10 mx-auto w-full max-w-full touch-safe-x touch:pb-16 touch:pt-24 desktop:container desktop:px-4 desktop:pb-20 desktop:pt-36">
+        <div className="mx-auto max-w-5xl">
           <motion.div
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.45, ease: "easeOut" }}
-            className="text-center md:text-left"
+            className="text-center desktop:text-left"
           >
-            <p className="text-xs font-semibold tracking-widest text-gray-600 mb-3">
+            <p className="mb-3 text-[11px] font-semibold uppercase tracking-[0.2em] text-gray-600 desktop:text-xs desktop:tracking-widest">
               PLANS &amp; PRICING
             </p>
-            <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight text-[#0b1a3c]">
+            <h1 className="font-extrabold tracking-tight text-[#0b1a3c] touch:text-[1.65rem] touch:leading-snug desktop:text-5xl">
               Simple plans for every studio
             </h1>
-            <p className="mt-4 max-w-2xl mx-auto md:mx-0 text-lg text-gray-600 leading-relaxed">
+            <p className="mx-auto mt-4 max-w-2xl text-lg leading-relaxed text-gray-600 touch:mt-5 desktop:mx-0 desktop:mt-4">
               Start free and upgrade when you need deeper workflows, more prompts, and team-ready controls.
             </p>
           </motion.div>
@@ -60,10 +60,10 @@ export default function PricingPage() {
             initial={{ opacity: 0, y: 14 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, ease: "easeOut", delay: 0.06 }}
-            className="mt-12 grid w-full gap-6 md:grid-cols-2 md:gap-8"
+            className="mt-10 grid w-full grid-cols-1 touch:mt-11 touch:gap-7 gap-6 desktop:mt-12 desktop:grid-cols-2 desktop:gap-8"
             aria-label="Pricing tiers"
           >
-            <article className="flex flex-col rounded-[28px] border border-black/8 bg-white/70 backdrop-blur-md p-8 shadow-[0_16px_48px_rgba(30,43,214,0.08)]">
+            <article className="flex flex-col rounded-2xl border border-black/8 bg-white/70 p-6 shadow-[0_16px_48px_rgba(30,43,214,0.08)] backdrop-blur-md desktop:rounded-[28px] desktop:p-8">
               <div className="flex items-center justify-between gap-3">
                 <h2 className="text-xl font-bold text-[#0b1a3c]">Basic</h2>
                 <span className="rounded-full border border-black/10 bg-gray-50 px-3 py-1 text-[10px] font-bold tracking-widest text-gray-600">
@@ -75,7 +75,7 @@ export default function PricingPage() {
               </p>
 
               <div className="mt-6 flex items-baseline gap-1">
-                <span className="text-4xl md:text-5xl font-extrabold tracking-tight text-[#0b1a3c]">
+                <span className="text-4xl font-extrabold tracking-tight text-[#0b1a3c] desktop:text-5xl">
                   Free
                 </span>
               </div>
@@ -101,13 +101,13 @@ export default function PricingPage() {
 
               <Link
                 href="/signup"
-                className="mt-8 inline-flex w-full items-center justify-center rounded-full border border-black/10 bg-white px-6 py-3.5 text-sm font-semibold text-[#0b1a3c] shadow-sm hover:bg-gray-50 transition-colors"
+                className="mt-8 flex h-12 w-full items-center justify-center rounded-full border border-black/10 bg-white px-6 text-base font-semibold text-[#0b1a3c] shadow-sm transition-colors hover:bg-gray-50 desktop:h-auto desktop:py-3.5 desktop:text-sm"
               >
                 Get started free
               </Link>
             </article>
 
-            <article className="relative flex flex-col rounded-[28px] border border-[#1e2bd6]/25 bg-gradient-to-b from-white to-[#eef0ff] backdrop-blur-md p-8 shadow-[0_24px_70px_rgba(30,43,214,0.14)] ring-1 ring-[#1e2bd6]/10">
+            <article className="relative flex flex-col rounded-2xl border border-[#1e2bd6]/25 bg-gradient-to-b from-white to-[#eef0ff] p-6 shadow-[0_24px_70px_rgba(30,43,214,0.14)] ring-1 ring-[#1e2bd6]/10 backdrop-blur-md desktop:rounded-[28px] desktop:p-8">
               <div className="absolute -top-px left-8 right-8 h-px bg-gradient-to-r from-transparent via-[#1e2bd6]/40 to-transparent" aria-hidden />
               <div className="flex items-center justify-between gap-3">
                 <h2 className="text-xl font-bold text-[#0b1a3c]">Company</h2>
@@ -121,7 +121,7 @@ export default function PricingPage() {
 
               <div className="mt-6 flex flex-wrap items-baseline gap-1">
                 <span className="text-lg font-semibold text-gray-500">₹</span>
-                <span className="text-4xl md:text-5xl font-extrabold tracking-tight text-[#0b1a3c]">299</span>
+                <span className="text-4xl font-extrabold tracking-tight text-[#0b1a3c] desktop:text-5xl">299</span>
                 <span className="text-base font-medium text-gray-600">/month</span>
               </div>
               <p className="mt-1 text-sm text-gray-500">Billed monthly · cancel anytime</p>
@@ -143,7 +143,7 @@ export default function PricingPage() {
               <button
                 type="button"
                 onClick={() => setWaitlistOpen(true)}
-                className="mt-8 inline-flex w-full items-center justify-center rounded-full bg-[#1e2bd6] px-6 py-3.5 text-sm font-semibold text-white shadow-md hover:shadow-lg transition-shadow"
+                className="mt-8 flex h-12 w-full items-center justify-center rounded-full bg-[#1e2bd6] px-6 text-base font-semibold text-white shadow-md transition-shadow hover:shadow-lg desktop:h-auto desktop:py-3.5 desktop:text-sm"
               >
                 Join waitlist
               </button>
@@ -156,9 +156,12 @@ export default function PricingPage() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.45, delay: 0.14 }}
-            className="mt-14 text-center md:text-left"
+            className="mt-12 text-center desktop:mt-14 desktop:text-left"
           >
-            <Link href="/" className="text-sm font-semibold text-[#1e2bd6] hover:underline">
+            <Link
+              href="/"
+              className="inline-flex min-h-12 items-center justify-center text-base font-semibold text-[#1e2bd6] hover:underline desktop:min-h-0 desktop:justify-start desktop:text-sm"
+            >
               ← Back to home
             </Link>
           </motion.p>

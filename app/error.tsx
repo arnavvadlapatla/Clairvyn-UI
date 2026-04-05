@@ -14,13 +14,16 @@ export default function Error({
   }, [error])
 
   return (
-    <div className="min-h-screen bg-black text-white flex items-center justify-center">
-      <div className="text-center">
-        <h2 className="text-2xl font-bold mb-4">Something went wrong!</h2>
-        <p className="text-gray-400 mb-6">An error occurred while loading this page.</p>
+    <div className="flex min-h-screen items-center justify-center bg-black px-6 py-10 text-white">
+      <div className="w-full max-w-md text-center">
+        <h2 className="mb-3 text-2xl font-bold sm:text-3xl">Something went wrong!</h2>
+        <p className="mb-8 text-base leading-relaxed text-gray-400">
+          An error occurred while loading this page.
+        </p>
         <button
+          type="button"
           onClick={reset}
-          className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+          className="inline-flex h-12 w-full max-w-sm items-center justify-center rounded-lg bg-blue-600 px-6 text-base font-bold text-white hover:bg-blue-700 min-[769px]:w-auto min-[769px]:py-3"
         >
           Try again
         </button>

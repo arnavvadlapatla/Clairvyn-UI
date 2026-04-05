@@ -1,5 +1,7 @@
 import type { Metadata } from "next"
 
+import { LegalDocumentPage } from "@/components/legal/LegalDocumentPage"
+
 export const metadata: Metadata = {
   title: "Privacy Policy | Clairvyn",
   description: "Privacy Policy for Clairvyn Private Limited",
@@ -126,14 +128,10 @@ Address	No.136/1, No.8/9, Parvallal Street, Murugappa Nagar, Ennore RS, Ambattur
 
 export default function PrivacyPolicyPage() {
   return (
-    <div className="min-h-screen bg-white text-gray-900">
-      <div className="mx-auto max-w-4xl px-4 py-4">
-        <h1 className="text-[12px] font-semibold leading-tight m-0 mb-0.5">Privacy Policy</h1>
-        <p className="text-[12px] leading-tight m-0 mb-1">Effective Date: 14 March 2026</p>
-        <pre className="m-0 p-0 border-0 bg-transparent font-sans text-[11px] leading-[1.2] whitespace-pre-wrap text-gray-900 overflow-x-auto">
-          {policyBody}
-        </pre>
-      </div>
-    </div>
+    <LegalDocumentPage
+      title="Privacy Policy"
+      effectiveDate="Effective Date: 14 March 2026"
+      body={policyBody}
+    />
   )
 }

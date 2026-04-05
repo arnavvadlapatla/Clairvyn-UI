@@ -1276,7 +1276,7 @@ export default function ChatbotPage() {
               exit={{ opacity: 0, y: -20 }}
               transition={{ duration: 0.6 }}
             >
-              <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-charcoal dark:text-white mb-2 px-4">
+              <h2 className="mb-2 px-4 text-2xl font-bold text-charcoal sm:text-3xl min-[769px]:text-4xl dark:text-white">
                 Let's Build Something Together!
               </h2>
             </motion.div>

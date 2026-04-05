@@ -1,5 +1,7 @@
 import type { Metadata } from "next"
 
+import { LegalDocumentPage } from "@/components/legal/LegalDocumentPage"
+
 export const metadata: Metadata = {
   title: "Consent Notice | Clairvyn",
   description: "Consent Notice for Clairvyn Private Limited (DPDPA Section 5)",
@@ -66,14 +68,10 @@ Consent is obtained through the Data Principal's affirmative act of checking the
 
 export default function ConsentNoticePage() {
   return (
-    <div className="min-h-screen bg-white text-gray-900">
-      <div className="mx-auto max-w-4xl px-4 py-4">
-        <h1 className="text-[12px] font-semibold leading-tight m-0 mb-0.5">Consent Notice</h1>
-        <p className="text-[12px] leading-tight m-0 mb-1">Effective Date: 14 March 2026</p>
-        <pre className="m-0 p-0 border-0 bg-transparent font-sans text-[11px] leading-[1.2] whitespace-pre-wrap text-gray-900 overflow-x-auto">
-          {consentBody}
-        </pre>
-      </div>
-    </div>
+    <LegalDocumentPage
+      title="Consent Notice"
+      effectiveDate="Effective Date: 14 March 2026"
+      body={consentBody}
+    />
   )
 }

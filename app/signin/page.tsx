@@ -80,32 +80,33 @@ export default function SignInPage() {
       <div className="absolute inset-0 bg-[url('/login_bg.png')] bg-cover bg-center" />
       <div className="absolute inset-0 bg-gradient-to-r from-white/90 via-white/65 to-white/20" />
       {/* Backdrop blur only on the right half of the screen */}
-      <div className="hidden md:block absolute right-0 top-0 h-full w-1/2 bg-white/25 backdrop-blur-lg"
+      <div
+        className="absolute right-0 top-0 hidden h-full w-1/2 bg-white/25 backdrop-blur-lg desktop:block"
         style={{
           WebkitMaskImage: "linear-gradient(to right, rgba(0,0,0,0) 0%, rgba(0,0,0,1) 35%, rgba(0,0,0,1) 100%)",
           maskImage: "linear-gradient(to right, rgba(0,0,0,0) 0%, rgba(0,0,0,1) 35%, rgba(0,0,0,1) 100%)",
         }}
       />
 
-      <Link href="/" className="absolute left-6 top-6 z-20">
-        <div className="w-10 h-10 rounded-full bg-white/70 border border-white/60 shadow flex items-center justify-center">
-          <Home className="w-5 h-5 text-teal-700" />
+      <Link href="/" className="absolute left-4 top-4 z-20 desktop:left-6 desktop:top-6">
+        <div className="flex h-12 w-12 items-center justify-center rounded-full border border-white/60 bg-white/70 shadow desktop:h-10 desktop:w-10">
+          <Home className="h-5 w-5 text-[#1e2bd6]" />
         </div>
       </Link>
 
-      <div className="relative z-10 min-h-screen flex items-center justify-evenly p-5 sm:pl-12 sm:pr-16 md:w-1/2 md:ml-auto">
-        <div className="w-full max-w-[430px] rounded-2xl bg-white/75 border border-white/60 shadow-[0_30px_90px_rgba(15,118,110,0.18)]">
-          <div className="p-6 sm:p-8">
+      <div className="relative z-10 flex min-h-screen items-stretch justify-center touch-safe-x touch:px-4 touch:pb-12 touch:pt-20 px-4 pb-10 pt-20 desktop:ml-auto desktop:w-1/2 desktop:items-center desktop:justify-evenly desktop:p-5 desktop:pb-5 desktop:pl-12 desktop:pr-16 desktop:pt-0">
+        <div className="w-full max-w-full rounded-2xl border border-white/60 bg-white/75 shadow-[0_30px_90px_rgba(15,118,110,0.18)] desktop:max-w-[430px]">
+          <div className="p-5 touch:p-6 desktop:p-8">
             <div>
-              <h1 className="text-[#1E3A8A] text-3xl sm:text-[30px] font-bold leading-tight">
+              <h1 className="text-3xl font-bold leading-tight text-[#1E3A8A] desktop:text-[30px]">
                 Sign In
               </h1>
-              <p className="text-sm text-gray-600 mt-2">
+              <p className="mt-2 text-base text-gray-600 desktop:text-sm">
                 Please login to continue to your account.
               </p>
             </div>
 
-            <form onSubmit={handleSubmit} className="mt-6 space-y-4">
+            <form onSubmit={handleSubmit} className="mt-6 space-y-5 desktop:space-y-4">
               <div>
                 <Label htmlFor="email" className="sr-only">
                   Email
@@ -117,7 +118,7 @@ export default function SignInPage() {
                     type="email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    className="pl-10 pr-4 h-12 rounded-xl bg-white/80 border-gray-200 focus-visible:ring-teal-500"
+                    className="h-12 min-h-12 rounded-xl border-gray-200 bg-white/80 pl-10 pr-4 text-base focus-visible:ring-[#1e2bd6] desktop:text-sm"
                     placeholder="Email"
                     required
                     autoComplete="email"
@@ -136,7 +137,7 @@ export default function SignInPage() {
                     type={showPassword ? "text" : "password"}
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    className="pl-10 pr-12 h-12 rounded-xl bg-white/80 border-gray-200 focus-visible:ring-teal-500"
+                    className="h-12 min-h-12 rounded-xl border-gray-200 bg-white/80 pl-10 pr-12 text-base focus-visible:ring-[#1e2bd6] desktop:text-sm"
                     placeholder="Password"
                     required
                     autoComplete="current-password"
@@ -156,13 +157,13 @@ export default function SignInPage() {
                 </div>
               </div>
 
-              <div className="flex items-center">
-                <label className="inline-flex items-center gap-2 text-sm text-gray-600 select-none">
+              <div className="flex min-h-12 items-center">
+                <label className="inline-flex cursor-pointer items-center gap-3 text-base text-gray-600 select-none desktop:text-sm">
                   <input
                     type="checkbox"
                     checked={rememberMe}
                     onChange={(e) => setRememberMe(e.target.checked)}
-                    className="w-4 h-4 rounded border-gray-300 text-teal-700 focus:ring-teal-500"
+                    className="h-5 w-5 rounded border-gray-300 text-[#1e2bd6] focus:ring-[#1e2bd6] desktop:h-4 desktop:w-4"
                   />
                   Keep me logged in
                 </label>
@@ -177,7 +178,7 @@ export default function SignInPage() {
               <Button
                 type="submit"
                 disabled={isLoading}
-                className="w-full h-12 rounded-xl bg-[#1E3A8A] hover:bg-[#1E3A8A]/90 text-white font-semibold"
+                className="h-12 min-h-12 w-full rounded-xl bg-[#1E3A8A] text-base font-semibold text-white hover:bg-[#1E3A8A]/90"
               >
                 {isLoading ? (
                   <span className="inline-flex items-center">
@@ -192,7 +193,7 @@ export default function SignInPage() {
             <div className="mt-6">
               <div className="flex items-center gap-3">
                 <span className="flex-1 border-t border-gray-200" />
-                <span className="text-sm text-gray-400">or</span>
+                <span className="text-base text-gray-400 desktop:text-sm">or</span>
                 <span className="flex-1 border-t border-gray-200" />
               </div>
 
@@ -200,14 +201,14 @@ export default function SignInPage() {
                 type="button"
                 onClick={handleGoogleLogin}
                 disabled={isLoading}
-                className="mt-4 w-full h-12 rounded-xl border border-gray-200 bg-white/90 hover:bg-white text-gray-800 font-medium flex items-center justify-center gap-3"
+                className="mt-4 flex h-12 min-h-12 w-full items-center justify-center gap-3 rounded-xl border border-gray-200 bg-white/90 text-base font-medium text-gray-800 hover:bg-white"
               >
                 <span>Continue with Google</span>
                 <GoogleMark />
               </button>
             </div>
 
-            <p className="mt-6 text-center text-sm text-gray-500">
+            <p className="mt-6 text-center text-base text-gray-500 desktop:text-sm">
               Don't have an account?{" "}
               <Link href="/signup" className="text-[#1E3A8A] font-semibold hover:underline">
                 Sign Up

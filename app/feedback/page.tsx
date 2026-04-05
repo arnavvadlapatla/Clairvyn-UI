@@ -267,37 +267,35 @@ export default function FeedbackPage() {
         )}
       </AnimatePresence>
 
-      <div className="container mx-auto px-4 py-8 relative z-10">
+      <div className="relative z-10 mx-auto w-full max-w-full touch-safe-x touch:px-4 touch:py-8 px-4 py-6 desktop:container desktop:px-4 desktop:py-8">
         {/* Header */}
         <motion.div
-          className="flex items-center justify-between mb-8"
+          className="mb-8 flex flex-col gap-4 desktop:flex-row desktop:items-center desktop:justify-between"
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
         >
-          <div className="flex items-center gap-4">
-            <Link href="/">
+          <div className="flex flex-col gap-4 desktop:flex-row desktop:items-center">
+            <Link href="/" className="w-full desktop:w-auto">
               <Button
                 variant="outline"
                 size="sm"
-                className="border-gray-300 bg-white/80 backdrop-blur-sm hover:bg-white"
+                className="h-12 w-full border-gray-300 bg-white/80 backdrop-blur-sm hover:bg-white desktop:h-9 desktop:w-auto"
               >
-                <ArrowLeft className="w-4 h-4 mr-2" />
+                <ArrowLeft className="mr-2 h-4 w-4" />
                 Back to Home
               </Button>
             </Link>
-            <div className="flex items-center gap-3">
-              <div>
-                <h1 className="text-3xl font-black text-charcoal">Challenge Complete!</h1>
-                <p className="text-gray-600 font-medium">{feedbackData.challengeTitle}</p>
-              </div>
+            <div className="min-w-0">
+              <h1 className="text-2xl font-black text-charcoal desktop:text-3xl">Challenge Complete!</h1>
+              <p className="text-base font-medium text-gray-600">{feedbackData.challengeTitle}</p>
             </div>
           </div>
           <Button
             onClick={() => setShowShareDialog(true)}
-            className="bg-gradient-to-r from-blue-500 to-purple-500 text-white font-bold shadow-lg hover:shadow-xl"
+            className="h-12 w-full bg-gradient-to-r from-blue-500 to-purple-500 font-bold text-white shadow-lg hover:shadow-xl desktop:h-10 desktop:w-auto"
           >
-            <Share2 className="w-4 h-4 mr-2" />
+            <Share2 className="mr-2 h-4 w-4" />
             Share Achievement
           </Button>
         </motion.div>
@@ -344,7 +342,7 @@ export default function FeedbackPage() {
               </div>
 
               {/* Stats Grid */}
-              <div className="grid md:grid-cols-4 gap-6">
+              <div className="grid grid-cols-2 gap-4 desktop:grid-cols-4 desktop:gap-6">
                 <div className="text-center">
                   <div className="bg-teal-50 border border-teal-200 rounded-xl p-4">
                     <Target className="w-8 h-8 text-teal-600 mx-auto mb-2" />
@@ -476,7 +474,7 @@ export default function FeedbackPage() {
 
         {/* Action Buttons */}
         <motion.div
-          className="grid md:grid-cols-3 gap-4"
+          className="grid grid-cols-1 gap-3 desktop:grid-cols-3 desktop:gap-4"
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.8 }}
@@ -484,7 +482,7 @@ export default function FeedbackPage() {
           <Button
             variant="outline"
             size="lg"
-            className="h-16 border-2 border-gray-300 hover:bg-gray-50 bg-white/80 backdrop-blur-sm"
+            className="min-h-14 border-2 border-gray-300 bg-white/80 backdrop-blur-sm hover:bg-gray-50 desktop:h-16"
             onClick={() => router.push("/challenge")}
           >
             <RotateCcw className="w-6 h-6 mr-3" />
@@ -497,7 +495,7 @@ export default function FeedbackPage() {
           <Button
             variant="outline"
             size="lg"
-            className="h-16 border-2 border-teal-300 text-teal-600 hover:bg-teal-50 bg-white/80 backdrop-blur-sm"
+            className="min-h-14 border-2 border-teal-300 bg-white/80 text-teal-600 backdrop-blur-sm hover:bg-teal-50 desktop:h-16"
             onClick={() => router.push("/solution")}
           >
             <FileText className="w-6 h-6 mr-3" />
@@ -509,7 +507,7 @@ export default function FeedbackPage() {
 
           <Button
             size="lg"
-            className="h-16 btn-gradient text-white shadow-lg hover:shadow-xl"
+            className="btn-gradient min-h-14 text-white shadow-lg hover:shadow-xl desktop:h-16"
             onClick={() => router.push("/challenge")}
           >
             <ArrowRight className="w-6 h-6 mr-3" />
@@ -554,7 +552,7 @@ export default function FeedbackPage() {
                 {feedbackData.totalIssues} issues and earned {feedbackData.pointsEarned} points!
               </p>
             </div>
-            <div className="grid grid-cols-3 gap-3">
+            <div className="grid grid-cols-1 gap-3 desktop:grid-cols-3">
               <Button
                 variant="outline"
                 onClick={() => handleShare("twitter")}

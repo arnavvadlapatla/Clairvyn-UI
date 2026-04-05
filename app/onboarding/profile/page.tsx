@@ -143,34 +143,34 @@ export default function OnboardingProfilePage() {
       <div className="absolute inset-0 bg-[url('/login_bg.png')] bg-cover bg-center" />
       <div className="absolute inset-0 bg-gradient-to-r from-white/90 via-white/65 to-white/20" />
       <div
-        className="hidden md:block absolute right-0 top-0 h-full w-1/2 bg-white/25 backdrop-blur-lg"
+        className="absolute right-0 top-0 hidden h-full w-1/2 bg-white/25 backdrop-blur-lg desktop:block"
         style={{
           WebkitMaskImage: "linear-gradient(to right, rgba(0,0,0,0) 0%, rgba(0,0,0,1) 35%, rgba(0,0,0,1) 100%)",
           maskImage: "linear-gradient(to right, rgba(0,0,0,0) 0%, rgba(0,0,0,1) 35%, rgba(0,0,0,1) 100%)",
         }}
       />
 
-      <Link href="/" className="absolute left-6 top-6 z-20">
-        <div className="w-10 h-10 rounded-full bg-white/70 border border-white/60 shadow flex items-center justify-center">
-          <Home className="w-5 h-5 text-teal-700" />
+      <Link href="/" className="absolute left-4 top-4 z-20 desktop:left-6 desktop:top-6">
+        <div className="flex h-12 w-12 items-center justify-center rounded-full border border-white/60 bg-white/70 shadow desktop:h-10 desktop:w-10">
+          <Home className="h-5 w-5 text-[#1e2bd6]" />
         </div>
       </Link>
 
-      <div className="relative z-10 min-h-screen flex items-center justify-evenly p-5 sm:pl-12 sm:pr-16 md:w-1/2 md:ml-auto">
-        <div className="w-full max-w-[430px] rounded-2xl bg-white/75 border border-white/60 shadow-[0_30px_90px_rgba(15,118,110,0.18)]">
-          <div className="p-6 sm:p-8">
-            <h1 className="text-[#1E3A8A] text-3xl sm:text-[30px] font-bold leading-tight">
+      <div className="relative z-10 flex min-h-screen items-stretch justify-center touch-safe-x touch:px-4 touch:pb-12 touch:pt-20 px-4 pb-10 pt-20 desktop:ml-auto desktop:w-1/2 desktop:items-center desktop:justify-evenly desktop:p-5 desktop:pb-5 desktop:pl-12 desktop:pr-16 desktop:pt-0">
+        <div className="w-full max-w-full rounded-2xl border border-white/60 bg-white/75 shadow-[0_30px_90px_rgba(15,118,110,0.18)] desktop:max-w-[430px]">
+          <div className="p-5 touch:p-6 desktop:p-8">
+            <h1 className="text-3xl font-bold leading-tight text-[#1E3A8A] desktop:text-[30px]">
               Tell us about you
             </h1>
-            <p className="text-sm text-gray-600 mt-2">
+            <p className="mt-2 text-base text-gray-600 desktop:text-sm">
               A few quick details help us improve Clairvyn for your region and community.
             </p>
 
-            <form onSubmit={handleSubmit} className="mt-6 space-y-5">
+            <form onSubmit={handleSubmit} className="mt-6 space-y-6 desktop:space-y-5">
               <div className="space-y-2">
-                <Label className="text-gray-800">Where are you from?</Label>
+                <Label className="text-base text-gray-800 desktop:text-sm">Where are you from?</Label>
                 <Select value={countryCode || undefined} onValueChange={setCountryCode}>
-                  <SelectTrigger className="h-12 rounded-xl bg-white/80 border-gray-200 focus:ring-teal-500">
+                  <SelectTrigger className="h-12 min-h-12 rounded-xl border-gray-200 bg-white/80 text-base focus:ring-[#1e2bd6] desktop:text-sm">
                     <SelectValue placeholder="Select your country" />
                   </SelectTrigger>
                   <SelectContent className="max-h-72">
@@ -184,26 +184,26 @@ export default function OnboardingProfilePage() {
               </div>
 
               <div className="space-y-3">
-                <Label className="text-gray-800">Are you a student?</Label>
+                <Label className="text-base text-gray-800 desktop:text-sm">Are you a student?</Label>
                 <RadioGroup
                   value={isStudent}
                   onValueChange={(v) => setIsStudent(v as "yes" | "no")}
                   className="flex flex-col gap-2"
                 >
-                  <label className="flex items-center gap-2 rounded-xl border border-gray-100 bg-white/60 px-3 py-2 cursor-pointer">
+                  <label className="flex min-h-12 cursor-pointer items-center gap-3 rounded-xl border border-gray-100 bg-white/60 px-4 py-3">
                     <RadioGroupItem value="yes" id="student-yes" />
-                    <span className="text-sm text-gray-800">Yes</span>
+                    <span className="text-base text-gray-800 desktop:text-sm">Yes</span>
                   </label>
-                  <label className="flex items-center gap-2 rounded-xl border border-gray-100 bg-white/60 px-3 py-2 cursor-pointer">
+                  <label className="flex min-h-12 cursor-pointer items-center gap-3 rounded-xl border border-gray-100 bg-white/60 px-4 py-3">
                     <RadioGroupItem value="no" id="student-no" />
-                    <span className="text-sm text-gray-800">No</span>
+                    <span className="text-base text-gray-800 desktop:text-sm">No</span>
                   </label>
                 </RadioGroup>
               </div>
 
               {isStudent === "yes" && (
                 <div className="space-y-2">
-                  <Label htmlFor="university" className="text-gray-800">
+                  <Label htmlFor="university" className="text-base text-gray-800 desktop:text-sm">
                     University
                   </Label>
                   <Input
@@ -211,7 +211,7 @@ export default function OnboardingProfilePage() {
                     type="text"
                     value={university}
                     onChange={(e) => setUniversity(e.target.value)}
-                    className="h-12 rounded-xl bg-white/80 border-gray-200 focus-visible:ring-teal-500 placeholder:text-gray-500"
+                    className="h-12 min-h-12 rounded-xl border-gray-200 bg-white/80 text-base placeholder:text-gray-500 focus-visible:ring-[#1e2bd6] desktop:text-sm"
                     placeholder="School or university name"
                     autoComplete="organization"
                   />
@@ -227,7 +227,7 @@ export default function OnboardingProfilePage() {
               <Button
                 type="submit"
                 disabled={isSubmitting}
-                className="w-full h-12 rounded-xl bg-[#1E3A8A] hover:bg-[#1E3A8A]/90 text-white font-semibold"
+                className="h-12 min-h-12 w-full rounded-xl bg-[#1E3A8A] text-base font-semibold text-white hover:bg-[#1E3A8A]/90"
               >
                 {isSubmitting ? (
                   <span className="inline-flex items-center">
