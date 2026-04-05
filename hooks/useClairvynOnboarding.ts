@@ -71,49 +71,28 @@ export function useClairvynOnboarding({
         },
         steps: [
           {
-            element: '[data-onboarding="sidebar-profile"]',
+            element: "body",
             popover: {
-              title: "Your profile",
-              description: "Access your profile here.",
-              side: "right",
-              align: "start",
-            },
-            onHighlighted: (_el, _step, { driver: d }) => {
-              setIsSidebarOpen(true)
-              window.setTimeout(() => d.refresh(), LAYOUT_MS)
+              title: "Welcome to Clairvyn",
+              description: "Let's take a quick tour to get you started. Clairvyn is an AI-powered architectural floor plan generator.",
+              side: "center",
+              align: "center",
             },
           },
           {
-            element: '[data-onboarding="new-chat"]',
+            element: "body",
             popover: {
-              title: "New chat",
-              description: "Generate different prompts using new chat option.",
-              side: "right",
-              align: "start",
-            },
-            onHighlighted: (_el, _step, { driver: d }) => {
-              setIsSidebarOpen(true)
-              window.setTimeout(() => d.refresh(), LAYOUT_MS)
-            },
-          },
-          {
-            element: '[data-onboarding="recent-chats"]',
-            popover: {
-              title: "Recent chats",
-              description: "You can access your previously generated prompts here.",
-              side: "right",
-              align: "start",
-            },
-            onHighlighted: (_el, _step, { driver: d }) => {
-              setIsSidebarOpen(true)
-              window.setTimeout(() => d.refresh(), LAYOUT_MS)
+              title: "Important Notice",
+              description: "Please note: Currently generates floor plans up to 4 BHK maximum. You may encounter occasional errors as we continue to improve the AI. Your feedback helps us build better.",
+              side: "center",
+              align: "center",
             },
           },
           {
             element: '[data-onboarding="chat-input"]',
             popover: {
-              title: "Floor plan prompts",
-              description: "Use this chatbot to generate architectural floor plans",
+              title: "Generate Floor Plans",
+              description: "Describe your floor plan requirements here. Tell us about room counts, layout preferences, dimensions, or any specific architectural features you want. The AI will generate a plan based on your description.",
               side: "top",
               align: "center",
             },
@@ -127,10 +106,49 @@ export function useClairvynOnboarding({
           {
             element: '[data-onboarding="send"]',
             popover: {
-              title: "Send",
-              description: "Hit send after generating the whole prompt",
+              title: "Submit Your Request",
+              description: "Once you've written your floor plan description, click this button to send it to the AI. The generation process will begin immediately.",
               side: "top",
               align: "end",
+            },
+          },
+          {
+            element: '[data-onboarding="new-chat"]',
+            popover: {
+              title: "Start a New Generation",
+              description: "Create a brand new chat to generate a different floor plan. Each chat keeps your previous plans organized and easily accessible.",
+              side: "right",
+              align: "start",
+            },
+            onHighlighted: (_el, _step, { driver: d }) => {
+              setIsSidebarOpen(true)
+              window.setTimeout(() => d.refresh(), LAYOUT_MS)
+            },
+          },
+          {
+            element: '[data-onboarding="recent-chats"]',
+            popover: {
+              title: "View Your Designs",
+              description: "Access all your previously generated floor plans here. Browse through your design history and find any past projects you've worked on.",
+              side: "right",
+              align: "start",
+            },
+            onHighlighted: (_el, _step, { driver: d }) => {
+              setIsSidebarOpen(true)
+              window.setTimeout(() => d.refresh(), LAYOUT_MS)
+            },
+          },
+          {
+            element: '[data-onboarding="sidebar-profile"]',
+            popover: {
+              title: "Your Account",
+              description: "Manage your profile, settings, and account preferences here. Track your usage, view your subscription details, and customize your experience.",
+              side: "right",
+              align: "start",
+            },
+            onHighlighted: (_el, _step, { driver: d }) => {
+              setIsSidebarOpen(true)
+              window.setTimeout(() => d.refresh(), LAYOUT_MS)
             },
           },
         ],

@@ -104,10 +104,10 @@ export default function HomePage() {
               <div className="mt-8 touch:mt-10">
                 <button
                   onClick={handleTryIt}
-                  className="group flex h-12 w-full min-h-12 touch:w-full touch:px-6 items-center justify-center gap-2 rounded-full bg-[#1e2bd6] px-8 text-base font-semibold text-white shadow-md transition-shadow hover:shadow-lg desktop:inline-flex desktop:h-auto desktop:w-auto desktop:min-h-0 desktop:py-5 desktop:text-[1em]"
+                  className="group flex h-12 w-full min-h-12 touch:w-full touch:px-6 items-center justify-center gap-2 rounded-full bg-[#1e2bd6] px-8 text-base font-semibold text-white shadow-md transition-all hover:shadow-lg hover:bg-[#1a24b8] active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed desktop:inline-flex desktop:h-auto desktop:w-auto desktop:min-h-0 desktop:py-5 desktop:text-[1em]"
                 >
                   Try Now
-                  <span className="transition-transform group-hover:translate-x-0.5">→</span>
+                  <span className="transition-transform group-hover:translate-x-1">→</span>
                 </button>
               </div>
             </div>

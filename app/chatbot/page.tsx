@@ -1484,21 +1484,26 @@ export default function ChatbotPage() {
             {/* Loading indicator */}
             {isLoading && (
               <motion.div
-                initial={{ opacity: 0, y: 20 }}
+                initial={{ opacity: 0, y: 12 }}
                 animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.35, ease: [0.4, 0, 0.2, 1] }}
                 className="flex justify-start"
               >
-                <div className="chat-bubble-assistant text-gray-800 dark:text-gray-200 p-3 sm:p-4 rounded-2xl shadow-lg">
-                  <div className="flex items-center gap-2 min-w-0">
-                    <Loader2 className="w-3 h-3 sm:w-4 sm:h-4 shrink-0 animate-spin text-teal-600 dark:text-teal-400" />
+                <div className="chat-bubble-assistant text-gray-700 dark:text-gray-300 p-3 sm:p-4 rounded-2xl shadow-md">
+                  <div className="flex items-center gap-3 min-w-0">
+                    <div className="relative flex-shrink-0">
+                      <div className="w-4 h-4 sm:w-5 sm:h-5 rounded-full border-2 border-[#1e2bd6]/20" />
+                      <div className="absolute inset-0 rounded-full border-2 border-transparent border-t-[#1e2bd6] border-r-[#1e2bd6] animate-spin" />
+                    </div>
                     <motion.span
                       key={isTurnInFlight ? assistantStatusLine : "clairvyn-thinking"}
-                      initial={{ opacity: 0, y: 4 }}
+                      initial={{ opacity: 0, y: 2 }}
                       animate={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
-                      className="text-xs sm:text-sm chat-loading-text min-w-0"
+                      exit={{ opacity: 0, y: -2 }}
+                      transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
+                      className="text-xs sm:text-sm font-medium text-gray-600 dark:text-gray-400 min-w-0 flex-1"
                     >
-                      {isTurnInFlight ? assistantStatusLine : "Clairvyn is thinking..."}
+                      {isTurnInFlight ? assistantStatusLine : "Processing your request"}
                     </motion.span>
                   </div>
                 </div>

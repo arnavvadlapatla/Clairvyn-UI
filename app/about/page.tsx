@@ -55,15 +55,6 @@ export default function AboutPage() {
             transition={{ duration: 0.5, ease: "easeOut", delay: 0.06 }}
             className="mt-8 space-y-5 text-base leading-relaxed text-gray-600 touch:space-y-6 touch:text-base desktop:mt-10"
           >
-            <p>
-              Clairvyn sits at the intersection of architecture education and AI: we care about precision, iteration,
-              and teaching—not just one-shot images. Our product is meant to feel like a capable studio partner that
-              respects how you already work.
-            </p>
-            <p>
-              Whether you&apos;re refining a studio project or exploring options for a plan, we want you to stay in
-              control of the design while the heavy lifting gets a little lighter.
-            </p>
           </motion.div>
 
           <motion.ul
@@ -87,26 +78,30 @@ export default function AboutPage() {
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, ease: "easeOut", delay: 0.18 }}
-            className="mt-12 flex flex-col items-stretch touch:mt-14 touch:gap-4 gap-3 desktop:mt-14 desktop:flex-row desktop:flex-wrap desktop:items-center desktop:gap-4"
+            className="mt-12 touch:mt-14 desktop:mt-14"
           >
-            <Link
-              href="/signup"
-              className="flex h-12 w-full min-h-12 touch:w-full items-center justify-center rounded-full bg-[#1e2bd6] px-7 text-base font-semibold text-white shadow-md transition-shadow hover:shadow-lg desktop:inline-flex desktop:h-auto desktop:w-auto desktop:min-h-0 desktop:py-3.5 desktop:text-sm"
-            >
-              Get started
-            </Link>
-            <Link
-              href="/pricing"
-              className="flex h-12 w-full items-center justify-center rounded-full border border-[#1e2bd6]/25 text-base font-semibold text-[#1e2bd6] transition-colors hover:bg-[#1e2bd6]/5 hover:underline desktop:inline-flex desktop:h-auto desktop:w-auto desktop:border-0 desktop:py-0 desktop:text-sm"
-            >
-              View pricing
-            </Link>
-            <a
-              href="mailto:hello@clairvyn.com"
-              className="flex min-h-12 w-full items-center justify-center text-base font-semibold text-gray-600 transition-colors hover:text-[#1e2bd6] desktop:inline-flex desktop:w-auto desktop:min-h-0 desktop:justify-start desktop:text-sm"
-            >
-              hello@clairvyn.com
-            </a>
+            <div className="flex flex-col gap-4 desktop:flex-row desktop:items-center desktop:gap-6">
+              <Link
+                href="/signup"
+                className="flex h-12 items-center justify-center rounded-full bg-[#1e2bd6] px-7 text-base font-semibold text-white shadow-md transition-all hover:shadow-lg hover:bg-[#1a24b8] desktop:inline-flex desktop:h-auto desktop:px-8 desktop:py-3.5 desktop:text-sm"
+              >
+                Get started
+              </Link>
+              <div className="flex flex-col gap-3 desktop:flex-row desktop:items-center desktop:gap-6">
+                <Link
+                  href="/pricing"
+                  className="flex h-12 items-center justify-center rounded-full border-2 border-[#1e2bd6]/30 text-base font-semibold text-[#1e2bd6] transition-all hover:border-[#1e2bd6]/50 hover:bg-[#1e2bd6]/5 desktop:inline-flex desktop:h-auto desktop:border-0 desktop:py-0 desktop:text-sm desktop:hover:underline"
+                >
+                  View pricing
+                </Link>
+                <a
+                  href="mailto:hello@clairvyn.com"
+                  className="flex h-12 items-center justify-center rounded-full border-2 border-gray-300/40 text-base font-semibold text-gray-700 transition-all hover:border-gray-400/60 hover:bg-gray-100/50 desktop:inline-flex desktop:h-auto desktop:border-0 desktop:py-0 desktop:justify-start desktop:text-sm desktop:text-gray-600 desktop:hover:text-[#1e2bd6] desktop:hover:underline"
+                >
+                  hello@clairvyn.com
+                </a>
+              </div>
+            </div>
           </motion.div>
 
           <motion.p
