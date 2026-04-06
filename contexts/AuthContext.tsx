@@ -74,6 +74,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     if (typeof window !== "undefined") {
       localStorage.removeItem("guestChats")
       localStorage.removeItem("guest")
+      localStorage.removeItem("guestGenerationsUsed")
     }
     setIsGuest(false)
   }
@@ -93,9 +94,28 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const signInWithGoogle = async (options?: { rememberMe?: boolean }) => {
     await applyAuthPersistence(options?.rememberMe ?? true)
     const provider = new GoogleAuthProvider()
-    await signInWithPopup(auth, provider)
+    
+    try {
+      if (auth.currentUser && !auth.currentUser.isAnonymous) {
+        // Already signed in with another method → link Google to existing account
+        await (auth.currentUser as any).linkWithPopup(provider)
+        console.log("Google provider linked to existing account")
+      } else {
+        // First time → just sign in
+        await signInWithPopup(auth, provider)
+        console.log("Signed in with Google")
+      }
+    } catch (error: any) {
+      if (error.code === 'auth/credential-already-in-use') {
+        // Google email already linked to different account - sign in instead
+        await signInWithPopup(auth, provider)
+        console.log("Signed in with Google (different account)")
+      } else {
+        throw error
+      }
+    }
+    
     await migrateGuestChats()
-    console.log("Signed in with Google")
   }
 
   const signInWithGithub = async (options?: { rememberMe?: boolean }) => {

@@ -7,8 +7,6 @@ import { AuthProvider } from "@/contexts/AuthContext"
 import { ThemeProvider } from "@/contexts/ThemeContext"
 import { DOCUMENT_THEME_SYNC_SCRIPT } from "@/lib/documentTheme"
 import { NetworkStatus } from "@/components/NetworkStatus"
-import { FeedbackWidget } from "@/components/FeedbackWidget"
-import AnalyticsProvider from "@/components/AnalyticsProvider"
 
 const inter = Inter({
   subsets: ["latin"],
@@ -61,10 +59,7 @@ export default function RootLayout({
         <NetworkStatus />
         <ThemeProvider>
           <AuthProvider>
-            <AnalyticsProvider>
-              {children}
-              <FeedbackWidget position="bottom-right" />
-            </AnalyticsProvider>
+            {children}
           </AuthProvider>
         </ThemeProvider>
       </body>

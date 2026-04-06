@@ -13,9 +13,7 @@ import {
   Settings,
   LogOut,
   LogIn,
-  Search,
   History,
-  Save,
   Plus,
   Loader2,
   Trash2,
@@ -397,10 +395,11 @@ export default function ChatbotPage() {
           })
 
           const { messages: sessionMessages, fromBackend: loadedFromBackend } =
-            await loadMessagesForChat(targetId, token)
+            await loadMessagesForChat(user.uid, targetId, token)
 
           if (loadedFromBackend) {
             await setChatMessages(
+              user.uid,
               targetId,
               sessionMessages.map((m) => ({
                 ...m,
@@ -536,9 +535,11 @@ export default function ChatbotPage() {
       )
       const backendId = String(data.id)
       if (currentChatId && currentChatId !== backendId) {
-        await renameChatSession(currentChatId, backendId)
-        setCurrentChatId(backendId)
-        if (user) setLastActiveChatId(user.uid, backendId)
+        if (user) {
+          await renameChatSession(user.uid, currentChatId, backendId)
+          setCurrentChatId(backendId)
+          setLastActiveChatId(user.uid, backendId)
+        }
       }
       setBackendChatId(backendId)
       console.log("[Clairvyn] ensureBackendChat: done", { backendId, title: data.title });
@@ -609,7 +610,7 @@ export default function ChatbotPage() {
 
     try {
       if (user && currentChatId) {
-        await addMessageToChat(currentChatId, userMessage)
+        await addMessageToChat(user.uid, currentChatId, userMessage)
       }
 
       const token = await getIdToken()
@@ -679,8 +680,8 @@ export default function ChatbotPage() {
         feedback_submitted: Boolean(m.feedback_submitted),
       }));
 
-      if (currentChatId) {
-        await setChatMessages(currentChatId, updatedHistory)
+      if (currentChatId && user) {
+        await setChatMessages(user.uid, currentChatId, updatedHistory)
       }
 
       setMessages(updatedHistory)
@@ -882,16 +883,6 @@ export default function ChatbotPage() {
     router.push("/signin")
   }
 
-  const handleSearchDesigns = () => {
-    // TODO: Implement search functionality
-    alert("Search Designs feature coming soon!")
-  }
-
-  const handleSavedDesigns = () => {
-    // TODO: Implement saved designs functionality
-    alert("Saved Designs feature coming soon!")
-  }
-
   const handleHistory = async () => {
     console.log("[Clairvyn] handleHistory");
     if (!user) {
@@ -924,8 +915,9 @@ export default function ChatbotPage() {
 
   const handleDeleteChat = async (e: React.MouseEvent, sessionId: string) => {
     e.stopPropagation()
+    if (!user) return
     const token = await getIdToken()
-    const ok = await deleteChatSession(sessionId, token ?? null)
+    const ok = await deleteChatSession(user.uid, sessionId, token ?? null)
     if (!ok) return
     setChatSessions((prev) => prev.filter((s) => s.id !== sessionId))
     if (currentChatId === sessionId) {
@@ -945,11 +937,11 @@ export default function ChatbotPage() {
     try {
       const token = await getIdToken()
       const { messages: sessionMessages, fromBackend: loadedFromBackend } =
-        await loadMessagesForChat(chatId, token)
+        await loadMessagesForChat(user?.uid || '', chatId, token)
       console.log("[Clairvyn] loadChatSession: messages loaded", { chatId, count: sessionMessages.length, fromBackend: loadedFromBackend });
 
-      if (loadedFromBackend) {
-        await setChatMessages(chatId, sessionMessages.map((m) => ({
+      if (loadedFromBackend && user) {
+        await setChatMessages(user.uid, chatId, sessionMessages.map((m) => ({
           ...m,
           timestamp: typeof m.timestamp === "string" ? m.timestamp : (m.timestamp as Date).toISOString()
         })))
@@ -971,8 +963,6 @@ export default function ChatbotPage() {
 
   const sidebarItems = [
     { icon: Plus, label: "New Chat", action: createNewChat },
-    { icon: Search, label: "Search Designs", action: handleSearchDesigns },
-    { icon: Save, label: "Saved Designs", action: handleSavedDesigns },
     { icon: History, label: "History", action: handleHistory },
   ]
 
@@ -1003,7 +993,6 @@ export default function ChatbotPage() {
             <div className="flex items-center gap-2">
               <Button
                 onClick={handleSignIn}
-                size="sm"
                 className="bg-white text-orange-600 hover:bg-gray-100"
               >
                 Sign In
@@ -1492,15 +1481,23 @@ export default function ChatbotPage() {
                 <div className="chat-bubble-assistant text-gray-700 dark:text-gray-300 p-3 sm:p-4 rounded-2xl shadow-md">
                   <div className="flex items-center gap-3 min-w-0">
                     {/* Animated house icon */}
-                    <div className="flex-shrink-0 w-5 h-5 sm:w-6 sm:h-6 dot-loader">
+                    <div className="flex-shrink-0 w-5 h-5 sm:w-6 sm:h-6 house-loader">
                       <svg
                         viewBox="0 0 64 64"
                         className="w-full h-full"
                         preserveAspectRatio="xMidYMid meet"
                       >
-                        <circle cx="16" cy="32" r="4" fill="#1e2bd6" className="dot dot-1" />
-                        <circle cx="32" cy="32" r="4" fill="#1e2bd6" className="dot dot-2" />
-                        <circle cx="48" cy="32" r="4" fill="#1e2bd6" className="dot dot-3" />
+                        {/* House outline */}
+                        <polyline 
+                          points="32,12 52,28 52,54 12,54 12,28 32,12" 
+                          fill="none"
+                          stroke="#1e2bd6"
+                          strokeWidth="2.5"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeDasharray="120"
+                          className="house-outline"
+                        />
                       </svg>
                     </div>
 
@@ -1573,6 +1570,33 @@ export default function ChatbotPage() {
         open={waitlistOpen}
         onOpenChange={setWaitlistOpen}
       />
+
+      <style jsx>{`
+        .house-loader {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+
+        .house-outline {
+          animation: drawHouse 2.5s ease-in-out infinite;
+        }
+
+        @keyframes drawHouse {
+          0% {
+            stroke-dashoffset: 120;
+          }
+          40% {
+            stroke-dashoffset: 0;
+          }
+          60% {
+            stroke-dashoffset: 0;
+          }
+          100% {
+            stroke-dashoffset: 120;
+          }
+        }
+      `}</style>
     </div>
   )
 }
