@@ -14,7 +14,7 @@ const glassBar =
   "touch:rounded-2xl desktop:rounded-3xl border border-white/30 border-b border-b-white/45 bg-white/45 shadow-[0_8px_40px_rgba(30,43,214,0.08)] backdrop-blur-xl backdrop-saturate-150 ring-1 ring-white/40"
 
 const navLinkClass =
-  "touch:text-[15px] touch:font-semibold text-gray-800 transition-colors hover:text-[#1e2bd6] desktop:text-sm desktop:font-medium desktop:text-gray-800"
+  "flex items-center touch:text-[15px] touch:font-semibold text-gray-800 transition-colors hover:text-[#1e2bd6] desktop:text-sm desktop:font-medium desktop:text-gray-800"
 
 export function LandingHeader() {
   const router = useRouter()
@@ -34,35 +34,33 @@ export function LandingHeader() {
     >
       <div className="mx-auto max-w-6xl touch:px-3 touch:pt-2 desktop:px-4 desktop:pt-4">
         <div className={glassBar}>
-          <div className="relative flex items-center touch:gap-3 touch:px-3 touch:py-2.5 desktop:px-6 desktop:py-3">
-            <Link href="/" className="flex min-w-0 shrink items-center gap-2 py-1">
-              <Image
-                src="/light.png"
-                alt="Clairvyn"
-                width={120}
-                height={40}
-                priority
-                className="h-8 w-auto touch:h-8 desktop:h-10"
-              />
-            </Link>
+          <div className="flex items-center touch:px-3 touch:py-2.5 desktop:px-6 desktop:py-3">
+            {/* Left: Logo */}
+            <div className="flex flex-1 items-center">
+              <Link href="/" className="flex min-w-0 shrink items-center gap-2 py-1">
+                <Image
+                  src="/light.png"
+                  alt="Clairvyn"
+                  width={120}
+                  height={40}
+                  priority
+                  className="h-8 w-auto touch:h-8 desktop:h-10"
+                />
+              </Link>
+            </div>
 
-            {/* Absolutely centered nav so it's always mid-bar regardless of logo/button widths */}
+            {/* Center: Nav */}
             <nav
-              className="pointer-events-none absolute inset-0 hidden desktop:flex desktop:items-center desktop:justify-center desktop:gap-8"
+              className="hidden desktop:flex desktop:items-center desktop:self-center desktop:gap-8"
               aria-label="Primary"
             >
-              <Link href="/pricing" className={cn(navLinkClass, "pointer-events-auto")}>
-                Pricing
-              </Link>
-              <Link href="/about" className={cn(navLinkClass, "pointer-events-auto")}>
-                About
-              </Link>
-              <Link href="/blog" className={cn(navLinkClass, "pointer-events-auto")}>
-                Blog
-              </Link>
+              <Link href="/pricing" className={navLinkClass}>Pricing</Link>
+              <Link href="/about" className={navLinkClass}>About</Link>
+              <Link href="/blog" className={navLinkClass}>Blog</Link>
             </nav>
 
-            <div className="ml-auto flex items-center gap-2">
+            {/* Right: Actions */}
+            <div className="flex flex-1 items-center justify-end gap-2">
               <button
                 type="button"
                 onClick={() => router.push("/signin")}

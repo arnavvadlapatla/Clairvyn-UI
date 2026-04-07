@@ -122,6 +122,7 @@ This Policy is governed by and construed in accordance with the laws of India. A
 For all enquiries relating to this Policy or the Company's data practices, please contact:
 
 Email	hello@clairvyn.com
+Phone	+91 95917 37791
 Website	www.clairvyn.com
 Address	No.136/1, No.8/9, Parvallal Street, Murugappa Nagar, Ennore RS, Ambattur, Tiruvallur – 600057, Tamil Nadu, India
 `

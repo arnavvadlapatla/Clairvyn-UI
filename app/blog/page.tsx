@@ -41,13 +41,14 @@ export default function BlogPage() {
             className="mt-10 rounded-2xl border border-black/8 bg-white/70 touch:mt-12 touch:px-5 touch:py-12 px-5 py-10 text-center shadow-[0_24px_70px_rgba(30,43,214,0.08)] backdrop-blur-md desktop:mt-14 desktop:rounded-[28px] desktop:px-8 desktop:py-14"
           >
             <p className="text-base font-medium text-gray-600">
-              No posts yet — check back soon.
+              No posts yet. Check back soon.
             </p>
             <Link
               href="/"
-              className="mt-6 inline-flex min-h-12 w-full items-center justify-center rounded-full border border-[#1e2bd6]/20 text-base font-semibold text-[#1e2bd6] transition-colors hover:bg-[#1e2bd6]/5 hover:underline desktop:w-auto desktop:min-h-0 desktop:border-0 desktop:py-0 desktop:text-sm"
+              className="mt-6 inline-flex min-h-12 w-full items-center justify-center gap-1.5 rounded-full border border-[#1e2bd6]/20 text-base font-semibold text-[#1e2bd6] transition-colors hover:bg-[#1e2bd6]/5 hover:underline desktop:w-auto desktop:min-h-0 desktop:border-0 desktop:py-0 desktop:text-sm"
             >
-              ← Back to home
+              <span aria-hidden="true" className="leading-none">←</span>
+              <span>Back to home</span>
             </Link>
           </motion.div>
         </div>

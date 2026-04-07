@@ -346,7 +346,7 @@ export function UserProfileModal({ isOpen, onClose, onLogout, profileImageUrl }:
                       }
                     }}
                     disabled={isLoading}
-                    className="absolute bottom-0 right-0 rounded-full bg-[#1e2bd6] p-2.5 text-white hover:bg-[#1a24b8] disabled:opacity-50 transition-colors shadow-lg border border-white dark:border-gray-900"
+                    className="absolute bottom-0 right-0 flex items-center justify-center rounded-full bg-[#1e2bd6] p-2.5 text-white hover:bg-[#1a24b8] disabled:opacity-50 transition-colors shadow-lg border border-white dark:border-gray-900"
                     whileHover={{ scale: 1.1 }}
                     whileTap={{ scale: 0.95 }}
                   >

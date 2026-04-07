@@ -42,7 +42,7 @@ export function handleScriptedInput(
       addMessage({
         id: Date.now(),
         type: 'assistant',
-        content: "Hello! I'm your AI architectural assistant. This version supports residential designs up to 4 BHK with a curated collection of CAD assets including furniture and room types. I can help you design floor plans and create optimized layouts. What would you like to work on today?",
+        content: "Clairvyn generates residential floor plans from your description.\n\nWhat it does:\n• Up to 4 BHK layouts\n• Includes core rooms and spaces\n• Edit after generation: resize, move, adjust\n\nIn progress: electrical, plumbing, structural, multi-floor, more rooms\n\nStart by describing area, rooms, and requirements.",
         timestamp: new Date().toISOString()
       });
       setTyping(false);
@@ -50,6 +50,48 @@ export function handleScriptedInput(
     return true;
   }
   
-  // Return false if no special handling was done
+  // Return false if no special handling was done — unrelated prompt gets capability brief
+  const isFloorPlanRelated =
+    normalized.includes("bhk") ||
+    normalized.includes("flat") ||
+    normalized.includes("villa") ||
+    normalized.includes("apartment") ||
+    normalized.includes("studio") ||
+    normalized.includes("floor plan") ||
+    normalized.includes("floorplan") ||
+    normalized.includes("sq ft") ||
+    normalized.includes("sqft") ||
+    normalized.includes("bedroom") ||
+    normalized.includes("room") ||
+    normalized.includes("house") ||
+    normalized.includes("home") ||
+    normalized.includes("design") ||
+    normalized.includes("layout") ||
+    normalized.includes("kitchen") ||
+    normalized.includes("bathroom") ||
+    normalized.includes("balcony") ||
+    normalized.includes("garage") ||
+    normalized.includes("vastu") ||
+    normalized.includes("facing") ||
+    normalized.includes("north") ||
+    normalized.includes("south") ||
+    normalized.includes("east") ||
+    normalized.includes("west") ||
+    normalized.includes("resize") ||
+    normalized.includes("move") ||
+    normalized.includes("rotate") ||
+    normalized.includes("add") ||
+    normalized.includes("make")
+
+  if (!isFloorPlanRelated) {
+    addMessage({
+      id: Date.now(),
+      role: "assistant",
+      content: `Clairvyn generates residential floor plans from your description.\n\nWhat it does:\n• Up to 4 BHK layouts\n• Includes core rooms and spaces\n• Edit after generation: resize, move, adjust\n\nIn progress: electrical, plumbing, structural, multi-floor, more rooms\n\nStart by describing area, rooms, and requirements.`,
+      timestamp: new Date().toISOString(),
+    })
+    return true
+  }
+
   return false;
 }

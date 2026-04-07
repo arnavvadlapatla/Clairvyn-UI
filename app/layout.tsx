@@ -1,7 +1,7 @@
 import type React from "react"
 import type { Metadata } from "next"
 import Script from "next/script"
-import { Caveat, Inter } from "next/font/google"
+import { Caveat, Inter, Playfair_Display } from "next/font/google"
 import "./globals.css"
 import { AuthProvider } from "@/contexts/AuthContext"
 import { ThemeProvider } from "@/contexts/ThemeContext"
@@ -18,6 +18,14 @@ const caveat = Caveat({
   subsets: ["latin"],
   weight: ["400", "600"],
   variable: "--font-caveat",
+  display: "swap",
+})
+
+const playfair = Playfair_Display({
+  subsets: ["latin"],
+  weight: ["400", "500", "600"],
+  style: ["normal", "italic"],
+  variable: "--font-playfair",
   display: "swap",
 })
 
@@ -47,7 +55,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`scroll-smooth ${caveat.variable}`}
+      className={`scroll-smooth ${caveat.variable} ${playfair.variable}`}
       suppressHydrationWarning
       style={{ colorScheme: "light only" }}
     >

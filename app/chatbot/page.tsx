@@ -51,6 +51,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { useClairvynOnboarding } from "@/hooks/useClairvynOnboarding"
 import { WaitlistModal } from "@/components/WaitlistModal"
 import { UserProfileModal } from "@/components/UserProfileModal"
+import { GreetingMessage } from "@/components/GreetingMessage"
 
 /** Shown while waiting for an assistant turn; phases follow elapsed time; line changes every 20–30s. */
 const ASSISTANT_STATUS_PHASES: readonly (readonly string[])[] = [
@@ -1287,18 +1288,15 @@ export default function ChatbotPage() {
                 </div>
 
                 <div className="mt-4 shrink-0 border-t border-gray-200/70 dark:border-gray-700/70 pt-3 space-y-2">
-                  {user && !isGuest ? (
-                    <button
-                      type="button"
-                      onClick={() => startTutorial()}
-                      disabled={authLoading}
-                      className="w-full flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-100/70 dark:hover:bg-gray-800/70 transition-colors disabled:opacity-50"
-                      aria-label="Show app tutorial"
-                    >
-                      <CircleHelp className="w-4 h-4 text-gray-500 dark:text-gray-400" />
-                      App tutorial
-                    </button>
-                  ) : null}
+                  <button
+                    type="button"
+                    onClick={() => startTutorial()}
+                    className="w-full flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-100/70 dark:hover:bg-gray-800/70 transition-colors"
+                    aria-label="Show app tutorial"
+                  >
+                    <CircleHelp className="w-4 h-4 text-gray-500 dark:text-gray-400" />
+                    App tutorial
+                  </button>
                   <button
                     type="button"
                     onClick={toggleDarkMode}
@@ -1342,11 +1340,11 @@ export default function ChatbotPage() {
       <div className="relative z-10 flex flex-1 min-h-0">
         <main className="flex-1 flex flex-col min-h-0">
           {/* Top bar (matches screenshot: hamburger on mobile, title center, search right) */}
-          <header className="relative bg-white dark:bg-[#1F1E1D] border-b border-gray-200 dark:border-[#2D2C2B] sm:bg-white/50 sm:backdrop-blur-sm">
-            <div className="h-16 flex items-center px-3 sm:px-6 gap-2">
+          <header className="relative chat-header">
+            <div className={`flex items-center gap-1 transition-all duration-300 ${hasStarted ? 'h-14 sm:h-16 lg:h-[72px] px-3 sm:px-8 lg:px-10' : 'h-16 sm:h-20 px-3 sm:px-8'}`}>
               <motion.button
                 onClick={() => setIsSidebarOpen(true)}
-                className="p-2.5 sm:p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-transparent transition-colors outline-none"
+                className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-transparent transition-colors outline-none"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 aria-label="Open sidebar"
@@ -1356,7 +1354,7 @@ export default function ChatbotPage() {
 
               <div className="flex-1 flex items-center justify-center pointer-events-none min-w-0">
                 <div className="text-center truncate">
-                  <div className="text-base sm:text-lg font-semibold text-gray-800 dark:text-gray-100 truncate">
+                  <div className="font-semibold text-gray-800 dark:text-gray-100 truncate text-base sm:text-lg">
                     Clairvyn 1.0
                   </div>
                 </div>
@@ -1364,7 +1362,7 @@ export default function ChatbotPage() {
 
               <motion.button
                 onClick={() => setIsProfileModalOpen(true)}
-                className="p-2.5 sm:p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-transparent transition-colors outline-none"
+                className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-transparent transition-colors outline-none"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 aria-label="Open profile settings"
@@ -1374,21 +1372,82 @@ export default function ChatbotPage() {
             </div>
           </header>
 
-        {/* Chat Messages */}
-        <div className="scrollbar-main flex-1 overflow-y-auto flex flex-col px-2 sm:px-4">
-          {messages.length === 0 && !hasStarted ? (
+        {/* Chat area — centered when empty, messages + bottom-docked input when started */}
+        {!hasStarted ? (
+          <motion.div
+            className="flex-1 flex flex-col items-center justify-center px-4 sm:px-6 gap-5 sm:gap-10 pb-[12vh]"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.4 }}
+          >
+            <GreetingMessage
+              firstName={user?.displayName?.split(" ")[0] ?? undefined}
+              as="h2"
+            />
             <motion.div
-              className="flex-1 flex items-center justify-center text-center py-6 px-3"
-              initial={{ opacity: 0, y: 20 }}
+              className="w-full max-w-2xl lg:max-w-3xl flex flex-col items-center gap-3"
+              initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
+              transition={{ duration: 0.5, delay: 0.15 }}
             >
-              <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-charcoal dark:text-white">
-                Let's Build Something Together!
-              </h2>
+              <div className="chat-input w-full chat-input--centered" data-onboarding="chat-input">
+                <input
+                  type="text"
+                  value={inputValue}
+                  onChange={(e) => setInputValue(e.target.value)}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter" && !e.shiftKey) {
+                      e.preventDefault()
+                      handleSubmit(e)
+                    }
+                  }}
+                  placeholder={placeholderText}
+                  className="chat-input-field w-full min-w-0"
+                  disabled={isLoading}
+                  autoComplete="off"
+                  spellCheck="true"
+                />
+                <motion.button
+                  type="button"
+                  data-onboarding="send"
+                  onClick={handleSubmit}
+                  disabled={isLoading || !inputValue.trim()}
+                  className="send-btn"
+                  whileHover={{ scale: isLoading ? 1 : 1.05 }}
+                  whileTap={{ scale: isLoading ? 1 : 0.95 }}
+                  onHoverStart={() => !isLoading && setIsPencilHovered(true)}
+                  onHoverEnd={() => setIsPencilHovered(false)}
+                >
+                  {isLoading ? (
+                    <div className="w-5 h-5"><LandingPageLoader /></div>
+                  ) : (
+                    <motion.div
+                      animate={isPencilHovered ? { rotate: [0, -10, 10, -5, 0] } : {}}
+                      transition={{ duration: 0.6 }}
+                    >
+                      <Pencil className="w-5 h-5" />
+                    </motion.div>
+                  )}
+                </motion.button>
+              </div>
+              <div className="flex items-center gap-1.5">
+                <span className="text-xs text-gray-500 dark:text-gray-400">Clairvyn can make mistakes</span>
+                <button
+                  type="button"
+                  onClick={() => setShowDisclaimerModal(true)}
+                  className="flex-shrink-0 rounded-full transition-colors text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"
+                  style={{ minHeight: 0, minWidth: 0 }}
+                  title="AI Disclaimer"
+                >
+                  <Info className="w-3.5 h-3.5" />
+                </button>
+              </div>
             </motion.div>
-          ) : (
-          <div className="max-w-5xl mx-auto w-full space-y-2 sm:space-y-4 pt-4 sm:pt-6 pb-4">
+          </motion.div>
+        ) : (
+          <>
+            <div className="scrollbar-main flex-1 overflow-y-auto flex flex-col px-3 sm:px-6">
+              <div className="max-w-3xl lg:max-w-[700px] mx-auto w-full space-y-2 sm:space-y-5 lg:space-y-9 pt-3 sm:pt-8 lg:pt-14 pb-2">
             {messages.map((message, index) => (
               <motion.div
                 key={index}
@@ -1398,12 +1457,12 @@ export default function ChatbotPage() {
                 className={`flex ${message.role === 'user' ? 'justify-end' : 'justify-start'}`}
               >
                 <div
-                  className={`max-w-[90%] sm:max-w-[75%] md:max-w-[70%] p-2.5 sm:p-4 rounded-2xl ${message.role === 'user'
+                  className={`max-w-[90%] sm:max-w-[80%] p-3 sm:p-4 lg:p-5 rounded-2xl ${message.role === 'user'
                     ? 'text-gray-800 dark:text-gray-50 w-fit chat-bubble-user'
-                    : 'text-gray-800 dark:text-gray-100 min-w-[200px] sm:min-w-[280px] chat-bubble-assistant'
+                    : 'text-gray-800 dark:text-gray-100 min-w-[200px] sm:min-w-[320px] chat-bubble-assistant'
                     }`}
                 >
-                  <p className="text-xs sm:text-sm leading-relaxed">{message.content}</p>
+                  <p className="text-xs sm:text-base leading-relaxed lg:text-[15.5px] lg:leading-[1.78]">{message.content}</p>
                   {/* Support for image/extra data and description (demo script + backend responses) */}
                   {(message as any).image || (message as any).image_url || (message as any).extra_data?.png_url || (message as any).extra_data?.dxf_url || (message as any).extra_data?.document_id ? (
                     <div className="mt-3 space-y-2">
@@ -1554,13 +1613,6 @@ export default function ChatbotPage() {
                       </div>
                     )
                   })()}
-                  <p className={`text-xs mt-2 sm:mt-3 ${message.role === 'user' ? 'text-gray-500 dark:text-indigo-100/70' : 'text-gray-500 dark:text-gray-400'
-                    }`}>
-                    {message.timestamp
-                      ? new Date(message.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
-                      : new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
-                    }
-                  </p>
                 </div>
               </motion.div>
             ))}
@@ -1614,75 +1666,72 @@ export default function ChatbotPage() {
                 </div>
               </motion.div>
             )}
-          </div>
-          )}
-        </div>
-
-        {/* Chat Input */}
-        <div className="chat-input-container">
-          <div className="chat-input">
-            <div className="flex-1 min-w-0" data-onboarding="chat-input">
-              <input
-                type="text"
-                value={inputValue}
-                onChange={(e) => setInputValue(e.target.value)}
-                onKeyDown={(e) => {
-                  if (e.key === "Enter" && !e.shiftKey) {
-                    e.preventDefault()
-                    handleSubmit(e)
-                  }
-                }}
-                placeholder={placeholderText}
-                className="chat-input-field w-full min-w-0"
-                disabled={isLoading}
-                autoComplete="off"
-                spellCheck="true"
-              />
+              </div>
             </div>
 
-            <motion.button
-              type="button"
-              data-onboarding="send"
-              onClick={handleSubmit}
-              disabled={isLoading || !inputValue.trim()}
-              className="send-btn"
-              whileHover={{ scale: isLoading ? 1 : 1.05 }}
-              whileTap={{ scale: isLoading ? 1 : 0.95 }}
-              onHoverStart={() => !isLoading && setIsPencilHovered(true)}
-              onHoverEnd={() => setIsPencilHovered(false)}
-            >
-              {isLoading ? (
-                <div className="w-5 h-5">
-                  <LandingPageLoader />
-                </div>
-              ) : (
-                <motion.div
-                  animate={isPencilHovered ? { rotate: [0, -10, 10, -5, 0] } : {}}
-                  transition={{ duration: 0.6 }}
+            {/* Chat Input - bottom docked */}
+            <div className="chat-input-container">
+              <div className="chat-input" data-onboarding="chat-input">
+                <input
+                  type="text"
+                  value={inputValue}
+                  onChange={(e) => setInputValue(e.target.value)}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter" && !e.shiftKey) {
+                      e.preventDefault()
+                      handleSubmit(e)
+                    }
+                  }}
+                  placeholder={placeholderText}
+                  className="chat-input-field w-full min-w-0"
+                  disabled={isLoading}
+                  autoComplete="off"
+                  spellCheck="true"
+                />
+                <motion.button
+                  type="button"
+                  data-onboarding="send"
+                  onClick={handleSubmit}
+                  disabled={isLoading || !inputValue.trim()}
+                  className="send-btn"
+                  whileHover={{ scale: isLoading ? 1 : 1.05 }}
+                  whileTap={{ scale: isLoading ? 1 : 0.95 }}
+                  onHoverStart={() => !isLoading && setIsPencilHovered(true)}
+                  onHoverEnd={() => setIsPencilHovered(false)}
                 >
-                  <Pencil className="w-5 h-5" />
-                </motion.div>
-              )}
-            </motion.button>
-          </div>
+                  {isLoading ? (
+                    <div className="w-5 h-5">
+                      <LandingPageLoader />
+                    </div>
+                  ) : (
+                    <motion.div
+                      animate={isPencilHovered ? { rotate: [0, -10, 10, -5, 0] } : {}}
+                      transition={{ duration: 0.6 }}
+                    >
+                      <Pencil className="w-5 h-5" />
+                    </motion.div>
+                  )}
+                </motion.button>
+              </div>
 
-          {/* Disclaimer Text Below Input - Only show when docked */}
-          {hasStarted && (
-            <div className="flex items-center justify-center gap-2 mt-3 px-4">
-              <span className="text-xs text-gray-600 dark:text-gray-400">
-                Clairvyn can make mistakes
-              </span>
-              <button
-                type="button"
-                onClick={() => setShowDisclaimerModal(true)}
-                className="flex-shrink-0 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 p-0.5"
-                title="AI Disclaimer"
-              >
-                <Info className="w-4 h-4" />
-              </button>
+              {/* Disclaimer */}
+              <div className="flex items-center justify-center gap-1.5 mt-1">
+                <span className="text-xs text-gray-500 dark:text-gray-400">
+                  Clairvyn can make mistakes
+                </span>
+                <button
+                  type="button"
+                  onClick={() => setShowDisclaimerModal(true)}
+                  className="flex-shrink-0 rounded-full transition-colors text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"
+                  style={{ minHeight: 0, minWidth: 0 }}
+                  title="AI Disclaimer"
+                >
+                  <Info className="w-3.5 h-3.5" />
+                </button>
+              </div>
             </div>
-          )}
-        </div>
+          </>
+        )}
         </main>
       </div>
 

@@ -112,9 +112,10 @@ export default function AboutPage() {
           >
             <Link
               href="/"
-              className="inline-flex min-h-12 items-center text-base font-semibold text-[#1e2bd6] hover:underline desktop:min-h-0 desktop:text-sm"
+              className="inline-flex min-h-12 items-center gap-1.5 text-base font-semibold text-[#1e2bd6] hover:underline desktop:min-h-0 desktop:text-sm"
             >
-              ← Back to home
+              <span aria-hidden="true" className="leading-none">←</span>
+              <span>Back to home</span>
             </Link>
           </motion.p>
         </div>
