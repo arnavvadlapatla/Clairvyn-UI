@@ -158,9 +158,9 @@ export default function OnboardingProfilePage() {
       </Link>
 
       <div className="relative z-10 flex min-h-screen items-stretch justify-center touch-safe-x touch:px-4 touch:pb-12 touch:pt-20 px-4 pb-10 pt-20 desktop:ml-auto desktop:w-1/2 desktop:items-center desktop:justify-evenly desktop:p-5 desktop:pb-5 desktop:pl-12 desktop:pr-16 desktop:pt-0">
-        <div className="w-full max-w-full rounded-2xl border border-white/60 bg-white/75 shadow-[0_30px_90px_rgba(15,118,110,0.18)] desktop:max-w-[430px]">
+        <div className="w-full max-w-full rounded-2xl border border-white/60 bg-white/75 shadow-[0_30px_90px_rgba(124,92,191,0.14)] desktop:max-w-[430px]">
           <div className="p-5 touch:p-6 desktop:p-8">
-            <h1 className="text-3xl font-bold leading-tight text-[#1E3A8A] desktop:text-[30px]">
+            <h1 className="text-3xl font-bold leading-tight text-[#1A1040] desktop:text-[30px]">
               Tell us about you
             </h1>
             <p className="mt-2 text-base text-gray-600 desktop:text-sm">
@@ -228,7 +228,7 @@ export default function OnboardingProfilePage() {
               <Button
                 type="submit"
                 disabled={isSubmitting}
-                className="h-12 min-h-12 w-full rounded-xl bg-[#1E3A8A] text-base font-semibold text-white hover:bg-[#1E3A8A]/90"
+                className="h-12 min-h-12 w-full rounded-xl bg-[#7C5CBF] text-base font-semibold text-white hover:bg-[#5A3A9E]"
               >
                 {isSubmitting ? (
                   <span className="inline-flex items-center">
