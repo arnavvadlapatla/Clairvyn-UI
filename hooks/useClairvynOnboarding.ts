@@ -49,22 +49,29 @@ export function useClairvynOnboarding({
       Object.entries(props).forEach(([k, v]) => el.style.setProperty(k, v, "important"))
     }
 
-    if (dark) {
-      set(popover, {
-        "background": "#2D2C2B",
-        "background-color": "#2D2C2B",
-        "border": "1px solid rgba(255,255,255,0.1)",
-        "box-shadow": "0 24px 64px rgba(0,0,0,0.6), 0 8px 24px rgba(0,0,0,0.4)",
-        "color": "#F5E6D3",
-        "padding": "28px",
-        "border-radius": "20px",
-        "max-width": "min(420px, 90vw)",
-      })
-    }
+    set(popover, dark ? {
+      "background": "#242320",
+      "background-color": "#242320",
+      "border": "none",
+      "box-shadow": "0 8px 40px rgba(0,0,0,0.50), 0 1px 0 rgba(255,255,255,0.05) inset",
+      "color": "#F0EBE0",
+      "padding": "28px",
+      "border-radius": "20px",
+      "max-width": "min(420px, 90vw)",
+    } : {
+      "background": "#FAF8FF",
+      "background-color": "#FAF8FF",
+      "border": "1px solid rgba(124,92,191,0.18)",
+      "box-shadow": "0 24px 64px rgba(124,92,191,0.14), 0 8px 24px rgba(124,92,191,0.08)",
+      "color": "#1A1040",
+      "padding": "28px",
+      "border-radius": "20px",
+      "max-width": "min(420px, 90vw)",
+    })
 
     const title = popover.querySelector<HTMLElement>(".driver-popover-title")
     if (title) set(title, {
-      "color": dark ? "#F5E6D3" : "#0f172a",
+      "color": dark ? "#F0EBE0" : "#1A1040",
       "font-size": "1.4rem",
       "font-weight": "700",
       "letter-spacing": "-0.02em",
@@ -77,7 +84,7 @@ export function useClairvynOnboarding({
 
     const desc = popover.querySelector<HTMLElement>(".driver-popover-description")
     if (desc) set(desc, {
-      "color": dark ? "#C8C4BC" : "#475569",
+      "color": dark ? "#A8A090" : "#5B4D8A",
       "font-size": "1rem",
       "line-height": "1.65",
       "margin": "0",
@@ -101,7 +108,7 @@ export function useClairvynOnboarding({
 
     const progress = popover.querySelector<HTMLElement>(".driver-popover-progress-text")
     if (progress) set(progress, {
-      "color": dark ? "#8A8680" : "#64748b",
+      "color": dark ? "#6B6458" : "#A090C0",
       "font-size": "0.82rem",
       "background": "transparent",
       "background-color": "transparent",
@@ -109,7 +116,7 @@ export function useClairvynOnboarding({
 
     const closeBtn = popover.querySelector<HTMLElement>(".driver-popover-close-btn")
     if (closeBtn) set(closeBtn, {
-      "color": dark ? "#8A8680" : "#64748b",
+      "color": dark ? "#6B6458" : "#A090C0",
       "background": "transparent",
       "background-color": "transparent",
       "box-shadow": "none",
@@ -120,10 +127,10 @@ export function useClairvynOnboarding({
 
     const prevBtn = popover.querySelector<HTMLElement>(".driver-popover-prev-btn")
     if (prevBtn) set(prevBtn, {
-      "background": dark ? "rgba(255,255,255,0.08)" : "rgba(0,0,0,0.06)",
-      "background-color": dark ? "rgba(255,255,255,0.08)" : "rgba(0,0,0,0.06)",
-      "color": dark ? "#B1ADA1" : "#0f172a",
-      "border": dark ? "1px solid rgba(255,255,255,0.12)" : "1px solid rgba(0,0,0,0.1)",
+      "background": dark ? "rgba(255,255,255,0.06)" : "rgba(124,92,191,0.08)",
+      "background-color": dark ? "rgba(255,255,255,0.06)" : "rgba(124,92,191,0.08)",
+      "color": dark ? "#A8A090" : "#5B4D8A",
+      "border": dark ? "1px solid rgba(255,255,255,0.10)" : "1px solid rgba(124,92,191,0.2)",
       "border-radius": "10px",
       "padding": "9px 18px",
       "font-size": "0.9rem",
@@ -136,9 +143,9 @@ export function useClairvynOnboarding({
     const nextBtn = popover.querySelector<HTMLElement>(".driver-popover-next-btn")
       ?? popover.querySelector<HTMLElement>(".driver-popover-done-btn")
     if (nextBtn) set(nextBtn, {
-      "background": dark ? "#F5E6D3" : "#1A1918",
-      "background-color": dark ? "#F5E6D3" : "#1A1918",
-      "color": dark ? "#1A1918" : "#F5E6D3",
+      "background": dark ? "#7C5CBF" : "#7C5CBF",
+      "background-color": dark ? "#7C5CBF" : "#7C5CBF",
+      "color": dark ? "#ffffff" : "#ffffff",
       "border": "none",
       "border-radius": "10px",
       "padding": "9px 18px",
@@ -197,13 +204,14 @@ export function useClairvynOnboarding({
           driverRef.current = null
           if (!unmountingRef.current) markFinished()
         },
-        onNextClick: (_el, _step, { driver: d }) => {
+        onNextClick: (_el: Element | undefined, _step: any, { driver: d }: { driver: any }) => {
           d.moveNext()
         },
-        onPrevClick: (_el, _step, { driver: d }) => {
+        onPrevClick: (_el: Element | undefined, _step: any, { driver: d }: { driver: any }) => {
           d.movePrevious()
         },
-        onOverlayClick: (_el, _step, { driver: d }) => {
+        // @ts-expect-error — onOverlayClick exists at runtime but is missing from driver.js typedefs
+        onOverlayClick: (_el: Element | undefined, _step: any, { driver: d }: { driver: any }) => {
           if (d.isLastStep()) {
             d.destroy()
             markFinished()
@@ -216,8 +224,7 @@ export function useClairvynOnboarding({
             element: "body",
             popover: {
               title: "Welcome to Clairvyn",
-              description: "Clairvyn generates residential floor plans from text. Describe your requirements and the AI will produce a layout you can download.",
-              side: "center",
+              description: "Clairvyn generates residential floor plans upto 4BHK. Describe your requirements and we will produce a layout you can download in PNG and DXF.",
               align: "center",
             },
           },
@@ -255,11 +262,13 @@ export function useClairvynOnboarding({
               side: "right",
               align: "start",
             },
-            onHighlighted: (_el, _step, { driver: d }) => {
+            onHighlightStarted: () => {
               setIsSidebarOpen(true)
+            },
+            onHighlighted: (_el, _step, { driver: d }) => {
               window.setTimeout(() => {
                 d.refresh()
-              }, LAYOUT_MS)
+              }, LAYOUT_MS * 2)
             },
           },
           {
@@ -267,14 +276,16 @@ export function useClairvynOnboarding({
             popover: {
               title: "Your Past Designs",
               description: "All your previously generated floor plans are listed here. Click any to revisit it.",
-              side: "right",
+              side: "bottom",
               align: "start",
             },
-            onHighlighted: (_el, _step, { driver: d }) => {
+            onHighlightStarted: () => {
               setIsSidebarOpen(true)
+            },
+            onHighlighted: (_el, _step, { driver: d }) => {
               window.setTimeout(() => {
                 d.refresh()
-              }, LAYOUT_MS)
+              }, LAYOUT_MS * 2)
             },
           },
         ],

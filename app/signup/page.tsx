@@ -113,12 +113,12 @@ export default function SignUpPage() {
   }
 
   return (
-    <div className="min-h-screen relative overflow-hidden bg-white">
+    <div className="min-h-screen relative overflow-hidden bg-[#FAF8F5]">
       <div className="absolute inset-0 bg-[url('/login_bg.png')] bg-cover bg-center" />
       <div className="absolute inset-0 bg-gradient-to-r from-white/90 via-white/65 to-white/20" />
       {/* Backdrop blur only on the right half of the screen */}
       <div
-        className="absolute right-0 top-0 hidden h-full w-1/2 bg-white/25 backdrop-blur-lg desktop:block"
+        className="absolute right-0 top-0 hidden h-full w-1/2 bg-[#FAF8F5]/25 backdrop-blur-lg desktop:block"
         style={{
           WebkitMaskImage: "linear-gradient(to right, rgba(0,0,0,0) 0%, rgba(0,0,0,1) 35%, rgba(0,0,0,1) 100%)",
           maskImage: "linear-gradient(to right, rgba(0,0,0,0) 0%, rgba(0,0,0,1) 35%, rgba(0,0,0,1) 100%)",
@@ -126,16 +126,16 @@ export default function SignUpPage() {
       />
 
       <Link href="/" className="absolute left-4 top-4 z-20 desktop:left-6 desktop:top-6">
-        <div className="flex h-12 w-12 items-center justify-center rounded-full border border-white/60 bg-white/70 shadow desktop:h-10 desktop:w-10">
-          <Home className="h-5 w-5 text-[#1e2bd6]" />
+        <div className="flex h-12 w-12 items-center justify-center rounded-full border border-white/60 bg-[#FAF8F5]/70 shadow desktop:h-10 desktop:w-10">
+          <Home className="h-5 w-5 text-[#7C5CBF]" />
         </div>
       </Link>
 
       <div className="relative z-10 flex min-h-screen items-stretch justify-center touch-safe-x touch:px-4 touch:pb-12 touch:pt-20 px-4 pb-10 pt-20 desktop:ml-auto desktop:w-1/2 desktop:items-center desktop:justify-evenly desktop:p-5 desktop:pb-5 desktop:pl-12 desktop:pr-16 desktop:pt-0">
-        <div className="w-full max-w-full rounded-2xl border border-white/60 bg-white/75 shadow-[0_30px_90px_rgba(15,118,110,0.18)] desktop:max-w-[430px]">
+        <div className="w-full max-w-full rounded-2xl border border-white/60 bg-[#FAF8F5]/75 shadow-[0_30px_90px_rgba(124,92,191,0.14)] desktop:max-w-[430px]">
           <div className="p-5 touch:p-6 desktop:p-8">
             <div>
-              <h1 className="text-3xl font-bold leading-tight text-[#1E3A8A] desktop:text-[30px]">
+              <h1 className="text-3xl font-bold leading-tight text-[#1A1040] desktop:text-[30px]">
                 Sign up
               </h1>
               <p className="mt-2 text-base text-gray-600 desktop:text-sm">
@@ -153,7 +153,7 @@ export default function SignUpPage() {
                   type="text"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
-                  className="h-12 min-h-12 rounded-xl border-gray-200 bg-white/80 text-base placeholder:text-gray-500 focus-visible:ring-[#1e2bd6] desktop:text-sm"
+                  className="h-12 min-h-12 rounded-xl border-gray-200 bg-[#FAF8F5]/80 text-base placeholder:text-gray-500 focus-visible:ring-[#7C5CBF] desktop:text-sm"
                   placeholder="Your Name"
                   required
                   autoComplete="name"
@@ -169,7 +169,7 @@ export default function SignUpPage() {
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="h-12 min-h-12 rounded-xl border-gray-200 bg-white/80 text-base placeholder:text-gray-500 focus-visible:ring-[#1e2bd6] desktop:text-sm"
+                  className="h-12 min-h-12 rounded-xl border-gray-200 bg-[#FAF8F5]/80 text-base placeholder:text-gray-500 focus-visible:ring-[#7C5CBF] desktop:text-sm"
                   placeholder="Email"
                   required
                   autoComplete="email"
@@ -186,7 +186,7 @@ export default function SignUpPage() {
                     type={showPassword ? "text" : "password"}
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    className="h-12 min-h-12 rounded-xl border-gray-200 bg-white/80 pr-12 text-base placeholder:text-gray-500 focus-visible:ring-[#1e2bd6] desktop:text-sm"
+                    className="h-12 min-h-12 rounded-xl border-gray-200 bg-[#FAF8F5]/80 pr-12 text-base placeholder:text-gray-500 focus-visible:ring-[#7C5CBF] desktop:text-sm"
                     placeholder="Password"
                     required
                     autoComplete="new-password"
@@ -212,7 +212,7 @@ export default function SignUpPage() {
                 </div>
               )}
 
-              <div className="flex items-start gap-3 rounded-xl border border-gray-100 bg-white/60 p-4">
+              <div className="flex items-start gap-3 rounded-xl border border-gray-100 bg-[#FAF8F5]/60 p-4">
                 <Checkbox
                   id="accept-terms"
                   checked={acceptedTerms}
@@ -220,7 +220,7 @@ export default function SignUpPage() {
                     setAcceptedTerms(checked === true)
                     if (checked) setError("")
                   }}
-                  className="mt-0.5 h-5 w-5 shrink-0 rounded-md border-2 border-[#1E3A8A] data-[state=checked]:bg-[#1E3A8A] data-[state=checked]:border-[#1E3A8A] data-[state=checked]:text-white"
+                  className="mt-0.5 h-5 w-5 shrink-0 rounded-md border-2 border-[#7C5CBF] data-[state=checked]:bg-[#7C5CBF] data-[state=checked]:border-[#7C5CBF] data-[state=checked]:text-white"
                 />
                 <p className="text-base leading-snug text-gray-700 desktop:text-sm">
                   <label htmlFor="accept-terms" className="cursor-pointer">
@@ -230,7 +230,7 @@ export default function SignUpPage() {
                     href="/terms-of-service"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="font-semibold text-[#1E3A8A] underline underline-offset-2 hover:text-[#1e40af] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#1E3A8A] rounded"
+                    className="font-semibold text-[#7C5CBF] underline underline-offset-2 hover:text-[#5A3A9E] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#7C5CBF] rounded"
                   >
                     Terms and Conditions
                   </Link>
@@ -241,7 +241,7 @@ export default function SignUpPage() {
               <Button
                 type="submit"
                 disabled={isLoading}
-                className="h-12 min-h-12 w-full rounded-xl bg-[#1E3A8A] text-base font-semibold text-white hover:bg-[#1E3A8A]/90"
+                className="h-12 min-h-12 w-full rounded-xl bg-[#7C5CBF] text-base font-semibold text-white hover:bg-[#5A3A9E]"
               >
                 {isLoading ? (
                   <span className="inline-flex items-center">
@@ -264,7 +264,7 @@ export default function SignUpPage() {
                 type="button"
                 onClick={handleGoogleLogin}
                 disabled={isLoading}
-                className="mt-4 flex h-12 min-h-12 w-full items-center justify-center gap-3 rounded-xl border border-gray-200 bg-white/90 text-base font-medium text-gray-800 hover:bg-white"
+                className="mt-4 flex h-12 min-h-12 w-full items-center justify-center gap-3 rounded-xl border border-gray-200 bg-[#FAF8F5]/90 text-base font-medium text-gray-800 hover:bg-[#FAF8F5]"
               >
                 <span>Continue with Google</span>
                 <GoogleMark />
@@ -273,7 +273,7 @@ export default function SignUpPage() {
 
             <p className="mt-6 text-center text-base text-gray-500 desktop:text-sm">
               Already have an account?{" "}
-              <Link href="/signin" className="text-[#1E3A8A] font-semibold hover:underline">
+              <Link href="/signin" className="text-[#7C5CBF] font-semibold hover:underline">
                 Sign In
               </Link>
             </p>
