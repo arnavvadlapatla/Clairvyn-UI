@@ -19,7 +19,7 @@ export default function LandingPageLoader() {
           <polyline 
             points="32,12 52,28 52,54 12,54 12,28 32,12" 
             fill="none"
-            stroke="#1e2bd6"
+            stroke="#7C5CBF"
             strokeWidth="2.5"
             strokeLinecap="round"
             strokeLinejoin="round"

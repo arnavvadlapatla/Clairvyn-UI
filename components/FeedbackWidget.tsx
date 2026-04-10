@@ -117,7 +117,7 @@ export function FeedbackWidget({
                     value={message}
                     onChange={(e) => setMessage(e.target.value)}
                     placeholder="Tell us what's on your mind..."
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-[#1e2bd6]"
+                    className="w-full px-3 py-2 border border-[#D4C8F0] rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-[#7C5CBF]"
                     rows={3}
                   />
                 )}
@@ -129,7 +129,7 @@ export function FeedbackWidget({
                     (selectedType !== "rating" && !message.trim()) ||
                     (selectedType === "rating" && rating === 0)
                   }
-                  className="w-full bg-[#1e2bd6] hover:bg-[#1a24b8] text-sm"
+                  className="w-full bg-[#7C5CBF] hover:bg-[#5A3A9E] text-sm"
                 >
                   {isSubmitting ? "Sending..." : "Submit"}
                 </Button>
@@ -171,7 +171,7 @@ export function FeedbackWidget({
         onClick={() => setIsOpen(!isOpen)}
         whileHover={{ scale: 1.1 }}
         whileTap={{ scale: 0.95 }}
-        className="w-14 h-14 rounded-full bg-[#1e2bd6] text-white shadow-lg hover:shadow-xl transition-shadow flex items-center justify-center"
+        className="w-14 h-14 rounded-full bg-[#7C5CBF] text-white shadow-lg hover:shadow-xl transition-shadow flex items-center justify-center"
         aria-label="Feedback"
       >
         {isOpen ? (

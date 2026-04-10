@@ -1884,7 +1884,7 @@ export default function ChatbotPage() {
 
                 <button
                   onClick={() => setShowDisclaimerModal(false)}
-                  className="w-full bg-[#1e2bd6] hover:bg-[#1a24b8] dark:bg-[#7C5CBF] dark:hover:bg-[#5A3A9E] text-white font-semibold py-2 rounded-lg transition-colors"
+                  className="w-full bg-[#7C5CBF] hover:bg-[#5A3A9E] dark:bg-[#7C5CBF] dark:hover:bg-[#5A3A9E] text-white font-semibold py-2 rounded-lg transition-colors"
                 >
                   Got it
                 </button>

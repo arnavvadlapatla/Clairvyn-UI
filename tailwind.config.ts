@@ -30,6 +30,52 @@ const config: Config = {
         desktop: "769px",
       },
       colors: {
+        // Clairvyn colour system
+        clv: {
+          violet: {
+            DEFAULT: "#7C5CBF",
+            deep: "#5A3A9E",
+            mid: "#9B7FD4",
+            light: "#EDE8FA",
+            xlight: "#F8F5FF",
+          },
+          accent: {
+            DEFAULT: "#8B5CF6",
+            bg: "rgba(139, 92, 246, 0.12)",
+            text: "#6D28D9",
+          },
+          border: {
+            DEFAULT: "#D4C8F0",
+            strong: "#B8A8E0",
+          },
+          ink: {
+            DEFAULT: "#1A1040",
+            muted: "#5B4D8A",
+            subtle: "#8B7BAE",
+            placeholder: "#A090C0",
+          },
+          bg: {
+            surface: "#FFFFFF",
+            tint: "#F8F5FF",
+            app: "#EDE8FA",
+          },
+          success: {
+            DEFAULT: "#22A06B",
+            bg: "#E3F5EE",
+          },
+          warning: {
+            DEFAULT: "#D97706",
+            bg: "#FEF3C7",
+          },
+          error: {
+            DEFAULT: "#DC2626",
+            bg: "#FEE2E2",
+          },
+          scroll: {
+            thumb: "#B8A8E0",
+            hover: "#9070CC",
+          },
+        },
         // Custom color palette
         teal: {
           50: "#f0fdfa",

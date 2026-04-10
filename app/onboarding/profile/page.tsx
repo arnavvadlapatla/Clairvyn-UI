@@ -153,7 +153,7 @@ export default function OnboardingProfilePage() {
 
       <Link href="/" className="absolute left-4 top-4 z-20 desktop:left-6 desktop:top-6">
         <div className="flex h-12 w-12 items-center justify-center rounded-full border border-white/60 bg-white/70 shadow desktop:h-10 desktop:w-10">
-          <Home className="h-5 w-5 text-[#1e2bd6]" />
+          <Home className="h-5 w-5 text-[#7C5CBF]" />
         </div>
       </Link>
 
@@ -171,7 +171,7 @@ export default function OnboardingProfilePage() {
               <div className="space-y-2">
                 <Label className="text-base text-gray-800 desktop:text-sm">Where are you from?</Label>
                 <Select value={countryCode || undefined} onValueChange={setCountryCode}>
-                  <SelectTrigger className="h-12 min-h-12 rounded-xl border-gray-200 bg-white/80 text-base focus:ring-[#1e2bd6] desktop:text-sm">
+                  <SelectTrigger className="h-12 min-h-12 rounded-xl border-gray-200 bg-white/80 text-base focus:ring-[#7C5CBF] desktop:text-sm">
                     <SelectValue placeholder="Select your country" />
                   </SelectTrigger>
                   <SelectContent className="max-h-72">
@@ -212,7 +212,7 @@ export default function OnboardingProfilePage() {
                     type="text"
                     value={university}
                     onChange={(e) => setUniversity(e.target.value)}
-                    className="h-12 min-h-12 rounded-xl border-gray-200 bg-white/80 text-base placeholder:text-gray-500 focus-visible:ring-[#1e2bd6] desktop:text-sm"
+                    className="h-12 min-h-12 rounded-xl border-gray-200 bg-white/80 text-base placeholder:text-gray-500 focus-visible:ring-[#7C5CBF] desktop:text-sm"
                     placeholder="School or university name"
                     autoComplete="organization"
                   />

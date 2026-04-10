@@ -11,10 +11,10 @@ import { cn } from "@/lib/utils"
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet"
 
 const glassBar =
-  "touch:rounded-2xl desktop:rounded-3xl border border-white/30 border-b border-b-white/45 bg-white/45 shadow-[0_8px_40px_rgba(30,43,214,0.08)] backdrop-blur-xl backdrop-saturate-150 ring-1 ring-white/40"
+  "landing-navbar touch:rounded-2xl desktop:rounded-3xl border border-[rgba(212,200,240,0.50)] bg-[rgba(255,255,255,0.55)] shadow-[0_4px_24px_rgba(124,92,191,0.08)] backdrop-blur-[16px] [-webkit-backdrop-filter:blur(16px)]"
 
 const navLinkClass =
-  "flex items-center touch:text-[15px] touch:font-semibold text-gray-800 transition-colors hover:text-[#1e2bd6] desktop:text-sm desktop:font-medium desktop:text-gray-800"
+  "flex items-center touch:text-[15px] touch:font-semibold text-[#1A1040] transition-colors hover:text-[#7C5CBF] desktop:text-sm desktop:font-medium desktop:text-[#1A1040]"
 
 export function LandingHeader() {
   const router = useRouter()
@@ -64,7 +64,7 @@ export function LandingHeader() {
               <button
                 type="button"
                 onClick={() => router.push("/signin")}
-                className="hidden min-h-12 items-center justify-center rounded-full bg-[#1e2bd6] px-5 py-3 text-sm font-semibold text-white shadow-sm transition-shadow hover:shadow-md desktop:inline-flex desktop:min-h-0"
+                className="hidden min-h-12 items-center justify-center rounded-full bg-[#7C5CBF] px-5 py-3 text-sm font-semibold text-white shadow-sm transition-shadow hover:shadow-md hover:bg-[#5A3A9E] desktop:inline-flex desktop:min-h-0"
               >
                 Sign In
               </button>
@@ -73,7 +73,7 @@ export function LandingHeader() {
                 <button
                   type="button"
                   onClick={() => setMenuOpen(true)}
-                  className="touch:inline-flex touch:min-h-12 touch:min-w-12 items-center justify-center rounded-xl text-gray-800 transition-colors hover:bg-white/50 hover:text-[#1e2bd6] desktop:hidden"
+                  className="touch:inline-flex touch:min-h-12 touch:min-w-12 items-center justify-center rounded-xl text-[#1A1040] transition-colors hover:bg-white/50 hover:text-[#7C5CBF] desktop:hidden"
                   aria-label="Open menu"
                 >
                   <Menu className="h-6 w-6" strokeWidth={2} />
@@ -84,7 +84,7 @@ export function LandingHeader() {
                 >
                   <SheetHeader className="border-b border-gray-100 px-6 py-5 text-left">
                     <div className="flex items-center justify-between">
-                      <SheetTitle className="text-xl font-bold text-[#0b1a3c]">Menu</SheetTitle>
+                      <SheetTitle className="text-xl font-bold text-[#1A1040]">Menu</SheetTitle>
                     </div>
                   </SheetHeader>
                   
@@ -102,9 +102,9 @@ export function LandingHeader() {
                       <Link
                         href="/pricing"
                         onClick={() => setMenuOpen(false)}
-                        className="group flex min-h-14 items-center gap-4 rounded-xl px-4 py-3 text-base font-semibold text-gray-800 transition-all hover:bg-gradient-to-r hover:from-[#1e2bd6]/10 hover:to-[#1e2bd6]/5 hover:text-[#1e2bd6] active:scale-95"
+                        className="group flex min-h-14 items-center gap-4 rounded-xl px-4 py-3 text-base font-semibold text-[#1A1040] transition-all hover:bg-gradient-to-r hover:from-[#7C5CBF]/10 hover:to-[#7C5CBF]/5 hover:text-[#7C5CBF] active:scale-95"
                       >
-                        <span className="flex h-11 w-11 items-center justify-center rounded-full bg-gradient-to-br from-[#1e2bd6] to-[#1520b8] text-white shadow-md transition-all group-hover:shadow-lg group-hover:scale-110">
+                        <span className="flex h-11 w-11 items-center justify-center rounded-full bg-gradient-to-br from-[#7C5CBF] to-[#5A3A9E] text-white shadow-md transition-all group-hover:shadow-lg group-hover:scale-110">
                           <Tag className="h-5 w-5 fill-current" />
                         </span>
                         <span>Pricing</span>
@@ -121,9 +121,9 @@ export function LandingHeader() {
                       <Link
                         href="/about"
                         onClick={() => setMenuOpen(false)}
-                        className="group flex min-h-14 items-center gap-4 rounded-xl px-4 py-3 text-base font-semibold text-gray-800 transition-all hover:bg-gradient-to-r hover:from-[#1e2bd6]/10 hover:to-[#1e2bd6]/5 hover:text-[#1e2bd6] active:scale-95"
+                        className="group flex min-h-14 items-center gap-4 rounded-xl px-4 py-3 text-base font-semibold text-[#1A1040] transition-all hover:bg-gradient-to-r hover:from-[#7C5CBF]/10 hover:to-[#7C5CBF]/5 hover:text-[#7C5CBF] active:scale-95"
                       >
-                        <span className="flex h-11 w-11 items-center justify-center rounded-full bg-gradient-to-br from-[#1e2bd6] to-[#1520b8] text-white shadow-md transition-all group-hover:shadow-lg group-hover:scale-110">
+                        <span className="flex h-11 w-11 items-center justify-center rounded-full bg-gradient-to-br from-[#7C5CBF] to-[#5A3A9E] text-white shadow-md transition-all group-hover:shadow-lg group-hover:scale-110">
                           <Info className="h-5 w-5" />
                         </span>
                         <span>About</span>
@@ -140,9 +140,9 @@ export function LandingHeader() {
                       <Link
                         href="/blog"
                         onClick={() => setMenuOpen(false)}
-                        className="group flex min-h-14 items-center gap-4 rounded-xl px-4 py-3 text-base font-semibold text-gray-800 transition-all hover:bg-gradient-to-r hover:from-[#1e2bd6]/10 hover:to-[#1e2bd6]/5 hover:text-[#1e2bd6] active:scale-95"
+                        className="group flex min-h-14 items-center gap-4 rounded-xl px-4 py-3 text-base font-semibold text-[#1A1040] transition-all hover:bg-gradient-to-r hover:from-[#7C5CBF]/10 hover:to-[#7C5CBF]/5 hover:text-[#7C5CBF] active:scale-95"
                       >
-                        <span className="flex h-11 w-11 items-center justify-center rounded-full bg-gradient-to-br from-[#1e2bd6] to-[#1520b8] text-white shadow-md transition-all group-hover:shadow-lg group-hover:scale-110">
+                        <span className="flex h-11 w-11 items-center justify-center rounded-full bg-gradient-to-br from-[#7C5CBF] to-[#5A3A9E] text-white shadow-md transition-all group-hover:shadow-lg group-hover:scale-110">
                           <BookOpen className="h-5 w-5 fill-current" />
                         </span>
                         <span>Blog</span>
@@ -160,7 +160,7 @@ export function LandingHeader() {
                       <button
                         type="button"
                         onClick={goSignIn}
-                        className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-gradient-to-r from-[#1e2bd6] to-[#1a21c0] text-base font-semibold text-white shadow-lg transition-all hover:shadow-xl hover:from-[#1e2bd6] hover:to-[#1620b0] active:scale-95"
+                        className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-gradient-to-r from-[#7C5CBF] to-[#5A3A9E] text-base font-semibold text-white shadow-lg transition-all hover:shadow-xl hover:from-[#5A3A9E] hover:to-[#5A3A9E] active:scale-95"
                       >
                         Sign In
                       </button>

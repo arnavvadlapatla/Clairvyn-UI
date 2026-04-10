@@ -93,22 +93,22 @@ export function PaymentPaywallModal({
   }
 
   const shellGradient =
-    "bg-gradient-to-br from-[#fbfaff] via-[#f7f7ff] to-[#f5fbff] border border-indigo-200/70 shadow-[0_24px_64px_rgba(96,110,190,0.20)]"
+    "bg-gradient-to-br from-[#F8F5FF] via-[#F8F5FF] to-[#EDE8FA] border border-[#D4C8F0] shadow-[0_24px_64px_rgba(124,92,191,0.20)]"
   const glowTop =
-    "bg-[radial-gradient(ellipse_at_top_left,rgba(129,140,248,0.18),transparent_62%)]"
+    "bg-[radial-gradient(ellipse_at_top_left,rgba(155,127,212,0.18),transparent_62%)]"
   const glowBottom =
-    "bg-[radial-gradient(ellipse_at_bottom_right,rgba(59,130,246,0.12),transparent_62%)]"
-  const textPrimary = "text-indigo-950"
-  const textMuted = "text-indigo-900/65"
+    "bg-[radial-gradient(ellipse_at_bottom_right,rgba(124,92,191,0.12),transparent_62%)]"
+  const textPrimary = "text-[#1A1040]"
+  const textMuted = "text-[#5B4D8A]"
   const badgeStyle =
-    "bg-white/70 border-indigo-200/80 text-indigo-900"
+    "bg-white/70 border-[#D4C8F0] text-[#1A1040]"
   const cardStyle =
-    "rounded-2xl bg-white/78 backdrop-blur-sm border border-indigo-200/70 p-4 mb-5"
-  const progressTrack = "bg-indigo-100/80"
-  const progressFill = "bg-gradient-to-r from-indigo-400 to-sky-400"
+    "rounded-2xl bg-white/78 backdrop-blur-sm border border-[#D4C8F0] p-4 mb-5"
+  const progressTrack = "bg-[#EDE8FA]"
+  const progressFill = "bg-gradient-to-r from-[#7C5CBF] to-[#9B7FD4]"
   const primaryBtn =
-    "w-full h-12 rounded-xl text-base font-semibold bg-gradient-to-r from-indigo-500 to-blue-500 text-white hover:from-indigo-500 hover:to-blue-400 border-0 shadow-lg shadow-indigo-200/90 transition-all hover:-translate-y-0.5"
-  const secondaryBtn = "text-indigo-900/45 hover:text-indigo-900/75"
+    "w-full h-12 rounded-xl text-base font-semibold bg-[#7C5CBF] text-white hover:bg-[#5A3A9E] border-0 shadow-lg shadow-[rgba(124,92,191,0.30)] transition-all hover:-translate-y-0.5"
+  const secondaryBtn = "text-[#5B4D8A]/45 hover:text-[#5B4D8A]/75"
 
   return (
     <Dialog open={open} onOpenChange={(o) => !o && handleMaybeLater()}>
@@ -130,7 +130,7 @@ export function PaymentPaywallModal({
           <div className="relative z-10 px-7 pt-7 pb-6">
             <button
               onClick={handleMaybeLater}
-              className="absolute top-4 right-4 p-1.5 rounded-full transition-colors bg-indigo-100/80 hover:bg-indigo-100 text-indigo-600 hover:text-indigo-700"
+              className="absolute top-4 right-4 p-1.5 rounded-full transition-colors bg-[#EDE8FA] hover:bg-[#D4C8F0] text-[#7C5CBF] hover:text-[#5A3A9E]"
             >
               <X className="w-4 h-4" />
             </button>
@@ -141,7 +141,7 @@ export function PaymentPaywallModal({
               transition={{ delay: 0.1 }}
               className={`inline-flex items-center gap-1.5 rounded-full backdrop-blur-sm border px-3 py-1 mb-5 ${badgeStyle}`}
             >
-              <Crown className="w-3.5 h-3.5 text-indigo-500" />
+              <Crown className="w-3.5 h-3.5 text-[#7C5CBF]" />
               <span className="text-xs font-semibold tracking-wide">PREMIUM</span>
             </motion.div>
 
@@ -173,7 +173,7 @@ export function PaymentPaywallModal({
             >
               <div className={`flex items-center justify-between text-xs mb-1.5 ${textMuted}`}>
                 <span>Generations used</span>
-                <span className="font-medium text-indigo-700">{FREE_GENERATIONS}/{FREE_GENERATIONS}</span>
+                <span className="font-medium text-[#7C5CBF]">{FREE_GENERATIONS}/{FREE_GENERATIONS}</span>
               </div>
               <div className={`h-2 rounded-full overflow-hidden ${progressTrack}`}>
                 <motion.div
@@ -191,7 +191,7 @@ export function PaymentPaywallModal({
               transition={{ delay: 0.3 }}
               className={cardStyle}
             >
-              <p className="text-xs font-semibold uppercase tracking-wider mb-3 text-indigo-700/60">What you get</p>
+              <p className="text-xs font-semibold uppercase tracking-wider mb-3 text-[#5B4D8A]/60">What you get</p>
               <ul className="space-y-2.5">
                 {features.map((feature, i) => (
                   <motion.li
@@ -201,10 +201,10 @@ export function PaymentPaywallModal({
                     transition={{ delay: 0.35 + i * 0.06 }}
                     className="flex items-center gap-2.5"
                   >
-                    <div className="flex-shrink-0 w-5 h-5 rounded-full flex items-center justify-center bg-indigo-100">
-                      <Check className="w-3 h-3 text-indigo-600" />
+                    <div className="flex-shrink-0 w-5 h-5 rounded-full flex items-center justify-center bg-[#EDE8FA]">
+                      <Check className="w-3 h-3 text-[#7C5CBF]" />
                     </div>
-                    <span className="text-sm text-indigo-900/85">{feature}</span>
+                    <span className="text-sm text-[#1A1040]/85">{feature}</span>
                   </motion.li>
                 ))}
               </ul>
@@ -216,9 +216,9 @@ export function PaymentPaywallModal({
               transition={{ delay: 0.5 }}
               className="flex items-baseline gap-1 mb-4"
             >
-              <span className="text-lg font-bold text-indigo-700">₹</span>
+              <span className="text-lg font-bold text-[#7C5CBF]">₹</span>
               <span className={`text-4xl font-extrabold ${textPrimary}`}>{PAYWALL_PRICE_INR.toLocaleString("en-IN")}</span>
-              <span className="text-sm ml-1 text-indigo-700/55">one-time</span>
+              <span className="text-sm ml-1 text-[#5B4D8A]/55">one-time</span>
             </motion.div>
 
             <AnimatePresence>

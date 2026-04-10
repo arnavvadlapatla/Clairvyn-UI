@@ -171,13 +171,11 @@ export default function HomePage() {
   }
 
   return (
-    <div className="min-h-screen bg-white relative overflow-hidden overflow-x-hidden">
+    <div className="min-h-screen relative overflow-hidden overflow-x-hidden" style={{ background: 'linear-gradient(135deg, #C0A8F2 0%, #FAF8F5 52%, #C8DCFA 100%)' }}>
       {/* Background */}
       <div className="absolute inset-0">
-        <div className="absolute inset-0 bg-gradient-to-b from-white via-white to-[#f6f4ff]" />
         <div className="absolute -top-40 -left-40 h-[520px] w-[520px] rounded-full bg-purple-300/60 blur-3xl" />
         <div className="absolute -top-24 right-[-220px] h-[560px] w-[560px] rounded-full bg-blue-300/60 blur-3xl" />
-        <div className="absolute bottom-[-240px] left-[20%] h-[640px] w-[640px] rounded-full bg-indigo-300/50 blur-3xl" />
       </div>
 
       <LandingHeader />
@@ -190,7 +188,7 @@ export default function HomePage() {
               <div className="mb-3 text-[11px] font-semibold uppercase tracking-[0.2em] text-gray-600 touch:mb-4 touch:text-[11px] desktop:mb-4 desktop:text-xs desktop:tracking-widest">
                 DESIGN SMARTER, NOT HARDER
               </div>
-              <h1 className="font-extrabold tracking-tight text-[#0b1a3c] touch:text-[1.65rem] touch:leading-snug desktop:text-5xl desktop:leading-tight desktop:lg:text-6xl">
+              <h1 className="font-extrabold tracking-tight text-[#1A1040] touch:text-[1.65rem] touch:leading-snug desktop:text-5xl desktop:leading-tight desktop:lg:text-6xl">
                 Design Architectural <br className="hidden desktop:block" />
                 Floor Plans Using <br className="hidden desktop:block" />
                 Simple Prompts.
@@ -198,7 +196,7 @@ export default function HomePage() {
               <div className="mt-8 touch:mt-10">
                 <button
                   onClick={handleTryIt}
-                  className="group flex h-12 w-full min-h-12 touch:w-full touch:px-6 items-center justify-center gap-2 rounded-full bg-[#1e2bd6] px-8 text-base font-semibold text-white shadow-md transition-all hover:shadow-lg hover:bg-[#1a24b8] active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed desktop:inline-flex desktop:h-auto desktop:w-auto desktop:min-h-0 desktop:py-5 desktop:text-[1em]"
+                  className="group flex h-12 w-full min-h-12 touch:w-full touch:px-6 items-center justify-center gap-2 rounded-full bg-[#7C5CBF] px-8 text-base font-semibold text-white shadow-md transition-all hover:shadow-lg hover:bg-[#5A3A9E] active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed desktop:inline-flex desktop:h-auto desktop:w-auto desktop:min-h-0 desktop:py-5 desktop:text-[1em]"
                 >
                   Try Now
                   <span className="transition-transform group-hover:translate-x-1">→</span>
@@ -215,7 +213,7 @@ export default function HomePage() {
               >
                 <div className="absolute -inset-6 touch:-inset-3 rounded-[40px] bg-gradient-to-br from-white/60 to-white/10 blur-xl" />
 
-                <div className="relative max-w-full overflow-hidden rounded-[16px] border border-black/8 bg-white/80 shadow-[0_40px_100px_rgba(30,43,214,0.22),0_8px_32px_rgba(0,0,0,0.10)] backdrop-blur-md desktop:overflow-visible desktop:rounded-[20px]">
+                <div className="relative max-w-full overflow-hidden rounded-[16px] border border-[rgba(212,200,240,0.60)] bg-[rgba(255,255,255,0.45)] shadow-[0_12px_40px_rgba(124,92,191,0.18)] backdrop-blur-[20px] [-webkit-backdrop-filter:blur(20px)] desktop:overflow-visible desktop:rounded-[20px] hero-screenshot-frame">
                   <div className="relative aspect-[16/9] max-w-full overflow-hidden desktop:overflow-visible">
                     {heroStack.map((slideIdx, stackPos) => {
                       const isLeaving = slideIdx === leavingId
@@ -358,7 +356,7 @@ export default function HomePage() {
                 className="rounded-2xl border border-purple-500/7 bg-gradient-to-b from-white to-[#C8BFFB] p-6 text-center shadow-sm backdrop-blur transition-shadow hover:shadow-xl desktop:rounded-[28px] desktop:p-12"
               >
                 <div
-                  className={`mx-auto mb-6 flex h-40 w-40 items-center justify-center rounded-[28px] bg-gradient-to-br shadow-[0_22px_55px_rgba(30,43,214,0.14)] desktop:mb-9 desktop:h-48 desktop:w-48 desktop:rounded-[34px] ${feature.color}`}
+                  className={`mx-auto mb-6 flex h-40 w-40 items-center justify-center rounded-[28px] bg-gradient-to-br shadow-[0_22px_55px_rgba(124,92,191,0.14)] desktop:mb-9 desktop:h-48 desktop:w-48 desktop:rounded-[34px] ${feature.color}`}
                 >
                   <div className="relative h-32 w-32 overflow-hidden rounded-[22px] border border-black/5 bg-white/85 shadow-sm desktop:h-40 desktop:w-40 desktop:rounded-[26px]">
                     <Image
@@ -371,7 +369,7 @@ export default function HomePage() {
                     />
                   </div>
                 </div>
-                <h3 className="mb-3 text-lg font-bold text-[#0b1a3c] desktop:mb-4 desktop:text-xl">{feature.title}</h3>
+                <h3 className="mb-3 text-lg font-bold text-[#1A1040] desktop:mb-4 desktop:text-xl">{feature.title}</h3>
                 <p className="text-base font-medium leading-relaxed text-gray-600">{feature.description}</p>
               </motion.div>
             ))}
@@ -405,7 +403,7 @@ export default function HomePage() {
                   href="/terms-of-service"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex min-h-12 items-center rounded-lg text-base font-medium text-gray-600 transition-colors hover:text-[#1e2bd6] focus:outline-none hover:underline desktop:min-h-0 desktop:text-[15px]"
+                  className="flex min-h-12 items-center rounded-lg text-base font-medium text-gray-600 transition-colors hover:text-[#7C5CBF] focus:outline-none hover:underline desktop:min-h-0 desktop:text-[15px]"
                 >
                   Terms of Service
                 </Link>
@@ -413,7 +411,7 @@ export default function HomePage() {
                   href="/privacy-policy"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex min-h-12 items-center rounded-lg text-base font-medium text-gray-600 transition-colors hover:text-[#1e2bd6] focus:outline-none hover:underline desktop:min-h-0 desktop:text-[15px]"
+                  className="flex min-h-12 items-center rounded-lg text-base font-medium text-gray-600 transition-colors hover:text-[#7C5CBF] focus:outline-none hover:underline desktop:min-h-0 desktop:text-[15px]"
                 >
                   Privacy Policy
                 </Link>
@@ -421,7 +419,7 @@ export default function HomePage() {
                   href="/consent-notice"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex min-h-12 items-center rounded-lg text-base font-medium text-gray-600 transition-colors hover:text-[#1e2bd6] focus:outline-none hover:underline desktop:min-h-0 desktop:text-[15px]"
+                  className="flex min-h-12 items-center rounded-lg text-base font-medium text-gray-600 transition-colors hover:text-[#7C5CBF] focus:outline-none hover:underline desktop:min-h-0 desktop:text-[15px]"
                 >
                   Consent Notice
                 </Link>
@@ -458,7 +456,7 @@ export default function HomePage() {
                     href="mailto:hello@clairvyn.com"
                     className="flex h-12 min-h-12 w-12 min-w-12 items-center justify-center rounded-full bg-gray-100 transition-colors hover:bg-gray-200 group"
                   >
-                    <Mail size={24} className="text-gray-600 transition-colors group-hover:text-[#1e2bd6]" />
+                    <Mail size={24} className="text-gray-600 transition-colors group-hover:text-[#7C5CBF]" />
                   </a>
                 </div>
               </div>

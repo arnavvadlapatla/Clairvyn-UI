@@ -21,12 +21,10 @@ const highlights = [
 
 export default function AboutPage() {
   return (
-    <div className="min-h-screen bg-white relative overflow-hidden overflow-x-hidden">
+    <div className="min-h-screen relative overflow-hidden overflow-x-hidden" style={{ background: 'radial-gradient(ellipse at 10% 10%, #C0A8F2 0%, #FAF8F5 55%, #C8DCFA 100%)' }}>
       <div className="absolute inset-0">
-        <div className="absolute inset-0 bg-gradient-to-b from-white via-white to-[#f6f4ff]" />
         <div className="absolute -top-40 -left-40 h-[520px] w-[520px] rounded-full bg-purple-300/60 blur-3xl" />
         <div className="absolute -top-24 right-[-220px] h-[560px] w-[560px] rounded-full bg-blue-300/60 blur-3xl" />
-        <div className="absolute bottom-[-240px] left-[20%] h-[640px] w-[640px] rounded-full bg-indigo-300/50 blur-3xl" />
       </div>
 
       <LandingHeader />
@@ -38,10 +36,10 @@ export default function AboutPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.45, ease: "easeOut" }}
           >
-            <p className="mb-3 text-[11px] font-semibold uppercase tracking-[0.2em] text-gray-600 touch:tracking-[0.2em] desktop:text-xs desktop:tracking-widest">
+            <p className="mb-3 text-[11px] font-semibold uppercase tracking-[0.2em] text-[#7C5CBF] touch:tracking-[0.2em] desktop:text-xs desktop:tracking-widest">
               CLAIRVYN
             </p>
-            <h1 className="font-extrabold tracking-tight text-[#0b1a3c] touch:text-[1.65rem] touch:leading-snug desktop:text-5xl">
+            <h1 className="font-extrabold tracking-tight text-[#1A1040] touch:text-[1.65rem] touch:leading-snug desktop:text-5xl">
               About us
             </h1>
             <p className="mt-4 text-lg leading-relaxed text-gray-600">
@@ -66,9 +64,9 @@ export default function AboutPage() {
             {highlights.map((item) => (
               <li
                 key={item.title}
-                className="rounded-2xl border border-black/8 bg-white/70 px-5 py-6 shadow-[0_16px_48px_rgba(30,43,214,0.06)] backdrop-blur-md desktop:rounded-[22px]"
+                className="about-feature-card rounded-2xl border border-[rgba(212,200,240,0.55)] bg-[rgba(255,255,255,0.50)] px-5 py-6 shadow-[0_4px_20px_rgba(124,92,191,0.08)] backdrop-blur-[14px] [-webkit-backdrop-filter:blur(14px)] transition-all duration-200 ease-in-out hover:bg-[rgba(255,255,255,0.70)] hover:border-[rgba(124,92,191,0.35)] hover:shadow-[0_8px_28px_rgba(124,92,191,0.14)] desktop:rounded-[22px]"
               >
-                <h2 className="text-base font-bold text-[#0b1a3c] desktop:text-sm">{item.title}</h2>
+                <h2 className="text-base font-bold text-[#1A1040] desktop:text-sm">{item.title}</h2>
                 <p className="mt-2 text-base leading-relaxed text-gray-600 desktop:text-sm">{item.text}</p>
               </li>
             ))}
@@ -83,20 +81,20 @@ export default function AboutPage() {
             <div className="flex flex-col gap-4 desktop:flex-row desktop:items-center desktop:gap-6">
               <Link
                 href="/signup"
-                className="flex h-12 items-center justify-center rounded-full bg-[#1e2bd6] px-7 text-base font-semibold text-white shadow-md transition-all hover:shadow-lg hover:bg-[#1a24b8] desktop:inline-flex desktop:h-auto desktop:px-8 desktop:py-3.5 desktop:text-sm"
+                className="flex h-12 items-center justify-center rounded-full bg-[#7C5CBF] px-7 text-base font-semibold text-white shadow-md transition-all hover:shadow-lg hover:bg-[#5A3A9E] desktop:inline-flex desktop:h-auto desktop:px-8 desktop:py-3.5 desktop:text-sm"
               >
                 Get started
               </Link>
               <div className="flex flex-col gap-3 desktop:flex-row desktop:items-center desktop:gap-6">
                 <Link
                   href="/pricing"
-                  className="flex h-12 items-center justify-center rounded-full border-2 border-[#1e2bd6]/30 text-base font-semibold text-[#1e2bd6] transition-all hover:border-[#1e2bd6]/50 hover:bg-[#1e2bd6]/5 desktop:inline-flex desktop:h-auto desktop:border-0 desktop:py-0 desktop:text-sm desktop:hover:underline"
+                  className="flex h-12 items-center justify-center rounded-full border-2 border-[#7C5CBF]/30 text-base font-semibold text-[#7C5CBF] transition-all hover:border-[#7C5CBF]/50 hover:bg-[#7C5CBF]/5 desktop:inline-flex desktop:h-auto desktop:border-0 desktop:py-0 desktop:text-sm desktop:hover:underline"
                 >
                   View pricing
                 </Link>
                 <a
                   href="mailto:hello@clairvyn.com"
-                  className="flex h-12 items-center justify-center rounded-full border-2 border-gray-300/40 text-base font-semibold text-gray-700 transition-all hover:border-gray-400/60 hover:bg-gray-100/50 desktop:inline-flex desktop:h-auto desktop:border-0 desktop:py-0 desktop:justify-start desktop:text-sm desktop:text-gray-600 desktop:hover:text-[#1e2bd6] desktop:hover:underline"
+                  className="flex h-12 items-center justify-center rounded-full border-2 border-gray-300/40 text-base font-semibold text-[#5B4D8A] transition-all hover:border-gray-400/60 hover:bg-gray-100/50 desktop:inline-flex desktop:h-auto desktop:border-0 desktop:py-0 desktop:justify-start desktop:text-sm desktop:text-[#5B4D8A] desktop:hover:text-[#7C5CBF] desktop:hover:underline"
                 >
                   hello@clairvyn.com
                 </a>
@@ -112,7 +110,7 @@ export default function AboutPage() {
           >
             <Link
               href="/"
-              className="inline-flex min-h-12 items-center gap-1.5 text-base font-semibold text-[#1e2bd6] hover:underline desktop:min-h-0 desktop:text-sm"
+              className="inline-flex min-h-12 items-center gap-1.5 text-base font-semibold text-[#7C5CBF] hover:underline desktop:min-h-0 desktop:text-sm"
             >
               <span aria-hidden="true" className="leading-none">←</span>
               <span>Back to home</span>

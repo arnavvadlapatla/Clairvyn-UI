@@ -1344,7 +1344,7 @@ a:focus-visible {
   --clv-ink-muted:        #5B4D8A;
   --clv-ink-subtle:       #8B7BAE;
   --clv-ink-placeholder:  #A090C0;
-  --clv-bg-surface:       #FAF8F5;
+  --clv-bg-surface:       #FFFFFF;
   --clv-bg-tint:          #F8F5FF;
   --clv-bg-app:           #EDE8FA;
   --clv-success:          #22A06B;
@@ -1355,6 +1355,16 @@ a:focus-visible {
   --clv-error-bg:         #FEE2E2;
   --clv-scroll-thumb:     #B8A8E0;
   --clv-scroll-hover:     #9070CC;
+}
+
+/* ─── Glassmorphism @supports fallback ─── */
+@supports not (backdrop-filter: blur(1px)) {
+  .landing-navbar         { background: rgba(255,255,255,0.95) !important; }
+  .hero-screenshot-frame  { background: rgba(255,255,255,0.92) !important; }
+  .pro-pricing-card       { background: #EDE8FA !important; }
+  .about-feature-card     { background: rgba(255,255,255,0.95) !important; }
+  .cta-strip              { background: rgba(237,232,250,0.90) !important; }
+  .chatbot-sidebar-glass  { background: rgba(255,255,255,0.95) !important; }
 }
 
 /* Premium Button States */

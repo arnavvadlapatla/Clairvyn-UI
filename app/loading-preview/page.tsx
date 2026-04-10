@@ -97,12 +97,10 @@ export default function LoadingPreview() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-white via-indigo-50/30 to-blue-50/30">
+    <div className="min-h-screen" style={{ background: 'linear-gradient(135deg, #C0A8F2 0%, #FAF8F5 52%, #C8DCFA 100%)' }}>
       <div className="absolute inset-0">
-        <div className="absolute inset-0 bg-gradient-to-b from-white/80 via-white/50 to-indigo-100/30" />
         <div className="absolute -top-40 -left-40 h-[520px] w-[520px] rounded-full bg-purple-300/40 blur-3xl" />
         <div className="absolute -top-24 right-[-220px] h-[560px] w-[560px] rounded-full bg-blue-300/40 blur-3xl" />
-        <div className="absolute bottom-[-240px] left-[20%] h-[640px] w-[640px] rounded-full bg-indigo-300/30 blur-3xl" />
       </div>
 
       <main className="relative z-10 flex items-center justify-center min-h-screen px-4">
@@ -122,7 +120,7 @@ export default function LoadingPreview() {
                 transition={{ duration: 0.35, ease: [0.4, 0, 0.2, 1] }}
                 className="flex justify-start w-full"
               >
-                <div className="chat-bubble-assistant text-gray-700 dark:text-gray-300 p-3 sm:p-4 rounded-2xl shadow-md bg-gradient-to-br from-white/92 via-indigo-50/90 to-blue-50/88 border border-indigo-200/40 backdrop-blur-2xl">
+                <div className="chat-bubble-assistant text-gray-700 dark:text-gray-300 p-3 sm:p-4 rounded-2xl shadow-md bg-gradient-to-br from-white/92 via-[#F8F5FF]/90 to-[#EDE8FA]/88 border border-[#D4C8F0]/40 backdrop-blur-2xl">
                   <div className="flex items-center gap-3 min-w-0">
                     {/* Rotating House Icon */}
                     <TypingIndicator />
@@ -133,7 +131,7 @@ export default function LoadingPreview() {
                         animate={{ opacity: 1, x: 0 }}
                         exit={{ opacity: 0, x: 8 }}
                         transition={{ duration: 0.25, ease: [0.4, 0, 0.2, 1] }}
-                        className="text-xs sm:text-sm font-medium text-[#1e2bd6] min-w-0 flex-1"
+                        className="text-xs sm:text-sm font-medium text-[#7C5CBF] min-w-0 flex-1"
                       >
                         {statusLine}
                       </motion.span>
@@ -148,7 +146,7 @@ export default function LoadingPreview() {
           <div className="text-center">
             <button
               onClick={toggleAnimation}
-              className="inline-flex items-center justify-center rounded-full bg-[#1e2bd6] text-white font-semibold py-3 px-8 transition-all hover:bg-[#1a24b8] hover:shadow-lg hover:shadow-[rgba(30,43,214,0.25)] active:scale-95"
+              className="inline-flex items-center justify-center rounded-full bg-[#7C5CBF] text-white font-semibold py-3 px-8 transition-all hover:bg-[#5A3A9E] hover:shadow-lg hover:shadow-[rgba(124,92,191,0.25)] active:scale-95"
             >
               {isAnimating ? "Pause" : "Start"} Animation
             </button>
