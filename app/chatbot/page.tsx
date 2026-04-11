@@ -478,6 +478,7 @@ export default function ChatbotPage() {
         if (sessions.length === 0) {
           // No sessions yet — don't persist anything; wait for first message
           console.log("[Clairvyn] initChat: no sessions, starting blank")
+          if (cancelled || submittingRef.current) return
           setCurrentChatId(null)
           setMessages([])
           setHasStarted(false)
@@ -495,7 +496,7 @@ export default function ChatbotPage() {
           const { messages: sessionMessages, fromBackend: loadedFromBackend } =
             await loadMessagesForChat(uid, targetId, token)
 
-          if (cancelled) return
+          if (cancelled || submittingRef.current) return
 
           if (loadedFromBackend) {
             await setChatMessages(
@@ -512,6 +513,7 @@ export default function ChatbotPage() {
             setBackendChatId(targetId)
           }
 
+          if (cancelled || submittingRef.current) return
           setCurrentChatId(targetId)
           setMessages(
             sessionMessages.map((m) => ({
