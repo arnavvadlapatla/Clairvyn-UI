@@ -1,0 +1,29 @@
+{
+    "layout": {
+        "rooms": [
+            {
+                "id": "bedroom1",
+                "rtype": "bedroom",
+                "polygon": [
+                    [
+                        0,
+                        0
+                    ],
+                    [
+                        5,
+                        0
+                    ],
+                    [
+                        5,
+                        3
+                    ],
+                    [
+                        0,
+                        3
+                    ]
+                ]
+            }
+        ],
+        "connections": []
+    }
+}

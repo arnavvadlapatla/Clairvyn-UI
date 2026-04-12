@@ -1,0 +1,29 @@
+{
+    "layout": {
+        "rooms": [
+            {
+                "id": "bedroom2_fail",
+                "rtype": "bedroom",
+                "polygon": [
+                    [
+                        0,
+                        0
+                    ],
+                    [
+                        1,
+                        0
+                    ],
+                    [
+                        1,
+                        1
+                    ],
+                    [
+                        0,
+                        1
+                    ]
+                ]
+            }
+        ],
+        "connections": []
+    }
+}

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ClairvynAI</title>
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}" />
+</head>
+
+<body>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.157.0/build/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/dxf-parser@latest/dist/dxf-parser.min.js"></script>
+  <header class="header">
+    <div class="logo-dot"></div>
+    <div class="title">ClairvynAI</div>
+  </header>
+
+  <main class="chat-container">
+    <div class="chat-inner" id="chatInner">
+      <!-- Messages get injected here -->
+    </div>
+  </main>
+
+  <div class="file-list" id="fileList"></div>
+
+  <div class="input-bar">
+    <div class="input-inner">
+      <button class="attach-btn" id="attachBtn" title="Attach file">
+        📎
+      </button>
+      <input type="file" id="fileInput" class="file-input" multiple />
+
+      <textarea id="chatInput" class="chat-input" rows="1" placeholder="Ask ClairvynAI anything..."></textarea>
+
+      <button class="send-btn" id="sendBtn" disabled>Send</button>
+    </div>
+  </div>
+  <script src="{{ url_for('static', filename='js/index.js') }}?v=4"></script>
+</body>
+
+</html>

@@ -1,0 +1,10 @@
+id,name,type,dimensions,position,path
+1,Bedroom,Room,10x10,0,data/asset/bedroom_5x5.dxf
+2,LivingRoom,Room,10x10,0,data/asset/living_comp.dxf
+3,Kitchen,Room,10x10,0,data/asset/kitchen_comp.dxf
+10,bed,Furniture,1.8x2,0,data/asset/bed.dxf
+11,sidetable,Furniture,0.5x0.5,0,data/asset/sidetable.dxf
+12,sofa,Furniture,2x0.8,0,data/asset/sofa.dxf
+13,table,Furniture,1x1,0,data/asset/table.dxf
+14,counter,Furniture,1x0.6,0,data/asset/counter.dxf
+15,sink,Furniture,0.6x0.4,0,data/asset/sink.dxf

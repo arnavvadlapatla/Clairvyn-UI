@@ -1,0 +1,59 @@
+{
+  "total_area": 118656,
+  "rooms": [
+    {
+      "rtype": "bedroom",
+      "id": 1,
+      "width": 180,
+      "height": 144,
+      "position": [0, 0],
+      "windows": 2,
+      "doors": 2
+    },
+    {
+      "rtype": "bathroom",
+      "id": 2,
+      "width": 96,
+      "height": 72,
+      "position": [180, 0],
+      "windows": 1,
+      "doors": 1
+    },
+    {
+      "rtype": "kitchen",
+      "id": 3,
+      "width": 168,
+      "height": 144,
+      "position": [276, 0],
+      "windows": 2,
+      "doors": 2
+    },
+    {
+      "rtype": "bedroom",
+      "id": 4,
+      "width": 180,
+      "height": 144,
+      "position": [0, 144],
+      "windows": 2,
+      "doors": 2
+    },
+    {
+      "rtype": "bathroom",
+      "id": 5,
+      "width": 96,
+      "height": 72,
+      "position": [180, 216],
+      "windows": 1,
+      "doors": 1
+    }
+  ],
+  "connections": [
+    { "from": 1, "to": 2, "type": "door" },
+    { "from": 4, "to": 5, "type": "door" },
+    { "from": 1, "to": 3, "type": "door" },
+    { "from": 4, "to": 3, "type": "door" },
+    { "from": 1, "to": 1, "type": "window" },
+    { "from": 4, "to": 4, "type": "window" },
+    { "from": 3, "to": 3, "type": "window" }
+  ]
+}

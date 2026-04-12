@@ -1,0 +1,30 @@
+{
+  "total_area": 12456,
+  "rooms": [
+    {
+      "rtype": "bedroom",
+      "id": 1,
+      "width": 380,
+      "height": 400,
+      "position": [0, 0]
+    },
+    {
+      "rtype": "bathroom",
+      "id": 2,
+      "width": 210,
+      "height": 180,
+      "position": [0, 400]
+    },
+    {
+      "rtype": "kitchen",
+      "id": 3,
+      "width": 300,
+      "height": 280,
+      "position": [380, 0]
+    }
+  ],
+  "connections": [
+    { "from": 1, "to": 2, "rtype": "door" },
+    { "from": 3, "to": 4, "rtype": "open" }
+  ]
+}

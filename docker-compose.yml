@@ -1,0 +1,31 @@
+# ──────────────────────────────────────────────────────────────
+#  ClairvynAI — Docker Compose (Production)
+#  Single service: Flask API via Gunicorn + ThreadPoolExecutor.
+#  Redis and Celery have been removed.
+#
+#  Usage on EC2:
+#    cp .env.production .env   # fill in secrets first
+#    docker compose up -d --build
+# ──────────────────────────────────────────────────────────────
+version: "3.9"
+
+services:
+  web:
+    build: .
+    restart: unless-stopped
+    ports:
+      - "5000:5000"
+    env_file:
+      - .env
+    volumes:
+      # Persist generated floor plan files across container restarts
+      - generated_data:/app/data/generated
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5000/api/me"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 20s
+
+volumes:
+  generated_data:

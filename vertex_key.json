@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "pivotal-nebula-481915-g3",
+  "private_key_id": "eb664f9fe86bbe29b16b8172a4e17a2d832d5d88",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvwIBADANBgkqhkiG9w0BAQEFAASCBKkwggSlAgEAAoIBAQCiwN8LsXM3A7Sl\nAiqLFu2alpsSq9FTWMJHZBqkrGKvGVijcrR7r8tvqtA7jy43nieOzj3YBMXTxbQU\nyULqlHOL/b+BsBl7XDIcgon9nZefCM+GRjSdaiwvgO+lf6je7F/PODUPpCOVy7s2\ncWCW4rXmOy7IGnli62fFS1UdlJKOkXlr/X8a5iO1KrRb4P8g4VdGSYspx20vuIMf\nHhucOQN/3ej0uqbM7Y4Et+t13fDVD9xNr65tDyLVmipsgDtFSI3lHAuAXiLRTJRP\nQNTGH0WP5+JEOvZ4OLLOGO8QiM+yxdHv14xxq2En6wemEpHdRCMeLMjbZy9wP69W\nI9xdMhM1AgMBAAECggEACe6qTfzg0qErw4wry3w1OONrCEsrBaKbjJ7Lz3Pju9rY\noXTtFcVHLYPnnFLjF6rTsC/e71FvPzrIACK+LjGsEYWFS+VS0MfyGPJQeIVHDQIN\nJB0htd+WXbnJJjjxtdUIDc3Y0yEJuOkLfkmSAvNH9Yp0EusmsEY8eXpc8eawwPl/\n2+oEnyJrrWNmHcexof2uYotHJu+j8bKs218LxQTFG0yaF8Z4dA/uPM5nhAIIuJag\nLOOYVhKDfGBhvBlRHlLkh458+lzVLIAyRtEWfcutLOZ6BXDO1YvQx+Xqv1OgSFoS\n9ywuLoQZkoEHHPRfurkILfaA/Aiy76TBYCZqJhYP6wKBgQDP+3iowZI2fAYR66oM\n9mCLweLVgKJ9IkTTXE0i/9PgInRM4Gvd+TIVQUjmv0hoQoAHT/Qlh18y/CxJUNal\nFRcaxRRxlLTo3dIpqv/1NUTVEFCZtDQ6NCSW3m54H+rOOuNwkCRh/BFKIwoW+w/H\nBAP7y124+GtsV1NVcJx7WejxWwKBgQDIVDQGYI7bqk3rXS804e4QiRA45Tqk4q/Z\nv01UZO36rvIEhChdc5mHPv31rUy94iIzj+ClHTEZ8Q6AErrjDYg40SuzFdKKjD3Y\n5QGU6G/++a0t4GY3vygG1PY9oxyTFoFbHgSwesS+35ZtY4PJ6hFm6m6a+T8ZtdOc\nX/1TmmUirwKBgQDHk1/tUBKmBc0tVR8Q4Tsz4RFyHsXNnhy9VU0P0L3XzjgbrR7V\nGlNc4hC6m8M3iNiiK670dDp+Ck3U7KWMM/i/z24Wr8QJ0RHiuhxziHJMoiM12x5i\n27Zgr4EB9F61Fv04/phrDh7pLUZ5VuGE7+2CqVt+K6OpiwKEclM2asiFEQKBgQCi\ne8mGsqKsgMGaeYZkeivBtao2u5aJTmQbVRK/tO1hOqyKBTdINQ79p5YMwndQPC5J\nbBVlVvwQcni0YHy81Kj8jIvJQZX3UjCHz5cs1CqiwJg6cZv281Df2bOv4rC2jLZ2\n1S4whiM2Pdug9epax0M+Gj+D603G6LeuSh0KxlvpeQKBgQCiRrGGqOU4ZIeeNOs4\nPTZjahjJo34hrmt3r0qB0GUwD7mjoB4duWsmKdIpCXxYjSftPMS1aX51nahjWY0b\nPhC8uU6jaheSQ4RKlg96fsOEHjSeb84rYskNInhVU9dyhgzhb0b9CfjVjhSSrruW\npPZlmnggyc9z0EO96uVmE48aWA==\n-----END PRIVATE KEY-----\n",
+  "client_email": "clairvy-admin-new@pivotal-nebula-481915-g3.iam.gserviceaccount.com",
+  "client_id": "105518939836213892635",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/clairvy-admin-new%40pivotal-nebula-481915-g3.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}

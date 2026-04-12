@@ -1,0 +1,52 @@
+# Version control
+.git
+.gitignore
+
+# Python
+__pycache__
+*.pyc
+*.pyo
+.pytest_cache
+*.egg-info
+
+# Virtual envs
+.venv
+venv
+anaconda3
+
+# IDE
+.vscode
+.idea
+*.swp
+
+# Frontend (not needed in backend image)
+frontend/
+node_modules/
+
+# Test files
+test_*.py
+verify_*.py
+tests/
+
+# Dev files
+*.log
+*.rdb
+dump.rdb
+*.csv
+.env
+.env.*
+.flaskenv
+
+# Docker
+Dockerfile
+docker-compose.yml
+.dockerignore
+
+# Generated (will be created at runtime)
+data/generated/*
+data/checkpoints/*
+
+# Misc
+Shayon_credentials.csv
+*.json
+!firebase_key.json

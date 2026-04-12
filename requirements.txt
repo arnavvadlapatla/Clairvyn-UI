@@ -1,0 +1,26 @@
+#python 3.14
+flask
+requests
+pandas
+numpy
+ezdxf
+shapely
+matplotlib
+langchain_google_genai
+langchain-google-vertexai
+langchain-huggingface
+langgraph
+langchain-core
+pydantic
+python-dotenv
+matplotlib
+flask-sqlalchemy
+flask-migrate
+firebase-admin
+psycopg2-binary
+flask-cors
+boto3
+google-generativeai
+google-genai
+gunicorn
+langgraph-checkpoint-sqlite

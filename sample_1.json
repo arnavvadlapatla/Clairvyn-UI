@@ -1,0 +1,204 @@
+{
+  "user_input": "I need a floor plan with a master bedroom (180x144 inches) with two windows, a kitchen (120x120 inches) that connects to a living room (216x180 inches), and a small bathroom (96x72 inches) adjacent to the bedroom. The living room also has one window.",
+  "extracted_rooms": [
+    {
+      "rtype": "bedroom",
+      "id": 1,
+      "width": 180,
+      "height": 144,
+      "windows": 2,
+      "doors": 1
+    },
+    {
+      "rtype": "kitchen",
+      "id": 2,
+      "width": 120,
+      "height": 120,
+      "windows": 1,
+      "doors": 1
+    },
+    {
+      "rtype": "living_room",
+      "id": 3,
+      "width": 216,
+      "height": 180,
+      "windows": 1,
+      "doors": 1
+    },
+    {
+      "rtype": "bathroom",
+      "id": 4,
+      "width": 96,
+      "height": 72,
+      "windows": 1,
+      "doors": 1
+    }
+  ],
+  "extracted_connections": [
+    {
+      "from": 2,
+      "to": 3,
+      "rtype": "door"
+    },
+    {
+      "from": 4,
+      "to": 1,
+      "rtype": "door"
+    },
+    {
+      "from": 1,
+      "to": 1,
+      "rtype": "window"
+    },
+    {
+      "from": 3,
+      "to": 3,
+      "rtype": "window"
+    },
+    {
+      "from": 2,
+      "to": 2,
+      "rtype": "window"
+    },
+    {
+      "from": 4,
+      "to": 4,
+      "rtype": "window"
+    }
+  ],
+  "positioned_rooms": [
+    {
+      "rtype": "living_room",
+      "id": 3,
+      "width": 216,
+      "height": 180,
+      "position": [
+        0,
+        0
+      ],
+      "windows": 1,
+      "doors": 1
+    },
+    {
+      "rtype": "kitchen",
+      "id": 2,
+      "width": 120,
+      "height": 120,
+      "position": [
+        216,
+        0
+      ],
+      "windows": 1,
+      "doors": 1
+    },
+    {
+      "rtype": "bedroom",
+      "id": 1,
+      "width": 180,
+      "height": 144,
+      "position": [
+        0,
+        180
+      ],
+      "windows": 2,
+      "doors": 1
+    },
+    {
+      "rtype": "bathroom",
+      "id": 4,
+      "width": 96,
+      "height": 72,
+      "position": [
+        180,
+        180
+      ],
+      "windows": 1,
+      "doors": 1
+    }
+  ],
+  "final_output": {
+    "rooms": [
+      {
+        "rtype": "living_room",
+        "id": 3,
+        "width": 216,
+        "height": 180,
+        "position": [
+          0,
+          0
+        ],
+        "windows": 1,
+        "doors": 1
+      },
+      {
+        "rtype": "kitchen",
+        "id": 2,
+        "width": 120,
+        "height": 120,
+        "position": [
+          216,
+          0
+        ],
+        "windows": 1,
+        "doors": 1
+      },
+      {
+        "rtype": "bedroom",
+        "id": 1,
+        "width": 180,
+        "height": 144,
+        "position": [
+          0,
+          180
+        ],
+        "windows": 2,
+        "doors": 1
+      },
+      {
+        "rtype": "bathroom",
+        "id": 4,
+        "width": 96,
+        "height": 72,
+        "position": [
+          180,
+          180
+        ],
+        "windows": 1,
+        "doors": 1
+      }
+    ],
+    "connections": [
+      {
+        "from": 2,
+        "to": 3,
+        "rtype": "door"
+      },
+      {
+        "from": 4,
+        "to": 1,
+        "rtype": "door"
+      },
+      {
+        "from": 1,
+        "to": 1,
+        "rtype": "window"
+      },
+      {
+        "from": 3,
+        "to": 3,
+        "rtype": "window"
+      },
+      {
+        "from": 2,
+        "to": 2,
+        "rtype": "window"
+      },
+      {
+        "from": 4,
+        "to": 4,
+        "rtype": "window"
+      }
+    ],
+    "total_area": 86112
+  }
+}
