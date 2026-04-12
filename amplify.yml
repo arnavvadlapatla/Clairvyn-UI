@@ -5,15 +5,19 @@ frontend:
       commands:
         - nvm install 20
         - nvm use 20
-        - node --version
         - cd frontend && npm ci
     build:
       commands:
         - cd frontend && npm run build
   artifacts:
-    baseDirectory: frontend/dist
+    baseDirectory: dist
     files:
       - '**/*'
   cache:
     paths:
       - frontend/node_modules/**/*
+  customHeaders:
+    - pattern: '**/*'
+      headers:
+        - key: Cache-Control
+          value: 'public, max-age=0, must-revalidate'
